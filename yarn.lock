@@ -11662,7 +11662,7 @@ vue-json-pretty@^2.0.4:
   resolved "https://registry.nlark.com/vue-json-pretty/download/vue-json-pretty-2.0.4.tgz#2f6e7f59a84e0e1ef41dd33663c3e1d1a9734a29"
   integrity sha1-L25/WahODh70HdM2Y8Ph0alzSik=
 
-vue-print-nb-jeecg@^1.0.11:
+vue-print-nb-jeecg@^1.0.10:
   version "1.0.11"
   resolved "https://registry.npmmirror.com/vue-print-nb-jeecg/-/vue-print-nb-jeecg-1.0.11.tgz#9e925732cbf4b43220bd039bb75cb342719c46b6"
   integrity sha512-oKmXayXokyvm75p5RM+hJes/6NXsBJyeIx9sFjSKgnRxfyscFraFfAj9byb/sy4/P4Pn9FtawqWc5rkgiKHWVw==
