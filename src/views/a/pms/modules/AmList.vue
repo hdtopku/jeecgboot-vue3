@@ -1,5 +1,5 @@
 <template>
-  <a-list item-layout="horizontal" :data-source="dataList?.records">
+  <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">
     <template #renderItem="{ item, index }">
       <a-list-item>
         <a-list-item-meta>
@@ -26,15 +26,15 @@
             </a-dropdown>
           </template>
           <template #title>
-            <a-tooltip placement="right">
-              <template #title>
+            <a-popover placement="right">
+              <template #content>
                 <div><a-tag>系统</a-tag>{{ item.system }}</div>
                 <div><a-tag>设备</a-tag>{{ item.model }}</div>
                 <div><a-tag>网络</a-tag>{{ item.operator }}</div>
                 <div><a-tag>ip</a-tag>{{ item.ip }}</div>
               </template>
               属地： {{ item.country?.indexOf('中国') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }}
-            </a-tooltip>
+            </a-popover>
           </template>
           <template #description>
             {{ item?.verifyTime }}
