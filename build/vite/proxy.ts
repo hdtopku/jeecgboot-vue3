@@ -22,6 +22,7 @@ export function createProxy(list: ProxyList = []) {
 
     // https://github.com/http-party/node-http-proxy#options
     ret[prefix] = {
+      bypass(proxyRes, res, option) {},
       target: target,
       changeOrigin: true,
       ws: true,

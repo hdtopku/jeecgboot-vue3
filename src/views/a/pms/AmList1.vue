@@ -5,8 +5,9 @@
         <a-slider v-model:value="count" :min="1" :max="50" />
       </a-col>
       <a-col class="text-center" :span="8">
+        <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
         <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-          <a-button :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
         </a-popconfirm>
       </a-col>
     </a-row>
@@ -17,9 +18,9 @@
       </a-space>
       <a-space class="p-2">
         <a-button @click="clickThisMonth">本月</a-button>
-        <a-button @click="clickNearDay(30)">近30天</a-button>
-        <a-button @click="clickNearDay(1)">昨天</a-button>
-        <a-button @click="clickNearDay(0)">今天</a-button>
+        <a-button @click="clickNearDay(30, 0)">近30天</a-button>
+        <a-button @click="clickNearDay(1, 1)">昨天</a-button>
+        <a-button @click="clickNearDay(0, 0)">今天</a-button>
       </a-space>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
         <template #prefix>
@@ -31,8 +32,8 @@
       </a-input>
       <a-tabs v-model:activeKey="activeKey">
         <a-tab-pane key="0" tab="全部" />
-        <a-tab-pane key="1" tab="已访问" />
-        <a-tab-pane key="2" tab="验证中" />
+        <a-tab-pane key="2" tab="验证" />
+        <a-tab-pane key="1" tab="已打开" />
         <a-tab-pane key="3" tab="已完成" />
         <a-tab-pane key="4" tab="已退款" />
       </a-tabs>
@@ -48,7 +49,7 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-  import { getCurrentInstance, ref, watch } from 'vue';
+  import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
   import moment, { Moment } from 'moment';
   import AmList from './modules/AmList.vue';
   const count = ref<number>(1);
@@ -82,10 +83,10 @@
   const AmListRef = ref();
   const inputRef = ref();
   const keyword = ref<string>();
-  const activeKey = ref('1');
+  const activeKey = ref('0');
 
   const queryList = () => {
-    let params = { keyword: keyword.value, pageNo: 1, pageSize: 1 };
+    let params = { keyword: keyword.value, pageNo: 1, pageSize: 30 };
     if (startDate.value != null) {
       params.startTime = startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss');
     }
@@ -98,8 +99,9 @@
     AmListRef.value.initQuery(params);
   };
   const dealKeyword = () => {
+    keyword.value = keyword.value?.trim();
     if (keyword.value != null && keyword.value.indexOf('taojingling.cn?c=') > -1) {
-      keyword.value = keyword.value.substring(keyword.value.indexOf('taojingling.cn?c=') + 16);
+      keyword.value = keyword.value.substring(keyword.value.indexOf('taojingling.cn?c=') + 17);
     }
     queryList();
   };
@@ -131,8 +133,14 @@
   const clickThisMonth = () => {
     startDate.value = moment().startOf('month');
   };
-  const clickNearDay = (day) => {
+  const clickNearDay = (day, end = 0) => {
     startDate.value = moment().subtract(day, 'day');
+    endDate.value = moment().subtract(end, 'day');
   };
+  onMounted(() => {
+    nextTick(() => {
+      queryList();
+    });
+  });
 </script>
 <style scoped></style>
