@@ -30,21 +30,13 @@
           <a-button @click="queryList" type="primary">查询</a-button>
         </template>
       </a-input>
-      <a-tabs v-model:activeKey="activeKey">
+      <a-tabs :animated="false" v-model:activeKey="activeKey">
+        <a-tab-pane key="1" tab="打开" />
         <a-tab-pane key="0" tab="全部" />
         <a-tab-pane key="2" tab="验证" />
-        <a-tab-pane key="1" tab="已打开" />
-        <a-tab-pane key="3" tab="已完成" />
-        <a-tab-pane key="4" tab="已退款" />
+        <a-tab-pane key="4" tab="关闭" />
       </a-tabs>
-      <AmList ref="AmListRef" class="w-full">
-        <template #loadMore>
-          <div :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
-            <a-spin v-if="loadingMore" />
-            <a-button v-else @click="loadMore">loading more</a-button>
-          </div>
-        </template>
-      </AmList>
+      <AmList ref="AmListRef" class="w-full" />
     </div>
   </a-card>
 </template>
@@ -94,7 +86,11 @@
       params.endTime = endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss');
     }
     if (activeKey.value != null || activeKey.value !== '0') {
-      params.status = activeKey.value;
+      if (activeKey.value === '4') {
+        params.valid = -1;
+      } else {
+        params.status = activeKey.value;
+      }
     }
     AmListRef.value.initQuery(params);
   };
@@ -114,7 +110,10 @@
     queryList();
   });
   watch(endDate, queryList);
-  watch(activeKey, queryList);
+  watch(activeKey, () => {
+    queryList();
+    AmListRef.value.changeActiveKey(activeKey);
+  });
   const clickPaste = () => {
     navigator.clipboard
       .readText()

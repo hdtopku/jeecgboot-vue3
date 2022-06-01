@@ -1,76 +1,80 @@
 <template>
-  <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">
-    <template #renderItem="{ item, index }">
-      <a-list-item>
-        <a-list-item-meta>
-          <template #avatar>
-            <div>#{{ index + 1 }}</div>
-            <a-typography-paragraph copyable> {{ item.code }} </a-typography-paragraph>
+  <div class="w-full">
+    <div class="flex justify-between">
+      <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
+      <span>
+        <a-typography-text v-show="activeKey === '1'" mark>已打开页面，但还没点击开始验证</a-typography-text>
+        <a-typography-text v-show="activeKey === '0'" mark>打开页面+开始验证+验证完成+关闭验证</a-typography-text>
+        <a-typography-text v-show="activeKey === '2'" mark>包含开始验证及验证完成</a-typography-text>
+        <a-typography-text v-show="activeKey === '4'" mark>销毁验证页面（一般用于处理退款等）</a-typography-text>
+      </span>
+    </div>
+    <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">
+      <template #renderItem="{ item, index }">
+        <a-list-item>
+          <a-list-item-meta>
+            <template #avatar>
+              <div>#{{ index + 1 }}</div>
+              <a-typography-paragraph copyable> {{ item.code }} </a-typography-paragraph>
 
-            <a-dropdown>
-              <a class="ant-dropdown-link" @click.prevent>
-                操作
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    <a-button type="link" size="small" danger>申请退款</a-button>
-                  </a-menu-item>
-                  <a-menu-divider />
-                  <a-menu-item>
-                    <a-button type="link" size="small" danger>延长时间</a-button>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </template>
-          <template #title>
-            <a-popover placement="right">
-              <template #content>
-                <div><a-tag>系统</a-tag>{{ item.system }}</div>
-                <div><a-tag>设备</a-tag>{{ item.model }}</div>
-                <div><a-tag>网络</a-tag>{{ item.operator }}</div>
-                <div><a-tag>ip</a-tag>{{ item.ip }}</div>
-              </template>
-              属地： {{ item.country?.indexOf('中国') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }}
-            </a-popover>
-          </template>
-          <template #description>
-            {{ item?.verifyTime }}
-            <div><a-tag>打开时间</a-tag>{{ item?.visitTime?.substring(5) }}</div>
-            <div
-              ><a-tag>验证时间</a-tag>
-              <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
-              <a-tag v-else text="标签" color="error" plain plainFill>未开始</a-tag>
-            </div>
-          </template>
-        </a-list-item-meta>
-        <div>
-          <a-tag color="error" v-if="item.status === '1'">已打开</a-tag>
-          <a-tag color="green" v-if="item.status === '2'">
-            <span v-if="item.verifyTime > moment().subtract(10, 'minute').format('YYYY-MM-DD HH:mm:ss')"> 验证中 </span>
-            <span v-else> 已完成 </span>
-          </a-tag>
+              <a-dropdown v-if="item?.valid !== -1">
+                <a class="ant-dropdown-link">
+                  操作
+                  <DownOutlined />
+                </a>
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item>
+                      <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证</a-button>
+                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">关闭验证</a-button>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </template>
+            <template #title>
+              <a-popover placement="top">
+                <template #content>
+                  <div>ip: {{ item.ip }}</div>
+                </template>
+                <div> {{ item.country?.indexOf('中国') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }} | {{ item.operator }} </div>
+                <div> {{ item.model }} | {{ item.system }}</div>
+              </a-popover>
+            </template>
+            <template #description>
+              <div><a-tag>打开时间</a-tag>{{ item?.visitTime?.substring(5) }}</div>
+              <div
+                ><a-tag>验证时间</a-tag>
+                <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
+                <a-tag v-else text="标签" color="error" plain plainFill>
+                  {{ item.statusName }}
+                </a-tag>
+              </div>
+            </template>
+          </a-list-item-meta>
+          <div>
+            <a-tag :color="getColor(item.status)">
+              <a-typography-text :delete="item?.valid === -1"> {{ item.statusName }}</a-typography-text>
+            </a-tag>
+          </div>
+        </a-list-item>
+      </template>
+      <template #loadMore>
+        <div v-if="dataList?.total > 0" :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
+          <span v-if="finished">加载完成({{ dataList?.records?.length }}/{{ dataList?.total }})</span>
+          <span v-else>
+            <a-spin v-if="loading" />
+            <a-button v-else @click="queryList(true)">加载更多({{ dataList?.records?.length }}/{{ dataList?.total }})</a-button>
+          </span>
         </div>
-      </a-list-item>
-    </template>
-    <template #loadMore>
-      <div v-if="dataList?.total > 1" :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
-        <span v-if="finished">加载完成({{ dataList?.records?.length }}/{{ dataList?.total }})</span>
-        <span v-else>
-          <a-spin v-if="loading" />
-          <a-button v-else @click="queryList(true)">加载更多({{ dataList?.records?.length }}/{{ dataList?.total }})</a-button>
-        </span>
-      </div>
-    </template>
-  </a-list>
+      </template>
+    </a-list>
+  </div>
 </template>
 <script lang="ts" setup>
-  import moment from 'moment';
   import { DownOutlined } from '@ant-design/icons-vue';
   import { computed, ref } from 'vue';
-  import { getList } from '/@/views/a/pms/Am.api';
+  import { getList, updateCodeStatus } from '/@/views/a/pms/Am.api';
 
   const loading = ref(false);
   const params = ref({
@@ -95,13 +99,34 @@
         loading.value = false;
       });
   };
-
   const finished = computed(() => {
     return dataList?.value?.total === 0 || (dataList?.value?.records?.length >= dataList?.value?.total ?? false);
   });
+  const updateVerifyStatus = (code, valid) => {
+    updateCodeStatus({ code, valid }).then(() => {
+      params.value.pageNo = 1;
+      queryList();
+    });
+  };
   const initQuery = (queryParams) => {
     params.value = queryParams;
     queryList();
   };
-  defineExpose({ initQuery });
+  const activeKey = ref('0');
+  const changeActiveKey = (key) => {
+    activeKey.value = key.value;
+  };
+  defineExpose({ initQuery, changeActiveKey });
+
+  const getColor = (status) => {
+    status = Number.parseInt(status);
+    switch (status) {
+      case 0:
+      case 1:
+      case 2:
+        return 'processing';
+      case 3:
+        return 'success';
+    }
+  };
 </script>

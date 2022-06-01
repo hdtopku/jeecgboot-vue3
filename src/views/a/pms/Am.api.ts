@@ -5,6 +5,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 enum Api {
   list = '/pms/am/list',
   getList = '/pms/am/getList',
+  updateCodeStatus = '/pms/am/updateCodeStatus',
   save = '/pms/am/add',
   edit = '/pms/am/edit',
   deleteOne = '/pms/am/delete',
@@ -78,4 +79,7 @@ export const getCodes = (params, handleSuccess, handleError) => {
       createMessage.error(err);
       handleError();
     });
+};
+export const updateCodeStatus = (params) => {
+  return defHttp.get({ url: Api.updateCodeStatus, params });
 };
