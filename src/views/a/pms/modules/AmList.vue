@@ -33,13 +33,8 @@
               </a-dropdown>
             </template>
             <template #title>
-              <a-popover placement="top">
-                <template #content>
-                  <div>ip: {{ item.ip }}</div>
-                </template>
-                <div> {{ item.country?.indexOf('中国') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }} | {{ item.operator }} </div>
-                <div> {{ item.model }} | {{ item.system }}</div>
-              </a-popover>
+              <div> {{ item.country?.indexOf('中国') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }} | {{ item.operator }} </div>
+              <div> {{ item.model }} | {{ item.system }}</div>
             </template>
             <template #description>
               <div><a-tag>打开时间</a-tag>{{ item?.visitTime?.substring(5) }}</div>
