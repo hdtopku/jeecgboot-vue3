@@ -6,7 +6,7 @@
         <a-typography-text v-show="activeKey === '1'" mark>已打开页面，但还没点击开始验证</a-typography-text>
         <a-typography-text v-show="activeKey === '0'" mark>打开页面+开始验证+验证完成+关闭验证</a-typography-text>
         <a-typography-text v-show="activeKey === '2'" mark>包含开始验证及验证完成</a-typography-text>
-        <a-typography-text v-show="activeKey === '4'" mark>销毁验证页面（一般用于处理退款等）</a-typography-text>
+        <a-typography-text v-show="activeKey === '4'" mark>关闭后，验证页面变为空白（处理退款等）</a-typography-text>
       </span>
     </div>
     <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">

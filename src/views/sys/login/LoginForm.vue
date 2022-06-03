@@ -2,10 +2,10 @@
   <LoginFormTitle v-show="getShow" class="enter-x" />
   <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef" v-show="getShow" @keypress.enter="handleLogin">
     <FormItem name="account" class="enter-x">
-      <Input ref="usernameRef" size="large" v-model:value="formData.account" :placeholder="t('sys.login.userName')" class="fix-auto-fill" />
+      <Input ref="usernameRef" allowClear size="large" v-model:value="formData.account" :placeholder="t('sys.login.userName')" class="fix-auto-fill" />
     </FormItem>
     <FormItem name="password" class="enter-x">
-      <InputPassword size="large" visibilityToggle v-model:value="formData.password" :placeholder="t('sys.login.password')" />
+      <InputPassword allowClear size="large" visibilityToggle v-model:value="formData.password" :placeholder="t('sys.login.password')" />
     </FormItem>
 
     <!--验证码-->

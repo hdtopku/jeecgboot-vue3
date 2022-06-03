@@ -1,5 +1,6 @@
 <template>
   <a-card size="small">
+    <a-back-top />
     <a-row>
       <a-col :span="16">
         <a-slider v-model:value="count" :min="1" :max="50" />
@@ -12,16 +13,22 @@
       </a-col>
     </a-row>
     <div class="flex flex-wrap justify-evenly">
-      <a-space>
-        <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
-        <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
-      </a-space>
       <a-space class="p-2">
+        <a-button type="link" @click="advanced = !advanced">
+          <DownOutlined v-if="advanced" />
+          <UpOutlined v-else />
+        </a-button>
         <a-button @click="clickThisMonth">本月</a-button>
         <a-button @click="clickNearDay(30, 0)">近30天</a-button>
         <a-button @click="clickNearDay(1, 1)">昨天</a-button>
         <a-button @click="clickNearDay(0, 0)">今天</a-button>
       </a-space>
+      <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">
+        <a-space v-show="advanced" class="mb-2">
+          <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
+          <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
+        </a-space>
+      </transition>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
         <template #prefix>
           <a-button @click="clickPaste">粘贴</a-button>
@@ -31,10 +38,10 @@
         </template>
       </a-input>
       <a-tabs :animated="false" v-model:activeKey="activeKey">
+        <a-tab-pane key="4" tab="关闭" />
         <a-tab-pane key="1" tab="打开" />
         <a-tab-pane key="0" tab="全部" />
         <a-tab-pane key="2" tab="验证" />
-        <a-tab-pane key="4" tab="关闭" />
       </a-tabs>
       <AmList ref="AmListRef" class="w-full" />
     </div>
@@ -42,6 +49,8 @@
 </template>
 <script lang="ts" setup>
   import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
+  import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
+  const advanced = ref(false);
   import moment, { Moment } from 'moment';
   import AmList from './modules/AmList.vue';
   const count = ref<number>(1);
