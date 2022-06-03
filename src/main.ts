@@ -23,7 +23,6 @@ if (import.meta.env.DEV) {
   import('ant-design-vue/dist/antd.less');
 }
 import { Tool } from './views/a/utils/common';
-import 'animate.css/animate.min.css';
 async function bootstrap() {
   // 创建应用实例
   const app = createApp(App);
