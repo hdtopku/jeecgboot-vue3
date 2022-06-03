@@ -42,6 +42,7 @@
     "@iconify/iconify": "^2.0.4",
     "@vueuse/core": "^6.6.2",
     "@zxcvbn-ts/core": "^1.0.0-beta.0",
+    "animate.css": "^4.1.1",
     "ant-design-vue": "2.2.8",
     "axios": "^0.23.0",
     "china-area-data": "^5.0.1",
