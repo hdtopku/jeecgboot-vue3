@@ -3,7 +3,7 @@
     <a-back-top />
     <a-row>
       <a-col :span="16">
-        <a-slider v-model:value="count" :min="1" :max="50" />
+        <a-slider v-model:value="count" :min="1" :max="200" />
       </a-col>
       <a-col class="text-center" :span="8">
         <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
