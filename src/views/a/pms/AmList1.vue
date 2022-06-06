@@ -1,6 +1,5 @@
 <template>
   <a-card size="small">
-    <a-back-top />
     <a-row>
       <a-col :span="16">
         <a-slider v-model:value="count" :min="1" :max="200" />
@@ -13,7 +12,7 @@
       </a-col>
     </a-row>
     <div class="flex flex-wrap justify-evenly">
-      <a-space class="p-2">
+      <a-space class="mb-2">
         <a-button type="link" @click="advanced = !advanced">
           <DownOutlined v-if="advanced" />
           <UpOutlined v-else />
@@ -30,7 +29,13 @@
         </a-space>
       </transition>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
-        <template #prefix>
+        <template v-if="advanced" #prefix>
+          <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
+            <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
+            <template v-if="userLoading" #notFoundContent>
+              <a-spin size="small" />
+            </template>
+          </a-select>
           <a-button @click="clickPaste">粘贴</a-button>
         </template>
         <template #suffix>
@@ -58,6 +63,10 @@
   const endDate = ref<Moment>(moment());
   import { getCodes } from './Am.api';
   import { message } from 'ant-design-vue';
+  import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
+  import { getAuthCache } from '/@/utils/auth';
+  import { getUserList } from '/@/api/common/api';
+  import { usePermission } from '/@/hooks/web/usePermission';
 
   const disabledStartDate = (current: Moment) => {
     // Can not select days before today and today
@@ -85,9 +94,10 @@
   const inputRef = ref();
   const keyword = ref<string>();
   const activeKey = ref('0');
+  const { hasPermission } = usePermission();
 
   const queryList = () => {
-    let params = { keyword: keyword.value, pageNo: 1, pageSize: 30 };
+    let params = { keyword: keyword.value, pageNo: 1, pageSize: 30, username };
     if (startDate.value != null) {
       params.startTime = startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss');
     }
@@ -103,6 +113,7 @@
     }
     AmListRef.value.initQuery(params);
   };
+
   const dealKeyword = () => {
     keyword.value = keyword.value?.trim();
     if (keyword.value != null && keyword.value.indexOf('taojingling.cn?c=') > -1) {
@@ -150,5 +161,34 @@
       queryList();
     });
   });
+  const loginInfo = getAuthCache(LOGIN_INFO_KEY);
+  const selectName = ref();
+  let { username, realname } = loginInfo?.userInfo;
+  selectName.value = realname;
+  const userLoading = ref(false);
+  const userList = ref([]);
+  const focus = () => {
+    if (userList.value.length === 0) {
+      userLoading.value = true;
+      getUserList({}).then((res) => {
+        userList.value = res.records;
+        userLoading.value = false;
+      });
+    }
+  };
+  const handleChange = (value) => {
+    username = value;
+    if (value == null) {
+      selectName.value = '所有人';
+    }
+    queryList();
+  };
 </script>
-<style scoped></style>
+<style scoped lang="less">
+  ::v-deep(.ant-select) {
+    width: 90px !important;
+    .ant-select-selector {
+      width: 90px !important;
+    }
+  }
+</style>
