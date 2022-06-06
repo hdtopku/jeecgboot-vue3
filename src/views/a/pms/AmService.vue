@@ -111,17 +111,17 @@
           <!--          </a-collapse-panel>-->
         </a-collapse>
       </a-tab-pane>
-      <a-tab-pane class="flex flex-wrap justify-center" key="3" tab="流程">
-        <a-typography-title class="justify-self-center" :level="5" mark>步骤一、情况1</a-typography-title>
-        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/e9eefd7f578b1036cd77c9197a13fa26bcdced30.png" />
-        <a-typography-title :level="5" mark>步骤一、情况2</a-typography-title>
-        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/6e009cfdacad5abcaff66033fa22a1b36093d4de.png" />
-        <a-typography-title :level="5" mark>点「已订阅，下一步」，弹窗</a-typography-title>
-        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/00c17d10b55fc1ef30874f4e7bc5633cce56d9f5.png" />
-        <a-typography-title :level="5" mark>点「继续！提醒消失即成功」，进入步骤二</a-typography-title>
-        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/a4bfabf9888796cd8e300b6afcf8bfb32973753e.png" />
-        <a-typography-title :level="5" mark>点「开始验证」，弹窗</a-typography-title>
-        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/60b07e7b899224274c001d8c277b050456212b8d.png" />
+      <a-tab-pane key="3" tab="流程">
+        <a-divider><a-typography-title :level="5" mark>步骤一、情况1</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/e9eefd7f578b1036cd77c9197a13fa26bcdced30.png" />
+        <a-divider><a-typography-title :level="5" mark>步骤一、情况2</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/6e009cfdacad5abcaff66033fa22a1b36093d4de.png" />
+        <a-divider><a-typography-title :level="5" mark>点「已订阅，下一步」，弹窗</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/00c17d10b55fc1ef30874f4e7bc5633cce56d9f5.png" />
+        <a-divider><a-typography-title :level="5" mark>点「继续！提醒消失即成功」，进入步骤二</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/a4bfabf9888796cd8e300b6afcf8bfb32973753e.png" />
+        <a-divider><a-typography-title :level="5" mark>点「开始验证」，弹窗</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/60b07e7b899224274c001d8c277b050456212b8d.png" />
       </a-tab-pane>
     </a-tabs>
   </a-card>
