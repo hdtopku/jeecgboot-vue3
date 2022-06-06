@@ -15,7 +15,7 @@
           </blockquote>
         </a-typography-paragraph>
         <a-typography-paragraph copyable>
-          <div> 亲，直接拍，下单即可【月租5元自付】 </div>
+          <div> 亲，直接下单【月租5元自付】 </div>
           <div>1、给您激活链+教程 </div>
           2、自助激活或续期自己的lD
         </a-typography-paragraph>
@@ -24,7 +24,7 @@
           <div> 亲，直接拍，放心下单 </div>
           <div>1、给您激活链+教程 </div>
           <div>2、自助激活或续期自己的lD</div>
-          3、学生验证成功后【自付月租5元】
+          3、成功后【月租5元自付】
         </a-typography-paragraph>
 
         <a-typography-paragraph copyable>
@@ -53,12 +53,12 @@
               <blockquote> 下单后的验证流程 </blockquote>
             </a-typography-paragraph>
             <a-typography-paragraph copyable>
-              <div>粘贴到谷歌或夸克刘览器，并顺着点，直到成功！</div>
+              <div>粘贴到刘览器（推荐第三方），并顺着点，直到成功！</div>
               <br />
               满意，还给小店好的评哦😘
             </a-typography-paragraph>
             <a-typography-paragraph copyable>
-              <div>粘贴到谷歌或夸克刘览器，并顺着点，直到成功！</div>
+              <div>粘贴到刘览器（推荐第三方），并顺着点，直到成功！</div>
               <br />
               提示：无论指纹或人脸多少次，苹果不会二次扣费，请放心人脸或指纹！
             </a-typography-paragraph>
@@ -66,9 +66,10 @@
           <a-collapse-panel key="3" header="慢打不开！">
             <a-typography-paragraph> <blockquote>验证过程中，出现无法连接、页面空白、加载不出来等情况 </blockquote></a-typography-paragraph>
             <a-typography-paragraph copyable>
-              <div>这3个方法都试试：</div>
-              <div>用谷歌或夸克刘览嚣</div>
-              <div>或重启手机重来，网太差换网重试</div>
+              <div>这3个方法都试试： </div>
+              <div>换个刘览器</div>
+              <div>重启手机重来</div>
+              <div>网太差换网重试</div>
               或换其他苹果设备试试
             </a-typography-paragraph>
           </a-collapse-panel>
@@ -76,6 +77,7 @@
             <a-typography-paragraph>
               <blockquote> 如何判断是否成功续期或升级？ </blockquote>
               <a-typography-paragraph copyable>
+                <div>嗯嗯，是否成功？</div>
                 <div>点开【设置头像订阅Apple Music】，学生5元/月勾上，</div>
                 且【验证资格】提醒消失，即成功
               </a-typography-paragraph>
@@ -108,6 +110,18 @@
           <!--            <a-typography-paragraph copyable> 亲是过期用户，按教程步骤1，先花10元开个人方案，再升级，第二月起5元 </a-typography-paragraph>-->
           <!--          </a-collapse-panel>-->
         </a-collapse>
+      </a-tab-pane>
+      <a-tab-pane class="flex flex-wrap justify-center" key="3" tab="流程">
+        <a-typography-title class="justify-self-center" :level="5" mark>步骤一、情况1</a-typography-title>
+        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/e9eefd7f578b1036cd77c9197a13fa26bcdced30.png" />
+        <a-typography-title :level="5" mark>步骤一、情况2</a-typography-title>
+        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/6e009cfdacad5abcaff66033fa22a1b36093d4de.png" />
+        <a-typography-title :level="5" mark>点「已订阅，下一步」，弹窗</a-typography-title>
+        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/00c17d10b55fc1ef30874f4e7bc5633cce56d9f5.png" />
+        <a-typography-title :level="5" mark>点「继续！提醒消失即成功」，进入步骤二</a-typography-title>
+        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/a4bfabf9888796cd8e300b6afcf8bfb32973753e.png" />
+        <a-typography-title :level="5" mark>点「开始验证」，弹窗</a-typography-title>
+        <img class="max-h-90 rounded-lg" src="https://article.biliimg.com/bfs/article/60b07e7b899224274c001d8c277b050456212b8d.png" />
       </a-tab-pane>
     </a-tabs>
   </a-card>
