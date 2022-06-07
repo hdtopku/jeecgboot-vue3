@@ -14,7 +14,10 @@
         <a-list-item>
           <a-list-item-meta>
             <template #avatar>
-              <div>#{{ index + 1 }}</div>
+              <div
+                >#{{ index + 1 }}
+                <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>
+              </div>
               <a-typography-paragraph copyable> {{ item.code }} </a-typography-paragraph>
 
               <a-dropdown v-if="item?.valid !== -1">
