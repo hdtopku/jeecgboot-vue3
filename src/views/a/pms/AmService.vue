@@ -112,7 +112,11 @@
         </a-collapse>
       </a-tab-pane>
       <a-tab-pane key="3" tab="流程">
-        <a-divider><a-typography-title :level="5" mark>步骤一、情况1</a-typography-title></a-divider>
+        <a-divider><a-typography-title :level="2">下单前</a-typography-title></a-divider>
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/162aa5cc81ab4199711aa4cbd23ab8f15305c62f.jpg" />
+        <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/bb6e96e8f40da692213cb845d0ebe689075e8ebc.jpg" />
+        <a-divider><a-typography-title :level="2">下单后</a-typography-title></a-divider>
+        <a-divider><a-typography-title :level="5" mark>买家点开链接，步骤一、情况1</a-typography-title></a-divider>
         <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/e9eefd7f578b1036cd77c9197a13fa26bcdced30.png" />
         <a-divider><a-typography-title :level="5" mark>步骤一、情况2</a-typography-title></a-divider>
         <img class="max-h-90 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/6e009cfdacad5abcaff66033fa22a1b36093d4de.png" />
