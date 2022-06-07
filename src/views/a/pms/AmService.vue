@@ -1,5 +1,5 @@
 <template>
-  <a-card>
+  <a-card size="small">
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="4" tab="服务">
         <a-divider><a-typography-title :level="2">关于退款</a-typography-title></a-divider>
@@ -29,6 +29,7 @@
         <a-typography-paragraph mark> 有时候不知道回什么，可以发一些表情包 </a-typography-paragraph>
         <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/f5458c3e1f1b44e4a67a4cd843fc0da5601d18ca.jpg" />
       </a-tab-pane>
+
       <a-tab-pane key="1" tab="欢迎">
         <div class="flex flex-wrap justify-center items-center">
           <img class="max-w-80 rounded-lg" src="https://article.biliimg.com/bfs/article/6c17e2780a8fdedb51e52518385e499abed3539b.jpg" />
@@ -47,14 +48,12 @@
           <div>1、给您激活链+教程 </div>
           2、自助激活或续期自己的lD
         </a-typography-paragraph>
-
         <a-typography-paragraph copyable>
           <div> 亲，直接拍，放心下单 </div>
           <div>1、给您激活链+教程 </div>
           <div>2、自助激活或续期自己的lD</div>
           3、成功后【月租5元自付】
         </a-typography-paragraph>
-
         <a-typography-paragraph copyable>
           <div> 购买须知：</div>
           <div> 1、下单后，给您激活链，点开操作，即可享受或续期学生优惠！ </div>
@@ -67,6 +66,7 @@
           <img class="max-h-100 rounded-lg" src="https://article.biliimg.com/bfs/article/e926a12c196e559c83f037dcac2cf276ff374581.jpg" />
         </div>
       </a-tab-pane>
+
       <a-tab-pane key="2" tab="问答">
         <a-collapse v-model:activeKey="collapseActiveKey" accordion>
           <a-collapse-panel key="1" header="进店催拍！">
@@ -139,6 +139,7 @@
           <!--          </a-collapse-panel>-->
         </a-collapse>
       </a-tab-pane>
+
       <a-tab-pane key="3" tab="流程">
         <a-divider><a-typography-title :level="2">下单前</a-typography-title></a-divider>
         <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/162aa5cc81ab4199711aa4cbd23ab8f15305c62f.jpg" />
