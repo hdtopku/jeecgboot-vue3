@@ -26,10 +26,12 @@
         <a-divider><a-typography-title :level="5" mark>以下是正面例子</a-typography-title></a-divider>
         <a-typography-paragraph mark> 即使价格高，但更能赢得消费者信赖，因为消费者更希望得到尊重 </a-typography-paragraph>
         <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/f5458c3e1f1b44e4a67a4cd843fc0da5601d18ca.jpg" />
+        <a-typography-paragraph mark> 有时候不知道回什么，可以发一些表情包 </a-typography-paragraph>
+        <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/f5458c3e1f1b44e4a67a4cd843fc0da5601d18ca.jpg" />
       </a-tab-pane>
       <a-tab-pane key="1" tab="欢迎">
         <div class="flex flex-wrap justify-center items-center">
-          <img class="max-w-80 rounded-lg" src="https://article.biliimg.com/bfs/article/750f47328fe6d0f7fab371d6ffe8072f14a2dbb4.jpg" />
+          <img class="max-w-80 rounded-lg" src="https://article.biliimg.com/bfs/article/6c17e2780a8fdedb51e52518385e499abed3539b.jpg" />
         </div>
         <a-typography-paragraph>
           <blockquote>
