@@ -88,7 +88,7 @@
     getList(params.value)
       .then((res) => {
         loading.value = false;
-        params.value.pageNo = params.value.pageNo + 1;
+        params.value.pageNo = res.current + 1;
         if (res.current > 1 && loadMore) {
           dataList.value.records.push(...res.records);
           return;
