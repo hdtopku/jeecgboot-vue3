@@ -9,13 +9,13 @@
     </FormItem>
 
     <!--验证码-->
-    <ARow class="enter-x">
+    <ARow class="enter-x" :gutter="4">
       <ACol :span="16">
         <FormItem name="inputCode" class="enter-x">
           <Input allowClear ref="inputCodeRef" autocomplete="off" size="large" v-model:value="formData.inputCode" :placeholder="t('sys.login.inputCode')" />
         </FormItem>
       </ACol>
-      <ACol :span="8">
+      <ACol :span="4">
         <FormItem :style="{ 'text-align': 'right' }" class="enter-x">
           <img v-if="randCodeData.requestCodeSuccess" style="margin-top: 2px; max-width: initial" :src="randCodeData.randCodeImage" @click="handleChangeCheckCode" />
           <img v-else style="margin-top: 2px; max-width: initial" src="../../../assets/images/checkcode.png" @click="handleChangeCheckCode" />
@@ -82,20 +82,17 @@
 </template>
 <script lang="ts" setup>
   import { reactive, ref, toRaw, unref, computed, onMounted } from 'vue';
-
   import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
   import { GithubFilled, WechatFilled, DingtalkCircleFilled, QuestionCircleFilled, createFromIconfontCN } from '@ant-design/icons-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
   import ThirdModal from './ThirdModal.vue';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { getCodeInfo } from '/@/api/sys/user';
   //import { onKeyStroke } from '@vueuse/core';
-
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
@@ -107,15 +104,12 @@
   const { notification, createErrorModal } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
-
   const { setLoginState, getLoginState } = useLoginState();
   const { getFormRules } = useFormRules();
-
   const formRef = ref();
   const thirdModalRef = ref();
   const loading = ref(false);
   const rememberMe = ref(false);
-
   const formData = reactive({
     account: 'admin',
     password: '123456',
@@ -126,11 +120,8 @@
     requestCodeSuccess: false,
     checkKey: null,
   });
-
   const { validForm } = useFormValid(formRef);
-
   //onKeyStroke('Enter', handleLogin);
-
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
   const inputCodeRef = ref();
   const usernameRef = ref();
@@ -165,6 +156,7 @@
       if (error.message === '验证码错误') {
         formData.inputCode = '';
         inputCodeRef.value.focus();
+        handleChangeCheckCode();
       } else if (error.message === '该用户不存在，请注册' || error.message === '用户名或密码错误') {
         usernameRef.value.focus();
       }
@@ -180,7 +172,6 @@
       inputCodeRef.value.focus();
     });
   }
-
   /**
    * 第三方登录
    * @param type
