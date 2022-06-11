@@ -116,8 +116,8 @@
 
   const dealKeyword = () => {
     keyword.value = keyword.value?.trim();
-    if (keyword.value != null && keyword.value.indexOf('taojingling.cn/c/') > -1) {
-      keyword.value = keyword.value.substring(keyword.value.indexOf('taojingling.cn/c/') + 17, keyword.value.indexOf('taojingling.cn/c/') + 22);
+    if (keyword.value != null && keyword.value.indexOf('c/') > -1) {
+      keyword.value = keyword.value.substring(keyword.value.indexOf('c/') + 2, keyword.value.indexOf('c/') + 7);
     }
     queryList();
   };
