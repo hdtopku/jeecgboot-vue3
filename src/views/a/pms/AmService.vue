@@ -101,7 +101,14 @@
               或换其他苹果设备试试
             </a-typography-paragraph>
           </a-collapse-panel>
-          <a-collapse-panel key="4" header="是否成功？">
+          <a-collapse-panel key="4" header="无法验证？">
+            <a-typography-paragraph>
+              <blockquote>我们无法验证您的学生身份。 </blockquote>
+              <a-typography-paragraph copyable> 亲，换谷歌、夸克等第三方刘览器重来</a-typography-paragraph>
+              <img class="max-h-100 rounded-lg" src="https://article.biliimg.com/bfs/article/d2c9d8f23b64bd4b57a8ea144361af959eb19788.jpg" />
+            </a-typography-paragraph>
+          </a-collapse-panel>
+          <a-collapse-panel key="5" header="是否成功？">
             <a-typography-paragraph>
               <blockquote> 如何判断是否成功续期或升级？ </blockquote>
               <a-typography-paragraph copyable>
