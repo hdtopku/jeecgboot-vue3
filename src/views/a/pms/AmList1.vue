@@ -1,7 +1,10 @@
 <template>
   <a-card size="small">
     <a-row>
-      <a-col :span="16">
+      <a-col :span="4">
+        <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+      </a-col>
+      <a-col :span="12">
         <a-slider v-model:value="count" :min="1" :max="200" />
       </a-col>
       <a-col class="text-center" :span="8">
@@ -67,6 +70,7 @@
   import { getAuthCache } from '/@/utils/auth';
   import { getUserList } from '/@/api/common/api';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { useRouter } from 'vue-router';
 
   const disabledStartDate = (current: Moment) => {
     // Can not select days before today and today
@@ -95,6 +99,7 @@
   const keyword = ref<string>();
   const activeKey = ref('0');
   const { hasPermission } = usePermission();
+  const router = useRouter();
 
   const queryList = () => {
     let params = { keyword: keyword.value, pageNo: 1, pageSize: 30, username };
@@ -134,6 +139,9 @@
     queryList();
     AmListRef.value.changeActiveKey(activeKey);
   });
+  const clickHelp = () => {
+    router.push('/pms/ams');
+  };
   const clickPaste = () => {
     navigator.clipboard
       .readText()
