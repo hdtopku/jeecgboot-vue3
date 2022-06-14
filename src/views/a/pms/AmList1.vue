@@ -58,12 +58,6 @@
 <script lang="ts" setup>
   import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
-  const advanced = ref(false);
-  import moment, { Moment } from 'moment';
-  import AmList from './modules/AmList.vue';
-  const count = ref<number>(1);
-  const startDate = ref<Moment>(moment());
-  const endDate = ref<Moment>(moment());
   import { getCodes } from './Am.api';
   import { message } from 'ant-design-vue';
   import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
@@ -71,7 +65,13 @@
   import { getUserList } from '/@/api/common/api';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { useRouter } from 'vue-router';
+  import AmList from './modules/AmList.vue';
 
+  const advanced = ref(false);
+  import moment, { Moment } from 'moment';
+  const count = ref<number>(1);
+  const startDate = ref<Moment>(moment());
+  const endDate = ref<Moment>(moment());
   const disabledStartDate = (current: Moment) => {
     // Can not select days before today and today
     return current && current > moment().endOf('day');
@@ -122,7 +122,7 @@
   const dealKeyword = () => {
     keyword.value = keyword.value?.trim();
     if (keyword.value != null && keyword.value.indexOf('c/') > -1) {
-      keyword.value = keyword.value.substring(keyword.value.indexOf('c/') + 2, keyword.value.indexOf('c/') + 7);
+      keyword.value = keyword.value.substring(keyword.value.indexOf('c/') + 2, keyword.value.indexOf('c/') + 8);
     }
     queryList();
   };
