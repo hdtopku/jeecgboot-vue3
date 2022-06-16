@@ -153,7 +153,12 @@
         <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/bb6e96e8f40da692213cb845d0ebe689075e8ebc.jpg" />
         <a-divider><a-typography-title :level="2">下单后</a-typography-title></a-divider>
         <a-divider><a-typography-title :level="5" mark>买家点开链接，步骤一、情况1</a-typography-title></a-divider>
-        <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/e9eefd7f578b1036cd77c9197a13fa26bcdced30.png" />
+        <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/2d8281110a83b13c003c8688da868667d23bfa01.png" />
+        <a-divider><a-typography-title :level="5" mark>步骤一、买家点击底部按钮出现弹窗</a-typography-title></a-divider>
+        <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/06a6515d8f457d69606d2e2f5259d04954cde66e.png" />
+        <a-divider><a-typography-title :level="5" mark>步骤一、情况1，若买家发起退款</a-typography-title></a-divider>
+        <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/e896107d19a581c28f7fd544188882d477a4c83f.png" />
+        <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/271b9df45cafc958b588a725b2f96263c20e77b7.png" />
         <a-divider><a-typography-title :level="5" mark>步骤一、情况2</a-typography-title></a-divider>
         <img class="max-h-150 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/6e009cfdacad5abcaff66033fa22a1b36093d4de.png" />
         <a-divider><a-typography-title :level="5" mark>点「已订阅，下一步」，弹窗</a-typography-title></a-divider>
