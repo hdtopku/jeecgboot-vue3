@@ -51,9 +51,10 @@
               <div
                 ><a-tag>验证时间</a-tag>
                 <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
-                <a-tag v-else text="标签" color="error" plain plainFill>
-                  {{ item.statusName }}
-                </a-tag>
+                <a-tag v-else text="标签" color="error" plain plainFill> 未开始 </a-tag>
+              </div>
+              <div v-if="item?.refundTime?.length > 0"
+                ><a-tag color="error">买家退款</a-tag> <span>{{ item?.refundTime?.substring(5) }}</span>
               </div>
             </template>
           </a-list-item-meta>
@@ -145,6 +146,9 @@
         return 'processing';
       case 3:
         return 'success';
+      case -1:
+      case -2:
+        return 'error';
     }
   };
 </script>
