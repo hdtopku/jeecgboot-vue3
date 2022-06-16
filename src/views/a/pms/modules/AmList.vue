@@ -6,7 +6,11 @@
         <a-typography-text v-show="activeKey === '1'" mark>已打开页面，但还没点击开始验证</a-typography-text>
         <a-typography-text v-show="activeKey === '0'" mark>打开页面+开始验证+验证完成+关闭验证</a-typography-text>
         <a-typography-text v-show="activeKey === '2'" mark>包含开始验证及验证完成</a-typography-text>
-        <a-typography-text v-show="activeKey === '4'" mark>关闭后，验证页面变为空白（处理退款等）</a-typography-text>
+        <a-typography-text v-show="activeKey === '4'" mark
+          >关闭后，验证页面变为空白
+          <span v-if="refuneCount > 0">(买家退款{{ refuneCount }}条)</span>
+          <span v-else>(买家退款等)</span>
+        </a-typography-text>
       </span>
     </div>
     <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">
@@ -74,7 +78,7 @@
 </template>
 <script lang="ts" setup>
   import { DownOutlined } from '@ant-design/icons-vue';
-  import { computed, ref } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { getList, updateCodeStatus } from '/@/views/a/pms/Am.api';
 
   const loading = ref(false);
@@ -119,6 +123,19 @@
   };
   defineExpose({ initQuery, changeActiveKey });
 
+  const refuneCount = ref(0);
+  watch(dataList, () => {
+    console.log(dataList.value);
+    refuneCount.value = 0;
+    dataList.value?.records?.forEach((item) => {
+      console.log(item);
+      if (item.valid === -1) {
+        if (item.status === -1 || item.status === -2) {
+          ++refuneCount.value;
+        }
+      }
+    });
+  });
   const getColor = (status) => {
     status = Number.parseInt(status);
     switch (status) {
