@@ -1,8 +1,8 @@
 <template>
-  <div> <Search /> </div>
+  <IdeaDataList />
 </template>
 
 <script lang="ts" setup>
-  import Search from './modules/Search.vue';
+  import IdeaDataList from './modules/IdeaDataList.vue';
 </script>
 <style scoped></style>

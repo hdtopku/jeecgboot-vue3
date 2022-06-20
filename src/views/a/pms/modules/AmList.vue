@@ -51,7 +51,7 @@
               <div
                 ><a-tag>验证时间</a-tag>
                 <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
-                <a-tag v-else text="标签" color="error" plain plainFill> 未开始 </a-tag>
+                <a-tag v-else color="error" plain plainFill> 未开始 </a-tag>
               </div>
               <div v-if="item?.refundTime?.length > 0"
                 ><a-tag color="error">买家退款</a-tag> <span>{{ item?.refundTime?.substring(5) }}</span>
@@ -126,10 +126,8 @@
 
   const refuneCount = ref(0);
   watch(dataList, () => {
-    console.log(dataList.value);
     refuneCount.value = 0;
     dataList.value?.records?.forEach((item) => {
-      console.log(item);
       if (item.valid === -1) {
         if (item.status === -1 || item.status === -2) {
           ++refuneCount.value;

@@ -17,8 +17,8 @@ export const columns: BasicColumn[] = [
     dataIndex: 'status'
    },
    {
-    title: '激活日期',
-    dataIndex: 'activeDate'
+    title: '激活时间',
+    dataIndex: 'activeTime'
    },
 ];
 
@@ -54,8 +54,8 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '激活日期',
-    field: 'activeDate',
+    label: '激活时间',
+    field: 'activeTime',
     component: 'DatePicker',
     componentProps: {
       showTime: true,

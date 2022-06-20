@@ -1,27 +1,29 @@
 <template>
-  <a-button @click="handleAdd">新增</a-button>
-  <!--  <IdeaModal @register="registerModal" />-->
-  <BasicDrawer @register="registerDrawer" v-bind="$attrs" title="Drawer Title" width="100%"> Drawer Info. </BasicDrawer>
+  <a-card size="small">
+    <a-select ref="select" v-model:value="value1" style="width: 120px" @change="handleChange">
+      <a-select-option v-for="item in ideaGroupList" :key="item.id" :value="item.id"> {{ item.groupName }} </a-select-option>
+    </a-select>
+  </a-card>
 </template>
 
 <script lang="ts" setup>
-  import IdeaModal from './modules/IdeaModal.vue';
-  import { useModal } from '/@/components/Modal';
-  const [registerModal, { openModal }] = useModal();
-  import { BasicDrawer, useDrawer, useDrawerInner } from '/@/components/Drawer';
-  const [registerDrawer, { setDrawerProps, openDrawer }] = useDrawer();
+  import { ref } from 'vue';
+  import { list } from './IdeaGroup.api';
 
-  // step1 引入useDrawerAdaptiveWidth方法
-  import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
-  // step2 获取到adaptiveWidth
-  /**
-   * 新增事件
-   */
-  function handleAdd() {
-    openDrawer(true, {
-      isUpdate: false,
-      showFooter: true,
+  const visible = ref(false);
+  const ideaGroupList = ref([]);
+  // /**
+  //  * 新增事件
+  //  */
+  const handleAdd = () => {
+    visible.value = true;
+  };
+  const handleChange = () => {};
+  const getIdeaGroupList = () => {
+    list({}).then((res) => {
+      ideaGroupList.value = res.records;
     });
-  }
+  };
+  getIdeaGroupList();
 </script>
 <style scoped></style>
