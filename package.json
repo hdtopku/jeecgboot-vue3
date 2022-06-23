@@ -1,6 +1,6 @@
 {
   "name": "jeecgboot-vue3",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "author": {
     "name": "jeecg",
     "email": "jeecgos@163.com",
@@ -36,11 +36,6 @@
   "dependencies": {
     "@jeecg/online": "1.0.1",
     "@iconify/iconify": "^2.0.4",
-    "@fullcalendar/core": "^5.10.1",
-    "@fullcalendar/daygrid": "^5.10.1",
-    "@fullcalendar/interaction": "^5.10.1",
-    "@fullcalendar/timegrid": "^5.10.1",
-    "@fullcalendar/vue3": "^5.10.1",
     "@vueuse/core": "^6.6.2",
     "@zxcvbn-ts/core": "^1.0.0-beta.0",
     "ant-design-vue": "2.2.8",
@@ -56,10 +51,7 @@
     "echarts": "^5.2.1",
     "enquire.js": "^2.1.6",
     "intro.js": "^4.2.2",
-    "js-cookie": "^2.2.1",
     "lodash-es": "^4.17.21",
-    "lodash.get": "^4.4.2",
-    "lodash.pick": "^4.4.0",
     "md5": "^2.3.0",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
@@ -79,7 +71,6 @@
     "vue-cropperjs": "^5.0.0",
     "vue-i18n": "^9.1.9",
     "vue-infinite-scroll": "^2.0.2",
-    "vue-json-pretty": "^2.0.4",
     "vue-print-nb-jeecg": "^1.0.10",
     "vue-router": "^4.0.12",
     "vue-types": "^4.1.1",
@@ -87,7 +78,7 @@
     "vxe-table": "4.1.0",
     "vxe-table-plugin-antd": "^3.0.3",
     "xe-utils": "^3.3.1",
-    "xlsx": "^0.17.3"
+    "vue-json-pretty": "^2.0.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.2.1",
@@ -187,11 +178,6 @@
       "include": [
         "@ant-design/colors",
         "@ant-design/icons-vue",
-        "@fullcalendar/core/vdom",
-        "@fullcalendar/daygrid",
-        "@fullcalendar/interaction",
-        "@fullcalendar/timegrid",
-        "@fullcalendar/vue3",
         "@jeecg/online",
         "@vueuse/core",
         "@vueuse/shared",
@@ -210,7 +196,10 @@
         "codemirror/addon/hint/show-hint.js",
         "codemirror/addon/selection/active-line.js",
         "codemirror/mode/clike/clike.js",
+        "codemirror/mode/css/css",
         "codemirror/mode/css/css.js",
+        "codemirror/mode/htmlmixed/htmlmixed",
+        "codemirror/mode/javascript/javascript",
         "codemirror/mode/javascript/javascript.js",
         "codemirror/mode/markdown/markdown.js",
         "codemirror/mode/python/python.js",
@@ -242,7 +231,6 @@
         "path-to-regexp",
         "pinia",
         "print-js",
-        "qiankun",
         "qrcode",
         "qs",
         "resize-observer-polyfill",
@@ -288,14 +276,14 @@
         "vite-plugin-theme/es/colorUtils",
         "vue",
         "vue-i18n",
+        "vue-json-pretty",
         "vue-print-nb-jeecg/src/printarea",
         "vue-router",
         "vue-types",
         "vuedraggable",
         "vxe-table",
         "vxe-table-plugin-antd",
-        "xe-utils",
-        "xlsx"
+        "xe-utils"
       ]
     }
   }
