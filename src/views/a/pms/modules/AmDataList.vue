@@ -69,7 +69,7 @@
         <div v-if="dataList?.total > 0" :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
           <span v-if="finished">加载完成({{ dataList?.records?.length }}/{{ dataList?.total }})</span>
           <span v-else>
-            <a-spin v-if="loading" />
+            <a-spin v-if="loadingMore" />
             <a-button v-else @click="queryList(true)">加载更多({{ dataList?.records?.length }}/{{ dataList?.total }})</a-button>
           </span>
         </div>
@@ -83,16 +83,20 @@
   import { getList, updateCodeStatus } from '/@/views/a/pms/Am.api';
 
   const loading = ref(false);
+  const loadingMore = ref(false);
   const params = ref({
     pageNo: 1,
     pageSize: 30,
   });
   const dataList = ref();
   const queryList = (loadMore = false) => {
-    loading.value = true;
+    if (loadMore) {
+      loadingMore.value = true;
+    } else {
+      loading.value = true;
+    }
     getList(params.value)
       .then((res) => {
-        loading.value = false;
         params.value.pageNo = res.current + 1;
         if (res.current > 1 && loadMore) {
           dataList.value.records.push(...res.records);
@@ -102,7 +106,10 @@
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
         loading.value = false;
+        loadingMore.value = false;
       });
   };
   const finished = computed(() => {

@@ -3,6 +3,7 @@ import { Modal } from 'ant-design-vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 
 enum Api {
+  getList = '/pms/idea/getList',
   list = '/pms/idea/list',
   save = '/pms/idea/add',
   edit = '/pms/idea/edit',
@@ -12,6 +13,12 @@ enum Api {
   exportXls = '/pms/idea/exportXls',
   getCodes = '/pms/idea/getCodes',
 }
+
+/**
+ * 查询激活码
+ * @param params
+ */
+export const getList = (params) => defHttp.get({ url: Api.getList, params });
 
 /**
  * 批量获取激活码
