@@ -22,7 +22,7 @@
                 >#{{ index + 1 }}
                 <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>
               </div>
-              <a-typography-paragraph copyable> {{ item.code }} </a-typography-paragraph>
+              <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" copyable> {{ item.code }} </a-typography-paragraph>
 
               <a-dropdown v-if="item?.valid !== -1">
                 <a class="ant-dropdown-link">

@@ -51,7 +51,7 @@
         <a-tab-pane key="0" tab="全部" />
         <a-tab-pane key="2" tab="验证" />
       </a-tabs>
-      <AmList ref="AmListRef" class="w-full" />
+      <AmDataList ref="AmDataListRef" class="w-full" />
     </div>
   </a-card>
 </template>
@@ -65,7 +65,7 @@
   import { getUserList } from '/@/api/common/api';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { useRouter } from 'vue-router';
-  import AmList from './modules/AmList.vue';
+  import AmDataList from './modules/AmDataList.vue';
 
   const advanced = ref(false);
   import moment, { Moment } from 'moment';
@@ -94,7 +94,7 @@
     );
   };
   let data = ref({});
-  const AmListRef = ref();
+  const AmDataListRef = ref();
   const inputRef = ref();
   const keyword = ref<string>();
   const activeKey = ref('0');
@@ -116,7 +116,7 @@
         params.status = activeKey.value;
       }
     }
-    AmListRef.value.initQuery(params);
+    AmDataListRef.value.initQuery(params);
   };
 
   const dealKeyword = () => {
@@ -137,7 +137,7 @@
   watch(endDate, queryList);
   watch(activeKey, () => {
     queryList();
-    AmListRef.value.changeActiveKey(activeKey);
+    AmDataListRef.value.changeActiveKey(activeKey);
   });
   const clickHelp = () => {
     router.push('/pms/ams');

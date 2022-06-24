@@ -1,60 +1,66 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
-    {
+  {
     title: '账号',
-    dataIndex: 'account'
-   },
-   {
+    dataIndex: 'account',
+  },
+  {
     title: '密码',
-    dataIndex: 'password'
-   },
-   {
+    dataIndex: 'password',
+  },
+  {
     title: '状态(0：正常，-1:失效)',
-    dataIndex: 'status'
-   },
-   {
+    dataIndex: 'status',
+  },
+  {
     title: '激活时间',
-    dataIndex: 'activeTime'
-   },
+    dataIndex: 'activeTime',
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
- {
+  {
     label: '账号',
     field: 'account',
-    component: 'Input'
+    component: 'Input',
   },
- {
+  {
     label: '密码',
     field: 'password',
-    component: 'Input'
+    component: 'Input',
   },
 ];
 
 export const formSchema: FormSchema[] = [
   // TODO 主键隐藏字段，目前写死为ID
-  {label: '', field: 'id', component: 'Input', show: false},
+  { label: '', field: 'id', component: 'Input', show: false },
   {
     label: '账号',
     field: 'account',
     component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入账号',
+      },
+    ],
   },
   {
     label: '密码',
     field: 'password',
     component: 'Input',
-  },
-  {
-    label: '状态(0：正常，-1:失效)',
-    field: 'status',
-    component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入密码',
+      },
+    ],
   },
   {
     label: '激活时间',
+    helpMessage: '默认为当前时间',
     field: 'activeTime',
     component: 'DatePicker',
     componentProps: {

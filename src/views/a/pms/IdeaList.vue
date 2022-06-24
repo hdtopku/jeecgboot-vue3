@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" name="pms-idea" setup>
-  import { ref, computed, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage';
