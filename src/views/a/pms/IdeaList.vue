@@ -1,75 +1,84 @@
 <template>
-  <div>
-    <!--引用表格-->
-    <BasicTable @register="registerTable" :rowSelection="rowSelection">
-      <!--插槽:table标题-->
-      <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-        <a-button type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-        <j-upload-button type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
-        <a-dropdown v-if="selectedRowKeys.length > 0">
-          <template #overlay>
-            <a-menu>
-              <a-menu-item key="1" @click="batchHandleDelete">
-                <Icon icon="ant-design:delete-outlined" />
-                删除
-              </a-menu-item>
-            </a-menu>
+  <a-card size="small">
+    <transition v-if="advanced" enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">
+      <div v-show="advanced" class="flex flex-wrap justify-evenly">
+        <a-space class="mb-2">
+          <a-button @click="jumpToJet" type="link" shape="round"><LinkOutlined />JET官网 </a-button>
+          <a-button type="primary" @click="handleAdd">新增</a-button>
+        </a-space>
+        <a-space class="mb-2">
+          <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
+          <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
+        </a-space>
+      </div>
+    </transition>
+    <div class="flex flex-wrap justify-evenly">
+      <a-space>
+        <a-button type="link" @click="advanced = !advanced">
+          <DownOutlined v-if="advanced" />
+          <UpOutlined v-else />
+        </a-button>
+        <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴账号或密码查询" @search="queryList">
+          <template v-if="advanced" #prefix>
+            <a-button @click="clickPaste">粘贴</a-button>
           </template>
-          <a-button
-            >批量操作
-            <Icon icon="mdi:chevron-down" />
-          </a-button>
-        </a-dropdown>
-      </template>
-      <!--操作栏-->
-      <template #action="{ record }">
-        <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
-      </template>
-    </BasicTable>
+          <template #suffix>
+            <a-button @click="queryList" type="primary">查询</a-button>
+          </template>
+        </a-input>
+      </a-space>
+    </div>
 
-    <!-- 表单区域 -->
-    <IdeaModal @register="registerModal" @success="handleSuccess" />
-  </div>
+    <div class="flex flex-wrap justify-evenly">
+      <a-tabs :animated="false" v-model:activeKey="activeKey">
+        <a-tab-pane key="-1" tab="失效" />
+        <a-tab-pane key="0" tab="正常" />
+        <a-tab-pane key="2" tab="全部" />
+      </a-tabs>
+    </div>
+    <IdeaDataList ref="IdeaDataListRef" @handleEdit="handleEdit" />
+  </a-card>
+  <!-- 表单区域 -->
+  <IdeaModal @register="registerModal" @success="handleSuccess" />
 </template>
 
-<script lang="ts" name="pms-idea" setup>
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+<script lang="ts" setup>
+  import IdeaDataList from './modules/IdeaDataList.vue';
+  import { DownOutlined, UpOutlined, LinkOutlined } from '@ant-design/icons-vue';
+
+  const advanced = ref(false);
+
   import { useModal } from '/@/components/Modal';
-  import { useListPage } from '/@/hooks/system/useListPage';
   import IdeaModal from './modules/IdeaModal.vue';
-  import { columns, searchFormSchema } from './Idea.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './Idea.api';
+  import { nextTick, onMounted, ref, watch } from 'vue';
+  import moment, { Moment } from 'moment';
+  import { message } from 'ant-design-vue';
+  const startDate = ref<Moment>(moment().subtract(1, 'year'));
+  const endDate = ref<Moment>(moment());
+  const keyword = ref();
+  const disabledStartDate = (current: Moment) => {
+    // Can not select days before today and today
+    return current && current > moment().endOf('day');
+  };
+  const disabledEndDate = (current: Moment) => {
+    return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
+  };
 
-  //注册model
   const [registerModal, { openModal }] = useModal();
-  //注册table数据
-  const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
-    tableProps: {
-      title: 'idea账号表',
-      api: list,
-      columns,
-      canResize: false,
-      formConfig: {
-        labelWidth: 120,
-        schemas: searchFormSchema,
-        autoSubmitOnEnter: true,
-        showAdvancedButton: true,
-      },
-      actionColumn: {
-        width: 120,
-      },
-    },
-    exportConfig: {
-      name: 'idea账号表',
-      url: getExportUrl,
-    },
-    importConfig: {
-      url: getImportUrl,
-    },
-  });
-
-  const [registerTable, { reload }, { rowSelection, selectedRowKeys }] = tableContext;
+  const clickPaste = () => {
+    navigator.clipboard
+      .readText()
+      .then((text) => {
+        keyword.value = text;
+      })
+      .catch((err) => {
+        if (err instanceof DOMException) {
+          message.error('请手动粘贴，或允许读取剪贴板，失败原因：' + err);
+        } else {
+          message.error('请手动粘贴，失败原因：' + err);
+        }
+      });
+  };
 
   /**
    * 新增事件
@@ -90,62 +99,45 @@
       showFooter: true,
     });
   }
-  /**
-   * 详情
-   */
-  function handleDetail(record: Recordable) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-      showFooter: false,
+  const handleSuccess = () => {
+    queryList();
+  };
+  const IdeaDataListRef = ref();
+  const activeKey = ref('0');
+  const queryList = () => {
+    let params = { pageNo: 1, pageSize: 30, keyword: keyword.value };
+    if (startDate.value != null) {
+      params.startTime = startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss');
+    }
+    if (endDate.value != null) {
+      params.endTime = endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss');
+    }
+    if (activeKey.value !== '2') {
+      params.status = activeKey.value;
+    } else {
+      params.status = null;
+    }
+    IdeaDataListRef.value.initQuery(params);
+  };
+  watch(keyword, queryList);
+  watch(startDate, () => {
+    if (startDate.value != null && startDate.value.isAfter(endDate.value)) {
+      endDate.value = startDate.value;
+    }
+    queryList();
+  });
+  watch(activeKey, () => {
+    IdeaDataListRef.value.changeActiveKey(activeKey);
+    queryList();
+  });
+  watch(endDate, queryList);
+  onMounted(() => {
+    nextTick(() => {
+      queryList();
     });
-  }
-  /**
-   * 删除事件
-   */
-  async function handleDelete(record) {
-    await deleteOne({ id: record.id }, reload);
-  }
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await batchDelete({ ids: selectedRowKeys.value }, reload);
-  }
-  /**
-   * 成功回调
-   */
-  function handleSuccess({ isUpdate, values }) {
-    reload();
-  }
-  /**
-   * 操作栏
-   */
-  function getTableAction(record) {
-    return [
-      {
-        label: '编辑',
-        onClick: handleEdit.bind(null, record),
-      },
-    ];
-  }
-  /**
-   * 下拉操作栏
-   */
-  function getDropDownAction(record) {
-    return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
-    ];
-  }
+  });
+  const jumpToJet = () => {
+    window.open('https://account.jetbrains.com');
+  };
 </script>
 <style scoped></style>
