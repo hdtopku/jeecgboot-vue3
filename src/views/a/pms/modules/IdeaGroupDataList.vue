@@ -1,123 +1,69 @@
 <template>
-  <div class="flex justify-between">
-    <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
-    <span>
-      <a-typography-text v-show="activeKey === '0'" mark>有效的账号</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1'" mark>失效的账号</a-typography-text>
-      <a-typography-text v-show="activeKey === '2'" mark>有效+失效的账号</a-typography-text>
-    </span>
-  </div>
-  <a-list :loading="loading" :data-source="dataList?.records">
-    <template #renderItem="{ item, index }">
-      <a-list-item>
-        <a-list-item-meta>
-          <template #avatar>
-            <div class="border-solid rounded">#{{ index + 1 }} </div>
-            <a-dropdown>
-              <a class="ant-dropdown-link">
-                操作
-                <DownOutlined />
-              </a>
-              <template #overlay>
-                <a-menu>
-                  <a-menu-item>
-                    <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
-                  </a-menu-item>
-                  <a-menu-item>
-                    <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
-                    <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
-                  </a-menu-item>
-                </a-menu>
-              </template>
-            </a-dropdown>
-          </template>
-          <template #description>
-            <div
-              ><a-tag>账号</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text></div
-            >
-            <div>
-              <a-tag>密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.password }}</a-typography-text>
-            </div>
-            <div><a-tag>激活时间</a-tag>{{ item?.activeTime?.substring(0, 10) }}</div>
-          </template>
-        </a-list-item-meta>
-        <div v-if="item.status === 0">
-          <a-typography-text :copyable="{ text: copyAccount(item.account, item.password) }">复制账密</a-typography-text>
-        </div>
-      </a-list-item>
+  <CommonList ref="CommonListRef">
+    <template #listHeader>
+      <a-typography-text v-show="activeKey === '0'" mark>有效的分组</a-typography-text>
+      <a-typography-text v-show="activeKey === '-1'" mark>失效的分组</a-typography-text>
+      <a-typography-text v-show="activeKey === '2'" mark>有效+失效的分组</a-typography-text>
     </template>
-    <template #loadMore>
-      <div v-if="dataList?.total > 0" :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
-        <span v-if="finished">加载完成({{ dataList?.records?.length }}/{{ dataList?.total }})</span>
-        <span v-else>
-          <a-spin v-if="loadingMore" />
-          <a-button v-else @click="queryList(true)">加载更多({{ dataList?.records?.length }}/{{ dataList?.total }})</a-button>
-        </span>
-      </div>
+    <template #left="{ item, index }">
+      <div class="border-solid rounded">#{{ index + 1 }} </div>
+      <a-dropdown>
+        <a class="ant-dropdown-link">
+          操作
+          <DownOutlined />
+        </a>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item>
+              <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
+            </a-menu-item>
+            <a-menu-item>
+              <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
+              <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
     </template>
-  </a-list>
+    <template #title="{ item }">
+      <div :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.groupName }}</div>
+    </template>
+    <template #center="{ item }">
+      <div><a-tag>创建时间</a-tag>{{ item.createTime }}</div>
+      <a-select disabled ref="select" v-model:value="item.ideaId" style="width: 250px">
+        <a-select-option :key="ideaItem.id" v-for="ideaItem in ideaList" :value="ideaItem.id">{{ ideaItem.account }}|{{ ideaItem.activeTime }}</a-select-option>
+      </a-select>
+    </template>
+  </CommonList>
 </template>
 
 <script setup lang="ts">
   import { DownOutlined } from '@ant-design/icons-vue';
-  import { getList, saveOrUpdate } from '../Idea.api';
-  import { computed, ref } from 'vue';
-  const dataList = ref();
-  const loading = ref(false);
-  const loadingMore = ref(false);
-  const params = ref({
-    pageNo: 1,
-    pageSize: 30,
+  import { ref } from 'vue';
+  import { list, saveOrUpdate } from '/@/views/a/pms/IdeaGroup.api';
+  import CommonList from '../../common/CommonList.vue';
+  defineProps({
+    ideaList: {
+      type: [],
+    },
   });
-  const initQuery = (queryParams) => {
-    params.value = queryParams;
-    queryList();
-  };
-  const activeKey = ref('0');
-  const changeActiveKey = (key) => {
-    activeKey.value = key.value;
-  };
-  const queryList = (loadMore = false) => {
-    if (loadMore) {
-      loadingMore.value = true;
-    } else {
-      loading.value = true;
-    }
-    getList(params.value)
-      .then((res) => {
-        params.value.pageNo = res.current + 1;
-        if (res.current > 1 && loadMore) {
-          dataList.value.records.push(...res.records);
-          return;
-        }
-        dataList.value = res;
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        loading.value = false;
-        loadingMore.value = false;
-      });
-  };
-  const copyAccount = (account, password) => {
-    return `账号【${account}】
-密码【${password}】`;
+  const CommonListRef = ref();
+  const initQuery = (params = {}) => {
+    CommonListRef.value.initData(list, params);
   };
   const emit = defineEmits(['handleEdit']);
-  const handleEdit = (record) => {
+  const handleEdit = (record: Recordable) => {
     emit('handleEdit', record);
   };
   const changeStatus = (record, status) => {
     record.status = status;
     saveOrUpdate(record, true).then(() => {
-      queryList();
+      initQuery();
     });
   };
-  const finished = computed(() => {
-    return dataList?.value?.total === 0 || (dataList?.value?.records?.length >= dataList?.value?.total ?? false);
-  });
+  const activeKey = ref('0');
+  const changeActiveKey = (key) => {
+    activeKey.value = key.value;
+  };
   defineExpose({ initQuery, changeActiveKey });
 </script>
-
-<style scoped></style>

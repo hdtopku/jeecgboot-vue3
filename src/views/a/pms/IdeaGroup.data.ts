@@ -1,7 +1,5 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { rules } from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
 
 export const columns: BasicColumn[] = [
   {
@@ -34,15 +32,11 @@ export const formSchema: FormSchema[] = [
     label: '组名',
     field: 'groupName',
     component: 'Input',
-  },
-  {
-    field: 'JSwitch',
-    component: 'JSwitch',
-    label: 'JSwitch',
-  },
-  {
-    label: '状态(0：正常，-1:失效)',
-    field: 'status',
-    component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入组名',
+      },
+    ],
   },
 ];

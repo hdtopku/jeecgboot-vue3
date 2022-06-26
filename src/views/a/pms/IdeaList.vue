@@ -4,7 +4,6 @@
       <div v-show="advanced" class="flex flex-wrap justify-evenly">
         <a-space class="mb-2">
           <a-button @click="jumpToJet" type="link" shape="round"><LinkOutlined />JET官网 </a-button>
-          <a-button type="primary" @click="handleAdd">新增</a-button>
         </a-space>
         <a-space class="mb-2">
           <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
@@ -18,6 +17,8 @@
           <DownOutlined v-if="advanced" />
           <UpOutlined v-else />
         </a-button>
+        <a-button type="primary" @click="handleAdd">新增</a-button>
+
         <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴账号或密码查询" @search="queryList">
           <template v-if="advanced" #prefix>
             <a-button @click="clickPaste">粘贴</a-button>
@@ -45,15 +46,14 @@
 <script lang="ts" setup>
   import IdeaDataList from './modules/IdeaDataList.vue';
   import { DownOutlined, UpOutlined, LinkOutlined } from '@ant-design/icons-vue';
-
-  const advanced = ref(false);
-
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
   import { nextTick, onMounted, ref, watch } from 'vue';
   import moment, { Moment } from 'moment';
   import { message } from 'ant-design-vue';
-  const startDate = ref<Moment>(moment().subtract(1, 'year'));
+
+  const advanced = ref(false);
+  const startDate = ref<Moment>(moment().subtract(1.5, 'year'));
   const endDate = ref<Moment>(moment());
   const keyword = ref();
   const disabledStartDate = (current: Moment) => {

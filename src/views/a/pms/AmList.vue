@@ -173,9 +173,7 @@
     endDate.value = moment().subtract(end, 'day');
   };
   onMounted(() => {
-    nextTick(() => {
-      queryList();
-    });
+    queryList();
   });
   const loginInfo = getAuthCache(LOGIN_INFO_KEY);
   const selectName = ref();
