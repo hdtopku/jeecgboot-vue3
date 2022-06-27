@@ -5,7 +5,7 @@
         <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
       </a-col>
       <a-col :span="12">
-        <a-slider v-model:value="count" :min="1" :max="200" />
+        <a-slider v-model:value="count" :min="1" :max="1000" />
       </a-col>
       <a-col class="text-center" :span="8">
         <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
