@@ -140,7 +140,7 @@
     AmDataListRef.value.changeActiveKey(activeKey);
   });
   const clickHelp = () => {
-    router.push('/pms/ams');
+    router.push('/pms/am/help');
   };
   const clickPaste = () => {
     navigator.clipboard
