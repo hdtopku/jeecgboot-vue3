@@ -26,7 +26,14 @@
       </a-dropdown>
     </template>
     <template #title="{ item }">
-      <div :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.groupName }}</div>
+      <a-space>
+        <a-typography-text copyable>
+          <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.groupName }}</span>
+        </a-typography-text>
+        <a-tag v-if="currentGroupId === item.id" color="processing"
+          ><template #icon> <sync-outlined :spin="true" /> </template>当前默认分组</a-tag
+        >
+      </a-space>
     </template>
     <template #center="{ item }">
       <div><a-tag>创建时间</a-tag>{{ item.createTime }}</div>
@@ -38,11 +45,14 @@
 </template>
 
 <script setup lang="ts">
-  import { DownOutlined } from '@ant-design/icons-vue';
+  import { DownOutlined, SyncOutlined } from '@ant-design/icons-vue';
   import { ref } from 'vue';
   import { list, saveOrUpdate } from '/@/views/a/pms/IdeaGroup.api';
   import CommonList from '../../common/CommonList.vue';
   defineProps({
+    currentGroupId: {
+      type: String,
+    },
     ideaList: {
       type: [],
     },
