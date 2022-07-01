@@ -1,12 +1,11 @@
 <template>
   <CommonList ref="CommonListRef">
-    <template #listHeader>
+    <template #header>
       <a-typography-text v-show="activeKey === '0'" mark>有效的分组</a-typography-text>
       <a-typography-text v-show="activeKey === '-1'" mark>失效的分组</a-typography-text>
       <a-typography-text v-show="activeKey === '2'" mark>有效+失效的分组</a-typography-text>
     </template>
     <template #left="{ item, index }">
-      <div class="border-solid rounded">#{{ index + 1 }} </div>
       <a-dropdown>
         <a class="ant-dropdown-link">
           操作
@@ -25,7 +24,7 @@
         </template>
       </a-dropdown>
     </template>
-    <template #center="{ item }">
+    <template #bottom="{ item }">
       <div>
         <a-tag>账号</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text>
       </div>
@@ -53,7 +52,7 @@
   };
   const copyAccount = (account, password) => {
     return `账号【${account}】
-  密码【${password}】`;
+密码【${password}】`;
   };
   const emit = defineEmits(['handleEdit']);
   const handleEdit = (record) => {

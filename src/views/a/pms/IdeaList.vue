@@ -132,9 +132,7 @@
   });
   watch(endDate, queryList);
   onMounted(() => {
-    nextTick(() => {
-      queryList();
-    });
+    queryList();
   });
   const jumpToJet = () => {
     window.open('https://account.jetbrains.com');

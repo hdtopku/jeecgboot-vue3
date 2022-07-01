@@ -1,27 +1,28 @@
 <!--<CommonList ref="CommonListRef">-->
-<!--<template #listHeader></template>-->
+<!--<template #header></template>-->
+<!--<template #top="{ item }"></template>-->
+<!--<template #bottom="{ item }"></template>-->
 <!--<template #left="{ item, index }"></template>-->
-<!--<template #title="{ item }"></template>-->
-<!--<template #center="{ item }"></template>-->
 <!--<template #right="{ item }"></template>-->
 <!--</CommonList>-->
 <template>
   <div class="flex justify-between">
     <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
-    <slot name="listHeader"></slot>
+    <slot name="header"></slot>
   </div>
   <a-list :loading="loading" :data-source="dataList?.records">
     <template #renderItem="{ item, index }">
       <a-list-item>
         <a-list-item-meta>
-          <template #avatar>
-            <slot name="left" :item="item" :index="index"></slot>
-          </template>
           <template #title>
-            <slot name="title" :item="item" :index="index"></slot>
+            <slot name="top" :item="item" :index="index"></slot>
           </template>
           <template #description>
-            <slot name="center" :item="item" :index="index"></slot>
+            <slot name="bottom" :item="item" :index="index"></slot>
+          </template>
+          <template #avatar>
+            <div class="border-solid rounded">#{{ index + 1 }} </div>
+            <slot name="left" :item="item" :index="index"></slot>
           </template>
         </a-list-item-meta>
         <slot name="right" :item="item" :index="index"></slot>
@@ -44,6 +45,15 @@
   // const initQuery = (params = {}) => {
   //   CommonListRef.value.initData(getList, params);
   // };
+  // defineExpose({ initQuery });
+  // import { ref } from 'vue';
+  // import CommonList from '/@/views/a/common/CommonList.vue';
+  // import { list } from '/@/views/a/pms/IdeaMember.api';
+  // const CommonListRef = ref();
+  // const initQuery = (params = {}) => {
+  //   CommonListRef.value.initData(list, params);
+  // };
+  // defineExpose({ initQuery });
   import { computed, ref } from 'vue';
   const loading = ref(false);
   const loadingMore = ref(false);

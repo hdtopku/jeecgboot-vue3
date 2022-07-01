@@ -3,11 +3,9 @@
     <div class="flex flex-wrap justify-evenly">
       <a-space class="mb-2">
         <a-button type="link" @click="jumpToAccount">idea列表</a-button>
-        <span>
-          <a-select style="width: 150px" v-model:value="currentGroupId" @change="updateCurGroup">
-            <a-select-option v-for="(item, index) in ideaGroup" :key="item.id" :value="item.id"> #{{ index + 1 }}|{{ item.groupName }} </a-select-option>
-          </a-select>
-        </span>
+        <a-select style="width: 150px" v-model:value="currentGroupId" @change="updateCurGroup">
+          <a-select-option v-for="(item, index) in ideaGroup" :key="item.id" :value="item.id"> #{{ index + 1 }}|{{ item.groupName }} </a-select-option>
+        </a-select>
       </a-space>
       <a-space class="mb-2">
         <a-button type="primary" @click="handleAdd">新增</a-button>
