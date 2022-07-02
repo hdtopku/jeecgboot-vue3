@@ -23,6 +23,15 @@
           <template #avatar>
             <div class="border-solid rounded">#{{ index + 1 }} </div>
             <slot name="left" :item="item" :index="index"></slot>
+            <a-dropdown>
+              <a class="ant-dropdown-link">
+                操作
+                <DownOutlined />
+              </a>
+              <template #overlay>
+                <slot name="operate" :item="item" :index="index"></slot>
+              </template>
+            </a-dropdown>
           </template>
         </a-list-item-meta>
         <slot name="right" :item="item" :index="index"></slot>
@@ -54,6 +63,7 @@
   //   CommonListRef.value.initData(list, params);
   // };
   // defineExpose({ initQuery });
+  import { DownOutlined } from '@ant-design/icons-vue';
   import { computed, ref } from 'vue';
   const loading = ref(false);
   const loadingMore = ref(false);

@@ -5,24 +5,16 @@
       <a-typography-text v-show="activeKey === '-1'" mark>失效的分组</a-typography-text>
       <a-typography-text v-show="activeKey === '2'" mark>有效+失效的分组</a-typography-text>
     </template>
-    <template #left="{ item, index }">
-      <a-dropdown>
-        <a class="ant-dropdown-link">
-          操作
-          <DownOutlined />
-        </a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item>
-              <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
-            </a-menu-item>
-            <a-menu-item>
-              <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
-              <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+    <template #operate="{ item, index }">
+      <a-menu>
+        <a-menu-item>
+          <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
+        </a-menu-item>
+        <a-menu-item>
+          <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
+          <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
+        </a-menu-item>
+      </a-menu>
     </template>
     <template #top="{ item }">
       <a-space>
@@ -44,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-  import { DownOutlined, SyncOutlined } from '@ant-design/icons-vue';
+  import { SyncOutlined } from '@ant-design/icons-vue';
   import { ref } from 'vue';
   import { list, saveOrUpdate } from '/@/views/a/pms/IdeaGroup.api';
   import CommonList from '../../common/CommonList.vue';
