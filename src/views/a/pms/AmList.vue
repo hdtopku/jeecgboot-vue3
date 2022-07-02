@@ -1,19 +1,5 @@
 <template>
   <a-card size="small">
-    <a-row>
-      <a-col :span="4">
-        <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
-      </a-col>
-      <a-col :span="12">
-        <a-slider v-model:value="count" :min="1" :max="500" />
-      </a-col>
-      <a-col class="text-center" :span="8">
-        <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
-        <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-          <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
-        </a-popconfirm>
-      </a-col>
-    </a-row>
     <div class="flex flex-wrap justify-evenly">
       <a-space class="mb-2">
         <a-button type="link" @click="advanced = !advanced">
@@ -31,19 +17,34 @@
           <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
         </a-space>
       </transition>
+      <a-row class="w-full">
+        <a-col :span="4">
+          <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+        </a-col>
+        <a-col :span="12">
+          <a-slider v-model:value="count" :min="1" :max="500" />
+        </a-col>
+        <a-col class="text-center" :span="8">
+          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
+            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          </a-popconfirm>
+        </a-col>
+      </a-row>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
-        <template v-if="advanced" #prefix>
-          <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
-            <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
-            <template v-if="userLoading" #notFoundContent>
-              <a-spin size="small" />
-            </template>
-          </a-select>
-          <a-button @click="clickPaste">粘贴</a-button>
-        </template>
-        <template #suffix>
+        <template #prefix>
+          <span v-if="advanced">
+            <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
+              <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
+              <template v-if="userLoading" #notFoundContent>
+                <a-spin size="small" />
+              </template>
+            </a-select>
+            <a-button @click="clickPaste">粘贴</a-button>
+          </span>
           <a-button @click="queryList" type="primary">查询</a-button>
         </template>
+        <!--        <template #suffix> </template>-->
       </a-input>
       <a-tabs :animated="false" v-model:activeKey="activeKey">
         <a-tab-pane key="4" tab="关闭" />
