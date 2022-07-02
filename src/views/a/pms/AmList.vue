@@ -42,9 +42,8 @@
             </a-select>
             <a-button @click="clickPaste">粘贴</a-button>
           </span>
-          <a-button @click="queryList" type="primary">查询</a-button>
         </template>
-        <!--        <template #suffix> </template>-->
+        <template #suffix> <a-button @click="queryList" type="primary">查询</a-button> </template>
       </a-input>
       <a-tabs :animated="false" v-model:activeKey="activeKey">
         <a-tab-pane key="4" tab="关闭" />
