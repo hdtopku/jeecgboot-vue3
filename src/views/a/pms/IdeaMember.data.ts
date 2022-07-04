@@ -1,57 +1,53 @@
-import {BasicColumn} from '/@/components/Table';
-import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
+import { BasicColumn } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
+import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 
 export const columns: BasicColumn[] = [
-    {
-    title: '用户名(手机号/微信号/qq/邮箱等)',
-    dataIndex: 'username'
-   },
-   {
+  {
+    title: '用户标识(手机号/微信号/qq/邮箱等)',
+    dataIndex: 'identity',
+  },
+  {
     title: 'idea分组',
-    dataIndex: 'ideaGroupId'
-   },
-   {
+    dataIndex: 'ideaGroupId',
+  },
+  {
     title: '状态(0：正常，-1:失效)',
-    dataIndex: 'status'
-   },
-   {
+    dataIndex: 'status',
+  },
+  {
     title: '有效时间',
-    dataIndex: 'validTime'
-   },
+    dataIndex: 'validTime',
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
- {
-    label: '用户名(手机号/微信号/qq/邮箱等)',
-    field: 'username',
-    component: 'Input'
+  {
+    label: '用户标识(手机号/微信号/qq/邮箱等)',
+    field: 'identity',
+    component: 'Input',
   },
- {
+  {
     label: 'idea分组',
     field: 'ideaGroupId',
-    component: 'Input'
+    component: 'Input',
   },
 ];
 
 export const formSchema: FormSchema[] = [
   // TODO 主键隐藏字段，目前写死为ID
-  {label: '', field: 'id', component: 'Input', show: false},
+  { label: '', field: 'id', component: 'Input', show: false },
   {
-    label: '用户名(手机号/微信号/qq/邮箱等)',
-    field: 'username',
+    label: '用户标识(手机号/微信号/qq/邮箱等)',
+    field: 'identity',
     component: 'Input',
-  },
-  {
-    label: 'idea分组',
-    field: 'ideaGroupId',
-    component: 'Input',
-  },
-  {
-    label: '状态(0：正常，-1:失效)',
-    field: 'status',
-    component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入用户名',
+      },
+    ],
   },
   {
     label: '有效时间',
@@ -61,5 +57,11 @@ export const formSchema: FormSchema[] = [
       showTime: true,
       valueFormat: 'YYYY-MM-DD hh:mm:ss',
     },
+    rules: [
+      {
+        required: true,
+        message: '请选择有效截至日期',
+      },
+    ],
   },
 ];

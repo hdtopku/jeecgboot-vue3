@@ -2,7 +2,7 @@
   <a-card>
     <div class="flex flex-wrap justify-evenly">
       <a-space class="mb-2">
-        <a-button type="link" @click="jumpToAccount">idea列表</a-button>
+        <a-button type="link" @click="router.push('/pms/idea')">idea列表</a-button>
         <a-select style="width: 150px" v-model:value="currentGroupId" @change="updateCurGroup">
           <a-select-option v-for="(item, index) in ideaGroup" :key="item.id" :value="item.id"> #{{ index + 1 }}|{{ item.groupName }} </a-select-option>
         </a-select>
@@ -40,9 +40,6 @@
   const [registerModal, { openModal }] = useModal();
   import { useMessage } from '/@/hooks/web/useMessage';
   const { createMessage } = useMessage();
-  const jumpToAccount = () => {
-    router.push('/pms/idea');
-  };
   /**
    * 编辑事件
    */

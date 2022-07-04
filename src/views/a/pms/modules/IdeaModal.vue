@@ -10,6 +10,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../Idea.data';
   import { saveOrUpdate } from '../Idea.api';
+  import moment from 'moment';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -31,6 +32,12 @@
       //表单赋值
       await setFieldsValue({
         ...data.record,
+      });
+    } else {
+      //表单赋值
+      await setFieldsValue({
+        activeTime: moment(),
+        invalidTime: moment().add(1, 'years'),
       });
     }
   });

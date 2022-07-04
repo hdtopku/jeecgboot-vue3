@@ -1,25 +1,33 @@
 <template>
   <CommonList ref="CommonListRef">
-    <template #header></template>
+    <template #header>
+      <a-typography-text v-show="activeKey === '0'" mark>有效的用户</a-typography-text>
+      <a-typography-text v-show="activeKey === '-1'" mark>失效的用户</a-typography-text>
+      <a-typography-text v-show="activeKey === '2'" mark>有效+失效的用户</a-typography-text>
+    </template>
     <template #top="{ item }">
-      <a-typography-text copyable> {{ item.username }}</a-typography-text>
+      <a-tag> <a-typography-text :delete="item?.status === -1">用户标识</a-typography-text> </a-tag>
+      <a-typography-text copyable>
+        <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>
+      </a-typography-text>
     </template>
     <template #bottom="{ item }">
+      <div><a-tag>用户有效期</a-tag>{{ item?.validTime?.substring(0, 10) }}</div>
+      <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
       <a-tag>绑定分组</a-tag><IdeaGroupSelect :currentGroupId="item.ideaGroupId" @changeGroup="(groupId) => changeGroup(item.id, groupId)" />
-      <div
-        ><a-tag :delete="item.accountStatus === 0">账号密码</a-tag
-        ><a-typography-text :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
+      <div>
+        <a-tag> <a-typography-text :delete="item?.ideaStatus === -1">账号密码</a-typography-text> </a-tag
+        ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
           <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
           <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text></a-typography-text
         >
       </div>
-      <div><a-tag>有效期至</a-tag>{{ item?.validTime?.substring(0, 10) }}</div>
-      <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>账号有效期</a-tag>{{ item?.ideaInvalidTime?.substring(0, 10) }}</div>
     </template>
     <template #left="{ item }">
       <div>
         <a-typography-text copyable>
-          <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
+          <span class="" :class="item?.status === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
         </a-typography-text>
       </div>
     </template>
@@ -34,7 +42,7 @@
         </a-menu-item>
       </a-menu>
     </template>
-    <template #right="{ item }">4</template>
+    <template #right="{ item }"></template>
   </CommonList>
 </template>
 
@@ -48,16 +56,29 @@
     return `账号【${account}】
 密码【${password}】`;
   };
-  const emit = defineEmits(['queryList']);
+  const emit = defineEmits(['queryList', 'handleEdit']);
   const changeGroup = (id, ideaGroupId) => {
     saveOrUpdate({ id, ideaGroupId }, true).then(() => {
       emit('queryList');
     });
   };
+  const changeStatus = (record, status) => {
+    record.status = status;
+    saveOrUpdate(record, true).then(() => {
+      emit('queryList');
+    });
+  };
+  const activeKey = ref('0');
+  const changeActiveKey = (key) => {
+    activeKey.value = key.value;
+  };
+  const handleEdit = (record) => {
+    emit('handleEdit', record);
+  };
   const CommonListRef = ref();
   const initQuery = (params = {}) => {
     CommonListRef.value.initData(getList, params);
   };
-  defineExpose({ initQuery });
+  defineExpose({ initQuery, changeActiveKey });
 </script>
 <style scoped></style>
