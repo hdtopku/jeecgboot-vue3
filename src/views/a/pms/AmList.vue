@@ -17,7 +17,7 @@
           <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
         </a-space>
       </transition>
-      <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
+      <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链，或直接模糊搜索" @search="queryList">
         <template #prefix>
           <span v-if="advanced">
             <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
@@ -29,7 +29,7 @@
             <a-button @click="clickPaste">粘贴</a-button>
           </span>
         </template>
-        <template #suffix> <a-button @click="queryList" type="primary">查询</a-button> </template>
+        <template #suffix> <a-button @click="queryList" type="primary">模糊查询</a-button> </template>
       </a-input>
       <a-row class="w-full mt-2">
         <a-col :span="4">
