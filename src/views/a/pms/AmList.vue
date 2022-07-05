@@ -87,7 +87,11 @@
     getCodes(
       { count: count.value },
       (data) => {
-        proxy.tool.copy(data, '复制成功');
+        if (count.value === 1) {
+          proxy.tool.copy(data, data.substring(27) + '已复制');
+        } else {
+          proxy.tool.copy(data, count.value + '条已复制');
+        }
         btnLoading.value = false;
       },
       () => (btnLoading.value = false)
