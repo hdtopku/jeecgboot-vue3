@@ -3,13 +3,16 @@
     <div class="flex justify-between">
       <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
       <span>
-        <a-typography-text v-show="activeKey === '1'" mark>已打开页面，但还没点击开始验证</a-typography-text>
-        <a-typography-text v-show="activeKey === '0'" mark>打开页面+开始验证+验证完成+关闭验证</a-typography-text>
-        <a-typography-text v-show="activeKey === '2'" mark>包含开始验证及验证完成</a-typography-text>
-        <a-typography-text v-show="activeKey === '4'" mark
-          >关闭后，验证页面变为空白
-          <span v-if="refuneCount > 0">(买家退款{{ refuneCount }}条)</span>
-          <span v-else>(买家退款等)</span>
+        <a-typography-text v-show="activeKey === '1'" mark>已打开验证页面，但还没点击开始验证</a-typography-text>
+        <a-typography-text v-show="activeKey === '0'" mark>所有状态</a-typography-text>
+        <a-typography-text v-show="activeKey === '2'" mark>验证结束后，系统将关闭页面及教程</a-typography-text>
+        <a-typography-text v-show="activeKey === '4'" mark>
+          <span v-if="dataList?.total === 0">买家申请退款，记得销毁验证页面</span>
+          <span v-else>
+            <span>管理员关闭{{ dataList?.total - refuneCount }}条</span>
+            <span v-if="refuneCount > 0">+买家主动退款{{ refuneCount }}条</span>
+            <span v-else>买家主动退款</span>
+          </span>
         </a-typography-text>
       </span>
     </div>
@@ -26,7 +29,7 @@
                 <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
               </a-typography-paragraph>
 
-              <a-dropdown v-if="item?.valid !== -1">
+              <a-dropdown v-if="item?.valid !== -1 && item?.status > 0 && item?.status < 4">
                 <a class="ant-dropdown-link">
                   操作
                   <DownOutlined />
@@ -35,11 +38,12 @@
                   <a-menu>
                     <a-menu-item>
                       <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证</a-button>
-                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">关闭验证</a-button>
+                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">销毁验证</a-button>
                     </a-menu-item>
                   </a-menu>
                 </template>
               </a-dropdown>
+              <span v-else> 页面空白 </span>
             </template>
             <template #title>
               <div>
@@ -152,6 +156,8 @@
       case 2:
         return 'processing';
       case 3:
+        return 'cyan';
+      case 4:
         return 'success';
       case -1:
       case -2:

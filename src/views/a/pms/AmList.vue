@@ -46,10 +46,10 @@
         <template #suffix> <a-button @click="queryList" type="primary">查询</a-button> </template>
       </a-input>
       <a-tabs :animated="false" v-model:activeKey="activeKey">
-        <a-tab-pane key="4" tab="关闭" />
+        <a-tab-pane key="4" tab="退款" />
         <a-tab-pane key="1" tab="打开" />
         <a-tab-pane key="0" tab="全部" />
-        <a-tab-pane key="2" tab="验证" />
+        <a-tab-pane key="2" tab="成交" />
       </a-tabs>
       <AmDataList ref="AmDataListRef" class="w-full" />
     </div>
