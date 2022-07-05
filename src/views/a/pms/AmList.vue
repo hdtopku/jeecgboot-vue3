@@ -17,20 +17,6 @@
           <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
         </a-space>
       </transition>
-      <a-row class="w-full">
-        <a-col :span="4">
-          <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
-        </a-col>
-        <a-col :span="12">
-          <a-slider v-model:value="count" :min="1" :max="500" />
-        </a-col>
-        <a-col class="text-center" :span="8">
-          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
-          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
-          </a-popconfirm>
-        </a-col>
-      </a-row>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
         <template #prefix>
           <span v-if="advanced">
@@ -45,6 +31,20 @@
         </template>
         <template #suffix> <a-button @click="queryList" type="primary">查询</a-button> </template>
       </a-input>
+      <a-row class="w-full mt-2">
+        <a-col :span="4">
+          <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+        </a-col>
+        <a-col :span="12">
+          <a-slider v-model:value="count" :min="1" :max="500" />
+        </a-col>
+        <a-col class="text-center" :span="8">
+          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
+            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          </a-popconfirm>
+        </a-col>
+      </a-row>
       <a-tabs :animated="false" v-model:activeKey="activeKey">
         <a-tab-pane key="4" tab="退款" />
         <a-tab-pane key="1" tab="打开" />
