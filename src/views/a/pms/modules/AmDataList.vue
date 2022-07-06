@@ -4,8 +4,8 @@
       <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
       <span>
         <a-typography-text v-show="activeKey === '1'" mark>已打开验证页面，但还没点击开始验证</a-typography-text>
-        <a-typography-text v-show="activeKey === '0'" mark>所有状态</a-typography-text>
-        <a-typography-text v-show="activeKey === '2'" mark>验证结束后，系统将教程及页面至空白</a-typography-text>
+        <a-typography-text v-show="activeKey === '0'" mark>所有状态：已打开+已开始+已关闭+退款等</a-typography-text>
+        <a-typography-text v-show="activeKey === '2'" mark>验证结束后，系统关闭教程及页面至空白</a-typography-text>
         <a-typography-text v-show="activeKey === '4'" mark>
           <span v-if="dataList?.total === 0">买家申请退款，记得销毁验证页面</span>
           <span v-else>
