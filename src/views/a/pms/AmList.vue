@@ -17,7 +17,7 @@
           <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
         </a-space>
       </transition>
-      <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链，或模糊搜索激活码" @search="queryList">
+      <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链，或模糊搜索激活码" @search="queryList" size="large">
         <template #prefix>
           <span v-if="advanced">
             <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
