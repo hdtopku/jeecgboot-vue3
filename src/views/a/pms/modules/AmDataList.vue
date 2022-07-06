@@ -29,7 +29,7 @@
                 <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
               </a-typography-paragraph>
 
-              <a-dropdown v-if="item?.valid !== -1 && item?.status > 0 && item?.status < 4">
+              <a-dropdown v-if="item?.valid !== -1 && item?.status > -1 && item?.status < 4">
                 <a class="ant-dropdown-link">
                   操作
                   <DownOutlined />
