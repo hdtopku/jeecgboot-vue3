@@ -29,7 +29,7 @@
             <a-button @click="clickPaste">粘贴</a-button>
           </span>
         </template>
-        <template #suffix> <a-button @click="queryList" type="primary">模糊查询</a-button> </template>
+        <template #suffix> </template>
       </a-input>
       <a-row class="w-full mt-2">
         <a-col :span="4">
@@ -45,10 +45,14 @@
           </a-popconfirm>
         </a-col>
       </a-row>
-      <a-tabs :animated="false" v-model:activeKey="activeKey">
+      <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
         <a-tab-pane key="4" tab="退款" />
         <a-tab-pane key="1" tab="打开" />
-        <a-tab-pane key="0" tab="全部" />
+        <a-tab-pane key="0">
+          <template #tab>
+            <span> 刷新 </span>
+          </template>
+        </a-tab-pane>
         <a-tab-pane key="2" tab="成交" />
       </a-tabs>
       <AmDataList ref="AmDataListRef" class="w-full" />
@@ -56,7 +60,7 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-  import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
+  import { getCurrentInstance, onMounted, ref, watch } from 'vue';
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   import { getCodes } from './Am.api';
   import { message } from 'ant-design-vue';
@@ -104,7 +108,11 @@
   const activeKey = ref('0');
   const { hasPermission } = usePermission();
   const router = useRouter();
-
+  const tabClick = (tabKey) => {
+    activeKey.value = tabKey;
+    queryList();
+    AmDataListRef.value.changeActiveKey(tabKey);
+  };
   const queryList = () => {
     let params = { keyword: keyword.value, pageNo: 1, pageSize: 30, username };
     if (startDate.value != null) {
@@ -139,10 +147,6 @@
     queryList();
   });
   watch(endDate, queryList);
-  watch(activeKey, () => {
-    queryList();
-    AmDataListRef.value.changeActiveKey(activeKey);
-  });
   const clickHelp = () => {
     router.push('/pms/am/help');
   };

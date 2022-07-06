@@ -133,7 +133,7 @@
   };
   const activeKey = ref('0');
   const changeActiveKey = (key) => {
-    activeKey.value = key.value;
+    activeKey.value = key;
   };
   defineExpose({ initQuery, changeActiveKey });
 
