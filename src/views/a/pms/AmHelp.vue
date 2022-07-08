@@ -120,6 +120,16 @@
 
       <a-tab-pane key="3" tab="服务">
         <a-divider><a-typography-title :level="2">关于退款</a-typography-title></a-divider>
+        <div>
+          <a-typography-link href="https://ecrm.taobao.com/p/customer/ecrm_member_list.htm?spm=a1za3.8455205" target="_blank"> 1、禁止客户下单、禁止顾客购买、禁拍 </a-typography-link>
+        </div>
+        <div><a-typography-link href="https://tousu.taobao.com/?spm=a2oq0.12575281.category.d769.12591debXpN1hS#/case/34952305" target="_blank"> 2、差评投诉 </a-typography-link></div>
+        <div><a-typography-link href="https://qn.taobao.com/home.htm/comment-manage/list/rateWait4PC?current=1&pageSize=20" target="_blank"> 3、评价列表 </a-typography-link></div>
+        <div>
+          <a-typography-link href="https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu" target="_blank"> 4、淘宝保证金 </a-typography-link>、
+          <a-typography-link href="https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe" target="_blank"> 旧版保证金 </a-typography-link>
+        </div>
+        <div><a-typography-text :copyable="{ text: getBadRateText() }"> 5、复制改评链接 </a-typography-text></div>
         <a-typography-paragraph>
           <blockquote>
             凡是申请退款，<a-typography-text mark>一律无理由同意退款</a-typography-text>，无需与买家理论，有些买家就是想白嫖，不给退，就千方百计给差评。
@@ -174,7 +184,9 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-
+  const getBadRateText = () => {
+    return `亲，非常抱歉给您带来了不好的体验，任何问题都可以联系我们，这里是改评链接，麻烦亲删下哦~，这边给亲退了，亲看可以吗？ 手机端点击: https://market.m.taobao.com/app/rate-fe/rate-buyer-weex-h5/rate-edit/index.html?feedId=1179983402505&orderId=1585629482163463787电脑端点击: https://rate.taobao.com/RateDetailBuyer.htm?parentTradeId=1585629482163463787`;
+  };
   const activeKey = ref('3');
   const collapseActiveKey = ref();
 </script>
