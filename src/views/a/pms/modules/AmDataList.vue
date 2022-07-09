@@ -43,7 +43,6 @@
                   </a-menu>
                 </template>
               </a-dropdown>
-              <span v-else> 页面空白 </span>
             </template>
             <template #title>
               <div>
@@ -59,6 +58,10 @@
                 <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
                 <a-tag v-else color="error" plain plainFill> 未开始 </a-tag>
               </div>
+              <div>
+                <a-tag>最后访问</a-tag>
+                <span v-if="item?.updateTime?.length > 0">{{ item?.updateTime?.substring(5) }}</span>
+              </div>
               <div v-if="item?.refundTime?.length > 0"
                 ><a-tag color="error">买家退款</a-tag> <span>{{ item?.refundTime?.substring(5) }}</span>
               </div>
@@ -68,6 +71,7 @@
             <a-tag :color="getColor(item.status)">
               <a-typography-text :delete="item?.valid === -1"> {{ item.statusName }}</a-typography-text>
             </a-tag>
+            <div class="font-light text-sm text-gray-500" v-if="!(item?.valid !== -1 && item?.status > -1 && item?.status < 4)"> 页面空白 </div>
           </div>
         </a-list-item>
       </template>
