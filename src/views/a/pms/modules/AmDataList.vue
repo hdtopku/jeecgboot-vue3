@@ -63,7 +63,7 @@
                 <span v-if="item?.updateTime?.length > 0">{{ item?.updateTime?.substring(5) }}</span>
               </div>
               <div v-if="item?.refundTime?.length > 0"
-                ><a-tag color="error">买家退款</a-tag> <span>{{ item?.refundTime?.substring(5) }}</span>
+                ><a-tag color="error">买家退款</a-tag><span>{{ item?.refundTime?.substring(5) }}</span>
               </div>
             </template>
           </a-list-item-meta>
