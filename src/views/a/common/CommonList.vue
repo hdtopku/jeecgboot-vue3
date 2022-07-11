@@ -1,9 +1,23 @@
 <!--<CommonList ref="CommonListRef">-->
 <!--<template #header></template>-->
 <!--<template #top="{ item }"></template>-->
-<!--<template #bottom="{ item }"></template>-->
+<!--<template #bottom="{ item }">-->
+<!--      <div><a-tag>进价</a-tag></div>-->
+<!--      <div><a-tag>备注</a-tag></div>-->
+<!--</template>-->
 <!--<template #left="{ item, index }"></template>-->
 <!--<template #right="{ item }"></template>-->
+<!--<template #operate="{ item, index }">-->
+<!--  <a-menu>-->
+<!--    <a-menu-item>-->
+<!--      <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>-->
+<!--    </a-menu-item>-->
+<!--    <a-menu-item>-->
+<!--      <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>-->
+<!--      <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>-->
+<!--    </a-menu-item>-->
+<!--  </a-menu>-->
+<!--</template>-->
 <!--</CommonList>-->
 <template>
   <div class="flex justify-between">
@@ -20,7 +34,7 @@
           <template #description>
             <slot name="bottom" :item="item" :index="index"></slot>
           </template>
-          <template #avatar>
+          <template v-if="showLeft" #avatar>
             <div class="border-solid rounded">#{{ index + 1 }} </div>
             <slot name="left" :item="item" :index="index"></slot>
             <a-dropdown>
@@ -50,11 +64,6 @@
 </template>
 
 <script setup lang="ts">
-  // const CommonListRef = ref();
-  // const initQuery = (params = {}) => {
-  //   CommonListRef.value.initData(getList, params);
-  // };
-  // defineExpose({ initQuery });
   // import { ref } from 'vue';
   // import CommonList from '/@/views/a/common/CommonList.vue';
   // import { list } from '/@/views/a/pms/IdeaMember.api';
@@ -63,8 +72,24 @@
   //   CommonListRef.value.initData(list, params);
   // };
   // defineExpose({ initQuery });
+  // 最顶层
+  // import ProductDataList from './modules/ProductDataList.vue';
+  // import { onMounted, ref } from 'vue';
+  // const ProductDataListRef = ref();
+  // const queryList = () => {
+  //   ProductDataListRef.value.initQuery();
+  // };
+  // onMounted(() => {
+  //   queryList();
+  // });
   import { DownOutlined } from '@ant-design/icons-vue';
   import { computed, ref } from 'vue';
+  const props = defineProps({
+    showLeft: {
+      type: Boolean,
+      default: true,
+    },
+  });
   const loading = ref(false);
   const loadingMore = ref(false);
   const dataList = ref();
