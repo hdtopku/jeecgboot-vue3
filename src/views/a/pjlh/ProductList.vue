@@ -33,7 +33,7 @@
 <script lang="ts" setup>
   import ProductDataList from './modules/ProductDataList.vue';
   import ProductModal from './modules/ProductModal.vue';
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, watch } from 'vue';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();
   const activeKey = ref('0');
@@ -56,6 +56,7 @@
     }
     ProductDataListRef.value.initQuery(params);
   };
+  watch(keyword, queryList);
   onMounted(() => {
     queryList();
   });

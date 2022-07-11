@@ -34,14 +34,14 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
-  import { list } from '/@/views/a/pjlh/Product.api';
+  import { getList } from '/@/views/a/pjlh/Product.api';
   const emit = defineEmits(['queryList', 'handleEdit']);
   const handleEdit = (record) => {
     emit('handleEdit', record);
   };
   const CommonListRef = ref();
   const initQuery = (params = {}) => {
-    CommonListRef.value.initData(list, params);
+    CommonListRef.value.initData(getList, params);
   };
   defineExpose({ initQuery });
 </script>
