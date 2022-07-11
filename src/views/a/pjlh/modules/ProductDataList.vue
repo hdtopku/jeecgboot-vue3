@@ -2,6 +2,7 @@
   <CommonList ref="CommonListRef">
     <template #header></template>
     <template #top="{ item }">
+      <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
       {{ item.name }}
     </template>
     <template #bottom="{ item }">
@@ -21,13 +22,7 @@
         <img style="width: 100px" :src="item.pic" />
       </div>
     </template>
-    <template #operate="{ item, index }">
-      <a-menu>
-        <a-menu-item>
-          <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
-        </a-menu-item>
-      </a-menu>
-    </template>
+    <template #operate="{ item, index }"> </template>
   </CommonList>
 </template>
 
