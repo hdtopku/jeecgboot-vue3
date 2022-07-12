@@ -16,7 +16,7 @@
       </a-col>
       <a-col :span="20">
         <div class="pl-2">
-          <div class="mb-3" style="position: fixed">
+          <div class="mb-3">
             <a-input v-model:value="keyword" placeholder="输入商品名称模糊查询" allowClear>
               <template #suffix>
                 <a-button @click="queryList" type="primary">查询</a-button>
