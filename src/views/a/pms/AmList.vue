@@ -11,7 +11,7 @@
         <a-button :type="btnNum === 3 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
         <a-button :type="btnNum === 4 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
       </a-space>
-      <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">
+      <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
         <a-space v-show="advanced" class="mb-2">
           <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
           <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
