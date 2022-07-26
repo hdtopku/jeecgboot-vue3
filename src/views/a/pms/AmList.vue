@@ -6,10 +6,10 @@
           <DownOutlined v-if="advanced" />
           <UpOutlined v-else />
         </a-button>
-        <a-button :type="btnNum === 1 ? 'link' : ''" @click="clickThisMonth">本月</a-button>
-        <a-button :type="btnNum === 2 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
-        <a-button :type="btnNum === 3 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
-        <a-button :type="btnNum === 4 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
+        <a-button :type="dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
+        <a-button :type="dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
+        <a-button :type="dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
+        <a-button :type="dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
       </a-space>
       <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
         <a-space v-show="advanced" class="mb-2">
@@ -70,7 +70,7 @@
   import { usePermission } from '/@/hooks/web/usePermission';
   import { useRouter } from 'vue-router';
   import AmDataList from './modules/AmDataList.vue';
-
+  import _ from 'lodash-es';
   const advanced = ref(false);
   import moment, { Moment } from 'moment';
   const count = ref<number>(1);
@@ -83,7 +83,8 @@
   const disabledEndDate = (current: Moment) => {
     return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
   };
-  const btnNum = ref(4);
+  const dayOff = ref(0);
+  const endOff = ref(0);
   const { proxy } = getCurrentInstance();
   const btnLoading = ref(false);
   const confirmCopy = () => {
@@ -101,18 +102,13 @@
       () => (btnLoading.value = false)
     );
   };
-  let data = ref({});
+  // let data = ref({});
   const AmDataListRef = ref();
   const inputRef = ref();
   const keyword = ref<string>();
   const activeKey = ref('0');
   const { hasPermission } = usePermission();
   const router = useRouter();
-  const tabClick = (tabKey) => {
-    activeKey.value = tabKey;
-    queryList();
-    AmDataListRef.value.changeActiveKey(tabKey);
-  };
   const queryList = () => {
     let params = { keyword: keyword.value, pageNo: 1, pageSize: 30, username };
     if (startDate.value != null) {
@@ -130,6 +126,7 @@
     }
     AmDataListRef.value.initQuery(params);
   };
+  const debounceQueryList = _.debounce(queryList, 0, { trailing: true });
 
   const dealKeyword = () => {
     keyword.value = keyword.value?.trim();
@@ -139,14 +136,14 @@
     queryList();
   };
 
-  watch(keyword, dealKeyword);
+  watch(keyword, _.debounce(dealKeyword, 300, { trailing: true }));
   watch(startDate, () => {
     if (startDate.value != null && startDate.value.isAfter(endDate.value)) {
       endDate.value = startDate.value;
     }
-    queryList();
+    debounceQueryList();
   });
-  watch(endDate, queryList);
+  watch(endDate, () => debounceQueryList());
   const clickHelp = () => {
     router.push('/pms/am/help');
   };
@@ -165,20 +162,21 @@
         }
       });
   };
-  const clickThisMonth = () => {
-    btnNum.value = 1;
-    startDate.value = moment().startOf('month');
-  };
   const clickNearDay = (day, end = 0) => {
-    if (day === 30) {
-      btnNum.value = 2;
-    } else if (day === 1) {
-      btnNum.value = 3;
-    } else if (day === 0) {
-      btnNum.value = 4;
+    dayOff.value = day;
+    if (dayOff.value === 100) {
+      startDate.value = moment().startOf('month');
+      return;
     }
+    endOff.value = end;
     startDate.value = moment().subtract(day, 'day');
     endDate.value = moment().subtract(end, 'day');
+  };
+  const tabClick = (tabKey) => {
+    activeKey.value = tabKey;
+    // queryList();
+    clickNearDay(dayOff.value, endOff.value);
+    AmDataListRef.value.changeActiveKey(tabKey);
   };
   onMounted(() => {
     queryList();
