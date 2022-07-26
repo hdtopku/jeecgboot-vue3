@@ -919,6 +919,13 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@^7.7.2":
+  version "7.18.9"
+  resolved "https://registry.npmmirror.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
+  integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/standalone@^7.15.7":
   version "7.15.8"
   resolved "https://registry.npmmirror.com/@babel/standalone/download/@babel/standalone-7.15.8.tgz#3cb40b81892a702968a3e0bba2bdd1115f034876"
@@ -3487,7 +3494,7 @@ commander@*, commander@^8.2.0:
   resolved "https://registry.npmmirror.com/commander/download/commander-8.3.0.tgz?cache=0&sync_timestamp=1634886357672&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcommander%2Fdownload%2Fcommander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha1-SDfqGy2me5xhamevuw+v7lZ7ymY=
 
-commander@^2.20.0, commander@^2.8.1:
+commander@^2.20.0, commander@^2.20.3, commander@^2.8.1:
   version "2.20.3"
   resolved "https://registry.npmmirror.com/commander/download/commander-2.20.3.tgz?cache=0&sync_timestamp=1634886357672&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcommander%2Fdownload%2Fcommander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=
@@ -3927,6 +3934,11 @@ cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/cssesc/download/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha1-N3QZGZA7hoVl4cCep0dEXNGJg+4=
+
+cssfilter@0.0.10:
+  version "0.0.10"
+  resolved "https://registry.npmmirror.com/cssfilter/-/cssfilter-0.0.10.tgz#c6d2672632a2e5c83e013e6864a42ce8defd20ae"
+  integrity sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==
 
 csso@^4.2.0:
   version "4.2.0"
@@ -6156,6 +6168,13 @@ import-fresh@^3.0.0, import-fresh@^3.2.1:
     parent-module "^1.0.0"
     resolve-from "^4.0.0"
 
+import-html-entry@^1.9.0:
+  version "1.12.0"
+  resolved "https://registry.npmmirror.com/import-html-entry/-/import-html-entry-1.12.0.tgz#460dff3cd86a9774f2ae9fc44bdce3577d30a235"
+  integrity sha512-wloMEMwupKJ8DWvKsEzJTXhHVieEH8ylu9ebeQg7T9JUsPTo0Zwa1EkuSKgKJvOiA2MxAFkeYYvd/E2pKiFtWQ==
+  dependencies:
+    "@babel/runtime" "^7.7.2"
+
 import-lazy@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npm.taobao.org/import-lazy/download/import-lazy-4.0.0.tgz#e8eb627483a0a43da3c03f3e35548be5cb0cc153"
@@ -7616,7 +7635,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.npm.taobao.org/lodash.truncate/download/lodash.truncate-4.4.2.tgz?cache=0&sync_timestamp=1616980246309&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flodash.truncate%2Fdownload%2Flodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
@@ -9198,6 +9217,17 @@ q@^1.5.1:
   resolved "https://registry.nlark.com/q/download/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qiankun@^2.5.1:
+  version "2.7.4"
+  resolved "https://registry.npmmirror.com/qiankun/-/qiankun-2.7.4.tgz#53ad6a12f4d0ec0f1ef134b46102fa95c983d841"
+  integrity sha512-aihz6ue94CdalEBHBpJGD2UjY30Er0FEy8KxQuxCuEffOFvCXrvBsUm5UkfW32pu4AmAD/yB+lxad0Vzt6l5KQ==
+  dependencies:
+    "@babel/runtime" "^7.10.5"
+    import-html-entry "^1.9.0"
+    lodash "^4.17.11"
+    single-spa "^5.9.2"
+    tslib "^1.10.0"
+
 qrcode@^1.4.4:
   version "1.4.4"
   resolved "https://registry.npm.taobao.org/qrcode/download/qrcode-1.4.4.tgz#f0c43568a7e7510a55efc3b88d9602f71963ea83"
@@ -9853,6 +9883,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   version "3.0.5"
   resolved "https://registry.npmmirror.com/signal-exit/download/signal-exit-3.0.5.tgz?cache=0&sync_timestamp=1632948639339&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fsignal-exit%2Fdownload%2Fsignal-exit-3.0.5.tgz#9e3e8cc0c75a99472b44321033a7702e7738252f"
   integrity sha1-nj6MwMdamUcrRDIQM6dwLnc4JS8=
+
+single-spa@^5.9.2:
+  version "5.9.4"
+  resolved "https://registry.npmmirror.com/single-spa/-/single-spa-5.9.4.tgz#2a995b0784867a3f60ceb458de295ee67f045077"
+  integrity sha512-QkEoh0AzGuU82qnbUUk0ydF78QbU5wMKqKKJn7uUQfBiOYlRQEfIOpLM4m23Sab+kTOLI1kbYhYeiQ7fX5KVVw==
 
 sisteransi@^1.0.5:
   version "1.0.5"
@@ -10777,9 +10812,9 @@ tslib@2.3.0:
   resolved "https://registry.nlark.com/tslib/download/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
   integrity sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=
 
-tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
-  resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
+  resolved "https://registry.npmmirror.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
 tslib@^2, tslib@^2.0.3, tslib@^2.3.0:
@@ -11494,9 +11529,9 @@ vue-json-pretty@^2.0.4:
   resolved "https://registry.nlark.com/vue-json-pretty/download/vue-json-pretty-2.0.4.tgz#2f6e7f59a84e0e1ef41dd33663c3e1d1a9734a29"
   integrity sha1-L25/WahODh70HdM2Y8Ph0alzSik=
 
-vue-print-nb-jeecg@^1.0.10:
+vue-print-nb-jeecg@^1.0.11:
   version "1.0.11"
-  resolved "https://registry.npmjs.org/vue-print-nb-jeecg/-/vue-print-nb-jeecg-1.0.11.tgz#9e925732cbf4b43220bd039bb75cb342719c46b6"
+  resolved "https://registry.npmmirror.com/vue-print-nb-jeecg/-/vue-print-nb-jeecg-1.0.11.tgz#9e925732cbf4b43220bd039bb75cb342719c46b6"
   integrity sha512-oKmXayXokyvm75p5RM+hJes/6NXsBJyeIx9sFjSKgnRxfyscFraFfAj9byb/sy4/P4Pn9FtawqWc5rkgiKHWVw==
   dependencies:
     babel-plugin-transform-runtime "^6.23.0"
@@ -11920,6 +11955,14 @@ xmlchars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.nlark.com/xmlchars/download/xmlchars-2.2.0.tgz#060fe1bcb7f9c76fe2a17db86a9bc3ab894210cb"
   integrity sha1-Bg/hvLf5x2/ioX24apvDq4lCEMs=
+
+xss@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.npmmirror.com/xss/-/xss-1.0.13.tgz#6e48f616128b39f366dfadc57411e1eb5b341c6c"
+  integrity sha512-clu7dxTm1e8Mo5fz3n/oW3UCXBfV89xZ72jM8yzo1vR/pIS0w3sgB3XV2H8Vm6zfGnHL0FzvLJPJEBhd86/z4Q==
+  dependencies:
+    commander "^2.20.3"
+    cssfilter "0.0.10"
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"
