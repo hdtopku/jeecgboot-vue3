@@ -136,7 +136,7 @@
     queryList();
   };
 
-  watch(keyword, _.debounce(dealKeyword, 300, { trailing: true }));
+  watch(keyword, _.debounce(dealKeyword, 0, { trailing: true }));
   watch(startDate, () => {
     if (startDate.value != null && startDate.value.isAfter(endDate.value)) {
       endDate.value = startDate.value;
