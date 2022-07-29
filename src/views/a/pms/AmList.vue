@@ -6,10 +6,10 @@
           <DownOutlined v-if="advanced" />
           <UpOutlined v-else />
         </a-button>
-        <a-button :type="dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
-        <a-button :type="dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
-        <a-button :type="dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
-        <a-button :type="dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
+        <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
+        <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
+        <a-button :type="!rangeQuery && dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
+        <a-button :type="!rangeQuery && dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
       </a-space>
       <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
         <a-space v-show="advanced" class="mb-2">
