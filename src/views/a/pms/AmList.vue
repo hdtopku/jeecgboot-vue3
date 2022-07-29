@@ -13,8 +13,8 @@
       </a-space>
       <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
         <a-space v-show="advanced" class="mb-2">
-          <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
-          <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
+          <a-date-picker @change="clickDatePicker" allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
+          <a-date-picker @change="clickDatePicker(false)" allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
         </a-space>
       </transition>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链，或模糊搜索激活码" @search="queryList" size="large">
@@ -135,15 +135,15 @@
     }
     queryList();
   };
-
+  const rangeQuery = ref(false);
   watch(keyword, _.debounce(dealKeyword, 0, { trailing: true }));
-  watch(startDate, () => {
-    if (startDate.value != null && startDate.value.isAfter(endDate.value)) {
+  const clickDatePicker = (isStart = true) => {
+    if (isStart && startDate.value != null && startDate.value.isAfter(endDate.value)) {
       endDate.value = startDate.value;
     }
+    rangeQuery.value = true;
     debounceQueryList();
-  });
-  watch(endDate, () => debounceQueryList());
+  };
   const clickHelp = () => {
     router.push('/pms/am/help');
   };
@@ -164,18 +164,24 @@
   };
   const clickNearDay = (day, end = 0) => {
     dayOff.value = day;
+    rangeQuery.value = false;
     if (dayOff.value === 100) {
       startDate.value = moment().startOf('month');
+      debounceQueryList();
       return;
     }
     endOff.value = end;
     startDate.value = moment().subtract(day, 'day');
     endDate.value = moment().subtract(end, 'day');
+    debounceQueryList();
   };
   const tabClick = (tabKey) => {
     activeKey.value = tabKey;
-    // queryList();
-    clickNearDay(dayOff.value, endOff.value);
+    if (rangeQuery.value) {
+      queryList();
+    } else {
+      clickNearDay(dayOff.value, endOff.value);
+    }
     AmDataListRef.value.changeActiveKey(tabKey);
   };
   onMounted(() => {
