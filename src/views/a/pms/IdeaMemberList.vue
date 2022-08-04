@@ -5,6 +5,9 @@
         <a-button type="link" @click="router.push('/pms/idea')">idea分组</a-button>
         <a-button type="link" @click="router.push('/pms/idea')">idea列表</a-button>
       </a-space>
+      <div class="mb-2">
+        <a-button type="primary" @click="handleCopy">复制1条</a-button>
+      </div>
       <a-input v-model:value="keyword" placeholder="输入激活码或用户标识查询" allowClear>
         <template #suffix>
           <a-button @click="queryList" type="primary">查询</a-button>
@@ -31,6 +34,7 @@
   import { router } from '/@/router';
   const IdeaMemberDataListRef = ref();
   const [registerModal, { openModal }] = useModal();
+  import { getCodes } from './IdeaMember.api';
   onMounted(() => {
     queryList();
   });
@@ -61,6 +65,15 @@
       params.keyword = keyword.value;
     }
     IdeaMemberDataListRef.value.initQuery(params);
+  };
+  const handleCopy = () => {
+    getCodes(
+      {},
+      (res) => {
+        console.log(res);
+      },
+      () => {}
+    );
   };
   watch(keyword, queryList);
 </script>

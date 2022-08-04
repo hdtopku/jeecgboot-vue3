@@ -1,8 +1,10 @@
 import { defHttp } from '/@/utils/http/axios';
 import { Modal } from 'ant-design-vue';
+import {useMessage} from "/@/hooks/web/useMessage";
 
 enum Api {
   getList = '/pms/ideaMember/getList',
+  getCodes = '/pms/ideaMember/getCodes',
   list = '/pms/ideaMember/list',
   save = '/pms/ideaMember/add',
   edit = '/pms/ideaMember/edit',
@@ -16,6 +18,19 @@ enum Api {
  * @param params
  */
 export const getList = (params) => defHttp.get({ url: Api.getList, params });
+
+export const getCodes = (params, handleSuccess, handleError) => {
+  return defHttp
+    .get({ url: Api.getCodes, params }, { joinParamsToUrl: true })
+    .then((res) => {
+      handleSuccess(res.join('\r\n'));
+    })
+    .catch((err) => {
+      const { createMessage } = useMessage();
+      createMessage.error(err);
+      handleError();
+    });
+};
 /**
  * 导出api
  * @param params

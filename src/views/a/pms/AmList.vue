@@ -90,7 +90,7 @@
   const confirmCopy = () => {
     btnLoading.value = true;
     getCodes(
-      { count: count.value },
+      { count: count.value, username },
       (data) => {
         if (count.value === 1) {
           proxy.tool.copy(data, data.substring(27) + '已复制');
