@@ -39,7 +39,7 @@
           <a-slider v-model:value="count" :min="1" :max="500" />
         </a-col>
         <a-col class="text-center" :span="8">
-          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
+          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="username === selectName ? 'primary' : 'error'">复制{{ count }}条</a-button>
           <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
             <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" type="primary">复制{{ count }}条</a-button>
           </a-popconfirm>
