@@ -121,13 +121,17 @@
       <a-tab-pane key="3" tab="服务">
         <a-divider><a-typography-title :level="2">关于退款</a-typography-title></a-divider>
         <div>
-          <a-typography-link href="https://ecrm.taobao.com/p/customer/ecrm_member_list.htm?spm=a1za3.8455205" target="_blank"> 1、禁止客户下单、禁止顾客购买、禁拍 </a-typography-link>
+          <a-typography-text :copyable="{ text: 'https://ecrm.taobao.com/p/customer/ecrm_member_list.htm?spm=a1za3.8455205' }"> 1、禁止客户下单、禁止顾客购买、禁拍 </a-typography-text>
         </div>
-        <div><a-typography-link href="https://tousu.taobao.com/?spm=a2oq0.12575281.category.d769.12591debXpN1hS#/case/34952305" target="_blank"> 2、差评投诉 </a-typography-link></div>
-        <div><a-typography-link href="https://qn.taobao.com/home.htm/comment-manage/list/rateWait4PC?current=1&pageSize=20" target="_blank"> 3、评价列表 </a-typography-link></div>
+        <div
+          ><a-typography-text :copyable="{ text: 'https://qn.taobao.com/home.htm/comment-manage/list/rateWait4PC?current=1&pageSize=20&rate=1&explain=notExplain' }">
+            3、评价列表
+          </a-typography-text></div
+        >
+        <div><a-typography-text :copyable="{ text: 'https://tousu.taobao.com/?spm=a2oq0.12575281.category.d769.12591debXpN1hS#/case/34952305' }"> 2、差评投诉 </a-typography-text></div>
         <div>
-          <a-typography-link href="https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu" target="_blank"> 4、淘宝保证金 </a-typography-link>、
-          <a-typography-link href="https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe" target="_blank"> 旧版保证金 </a-typography-link>
+          <a-typography-text :copyable="{ text: 'https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu' }"> 4、淘宝保证金 </a-typography-text>、
+          <a-typography-text :copyable="{ text: 'https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe' }"> 旧版保证金 </a-typography-text>
         </div>
         <div><a-typography-text :copyable="{ text: getBadRateText() }"> 5、复制改评链接 </a-typography-text></div>
         <a-typography-paragraph>
