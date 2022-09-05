@@ -18,12 +18,12 @@
     </template>
     <template #bottom="{ item }">
       <div>
-        <a-tag>账号</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text>
+        <a-tag>账号密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text>
       </div>
       <div>
         <a-tag>密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.password }}</a-typography-text>
       </div>
-      <div><a-tag>激活时间</a-tag>{{ item?.activeTime?.substring(0, 10) }}</div>
+      <div><a-tag>失效时间</a-tag>{{ item?.invalidTime }}</div>
     </template>
     <template #right="{ item }">
       <div v-if="item.status === 0">

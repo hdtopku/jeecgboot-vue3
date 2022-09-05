@@ -11,22 +11,23 @@
     currentGroupId: {
       type: String;
     };
+    ideaGroup: [];
   }>();
-  const { currentGroupId } = toRefs(props);
-  const ideaGroup = ref();
-  const queryIdeaGroupList = () => {
-    listGroup({ pageSize: 1000, status: 0 }).then((res) => {
-      ideaGroup.value = res?.groups?.records;
-      currentGroupId.value = res.currentGroupId;
-    });
-  };
+  const { currentGroupId, ideaGroup } = toRefs(props);
+  // const ideaGroup = ref();
+  // const queryIdeaGroupList = () => {
+  //   listGroup({ pageSize: 1000, status: 0 }).then((res) => {
+  //     ideaGroup.value = res?.groups?.records;
+  //     // currentGroupId.value = res.currentGroupId;
+  //   });
+  // };
   const emit = defineEmits(['changeGroup']);
   const handleChange = (groupId) => {
     emit('changeGroup', groupId);
   };
-  onMounted(() => {
-    queryIdeaGroupList();
-  });
+  // onMounted(() => {
+  //   queryIdeaGroupList();
+  // });
 </script>
 
 <style scoped></style>

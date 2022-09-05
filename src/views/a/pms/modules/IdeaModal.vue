@@ -36,7 +36,6 @@
     } else {
       //表单赋值
       await setFieldsValue({
-        activeTime: moment(),
         invalidTime: moment().add(1, 'years'),
       });
     }

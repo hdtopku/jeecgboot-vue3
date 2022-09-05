@@ -6,28 +6,29 @@
       <a-typography-text v-show="activeKey === '2'" mark>有效+失效的用户</a-typography-text>
     </template>
     <template #top="{ item }">
-      <a-tag> <a-typography-text :delete="item?.status === -1">用户标识</a-typography-text> </a-tag>
+      <a-tag> <a-typography-text :delete="item?.valid === -1">用户标识</a-typography-text> </a-tag>
       <a-typography-text copyable>
         <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>
       </a-typography-text>
     </template>
     <template #bottom="{ item }">
-      <div><a-tag>用户有效期</a-tag>{{ item?.validTime?.substring(0, 10) }}</div>
-      <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
-      <a-tag>绑定分组</a-tag><IdeaGroupSelect :currentGroupId="item.ideaGroupId" @changeGroup="(groupId) => changeGroup(item.id, groupId)" />
-      <div>
-        <a-tag> <a-typography-text :delete="item?.ideaStatus === -1">账号密码</a-typography-text> </a-tag
-        ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
-          <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
-          <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text></a-typography-text
-        >
-      </div>
-      <div><a-tag>账号有效期</a-tag>{{ item?.ideaInvalidTime?.substring(0, 10) }}</div>
+      <div><a-tag>打开时间</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>激活时间</a-tag>{{ item?.activeTime }}</div>
+      <div><a-tag>有效期至</a-tag>{{ item?.invalidTime }}</div>
+      <!--      <a-tag>绑定分组</a-tag><IdeaGroupSelect :ideaGroup="ideaGroup" :currentGroupId="item.ideaGroupId" @changeGroup="(groupId) => changeGroup(item.id, groupId)" />-->
+      <!--      <div>-->
+      <!--        <a-tag> <a-typography-text :delete="item?.ideaStatus === -1">账号密码</a-typography-text> </a-tag-->
+      <!--        ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">-->
+      <!--          <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>-->
+      <!--          <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text></a-typography-text-->
+      <!--        >-->
+      <!--      </div>-->
+      <!--      <div><a-tag>账号有效期</a-tag>{{ item?.ideaInvalidTime?.substring(0, 10) }}</div>-->
     </template>
     <template #left="{ item }">
       <div>
         <a-typography-text copyable>
-          <span class="" :class="item?.status === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
+          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
         </a-typography-text>
       </div>
     </template>
@@ -37,8 +38,8 @@
           <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
         </a-menu-item>
         <a-menu-item>
-          <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
-          <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
+          <a-button v-if="item.valid === 0" @click="changeValid(item, -1)" type="link" size="small" danger>失效</a-button>
+          <a-button v-if="item.valid === -1" @click="changeValid(item, 0)" type="link" size="small">恢复</a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -51,6 +52,16 @@
   import IdeaGroupSelect from './IdeaGroupSelect.vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
   import { getList, saveOrUpdate } from '/@/views/a/pms/IdeaMember.api';
+  import { list as listGroup } from '/@/views/a/pms/IdeaGroup.api';
+
+  const ideaGroup = ref();
+  const queryIdeaGroupList = () => {
+    listGroup({ pageSize: 1000, status: 0 }).then((res) => {
+      ideaGroup.value = res?.groups?.records;
+      // currentGroupId.value = res.currentGroupId;
+    });
+  };
+  queryIdeaGroupList();
 
   const copyAccount = (account, password) => {
     return `账号【${account}】
@@ -62,8 +73,8 @@
       emit('queryList');
     });
   };
-  const changeStatus = (record, status) => {
-    record.status = status;
+  const changeValid = (record, valid) => {
+    record.valid = valid;
     saveOrUpdate(record, true).then(() => {
       emit('queryList');
     });

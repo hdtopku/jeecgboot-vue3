@@ -1,6 +1,5 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import moment from 'moment';
 
 export const columns: BasicColumn[] = [
   {
@@ -58,21 +57,6 @@ export const formSchema: FormSchema[] = [
         message: '请输入密码',
       },
     ],
-  },
-  {
-    label: '激活时间',
-    helpMessage: '默认为当前时间',
-    field: 'activeTime',
-    component: 'DatePicker',
-    componentProps: ({ formModel }) => {
-      return {
-        showTime: true,
-        valueFormat: 'YYYY-MM-DD hh:mm:ss',
-        onChange: (val) => {
-          formModel.invalidTime = moment(val).add(1, 'years');
-        },
-      };
-    },
   },
   {
     label: '失效时间',

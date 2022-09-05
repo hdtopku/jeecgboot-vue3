@@ -33,7 +33,8 @@
     <div class="flex flex-wrap justify-evenly">
       <a-tabs :animated="false" v-model:activeKey="activeKey">
         <a-tab-pane key="-1" tab="失效" />
-        <a-tab-pane key="0" tab="正常" />
+        <a-tab-pane key="0" tab="待用" />
+        <a-tab-pane key="1" tab="使用" />
         <a-tab-pane key="2" tab="全部" />
       </a-tabs>
     </div>

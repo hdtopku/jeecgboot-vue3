@@ -50,8 +50,8 @@ export const formSchema: FormSchema[] = [
     ],
   },
   {
-    label: '有效时间',
-    field: 'validTime',
+    label: '有效期至',
+    field: 'invalidTime',
     component: 'DatePicker',
     componentProps: {
       showTime: true,
