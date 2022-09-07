@@ -36,7 +36,6 @@
           </template>
           <template v-if="showLeft" #avatar>
             <div class="border-solid rounded">#{{ index + 1 }} </div>
-            <slot name="left" :item="item" :index="index"></slot>
             <a-dropdown>
               <a class="ant-dropdown-link">
                 操作
@@ -46,6 +45,7 @@
                 <slot name="operate" :item="item" :index="index"></slot>
               </template>
             </a-dropdown>
+            <slot name="left" :item="item" :index="index"></slot>
           </template>
         </a-list-item-meta>
         <slot name="right" :item="item" :index="index"></slot>

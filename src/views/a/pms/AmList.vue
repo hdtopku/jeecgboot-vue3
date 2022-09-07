@@ -33,7 +33,7 @@
       </a-input>
       <a-row class="w-full mt-2">
         <a-col :span="4">
-          <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+          <a-button class="animate__animated animate__heartBeat animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
         </a-col>
         <a-col :span="12">
           <a-slider v-model:value="count" :min="1" :max="500" />

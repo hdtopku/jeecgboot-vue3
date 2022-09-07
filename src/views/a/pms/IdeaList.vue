@@ -1,41 +1,34 @@
 <template>
   <a-card size="small">
-    <transition v-if="advanced" enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">
-      <div v-show="advanced" class="flex flex-wrap justify-evenly">
-        <a-space class="mb-2">
-          <a-button @click="jumpToJet" type="link" shape="round"><LinkOutlined />JET官网 </a-button>
-        </a-space>
-        <a-space class="mb-2">
-          <a-date-picker allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
-          <a-date-picker allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
-        </a-space>
-      </div>
-    </transition>
     <div class="flex flex-wrap justify-evenly">
       <a-space>
-        <a-button type="link" @click="advanced = !advanced">
-          <DownOutlined v-if="advanced" />
-          <UpOutlined v-else />
-        </a-button>
-        <a-button type="primary" @click="handleAdd">新增</a-button>
+        <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">
+          <div class="flex flex-wrap justify-evenly">
+            <a-button type="link" @click="advanced = !advanced">
+              <DownOutlined v-if="advanced" />
+              <UpOutlined v-else />
+            </a-button>
+          </div>
+        </transition>
 
-        <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴账号或密码查询" @search="queryList">
+        <a-input size="large" ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴账号或密码查询" @search="queryList">
           <template v-if="advanced" #prefix>
             <a-button @click="clickPaste">粘贴</a-button>
           </template>
           <template #suffix>
-            <a-button @click="queryList" type="primary">查询</a-button>
+            <a-button v-if="advanced" type="primary" @click="handleAdd">新增</a-button>
           </template>
         </a-input>
+        <a-button @click="jumpToJet" type="link" shape="round"><LinkOutlined /> </a-button>
       </a-space>
     </div>
 
     <div class="flex flex-wrap justify-evenly">
-      <a-tabs :animated="false" v-model:activeKey="activeKey">
+      <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
         <a-tab-pane key="-1" tab="失效" />
         <a-tab-pane key="0" tab="待用" />
-        <a-tab-pane key="1" tab="使用" />
-        <a-tab-pane key="2" tab="全部" />
+        <a-tab-pane key="1" tab="在用" />
+        <a-tab-pane key="5" tab="全部" />
       </a-tabs>
     </div>
     <IdeaDataList ref="IdeaDataListRef" @handleEdit="handleEdit" />
@@ -104,7 +97,7 @@
     queryList();
   };
   const IdeaDataListRef = ref();
-  const activeKey = ref('0');
+  const activeKey = ref('1');
   const queryList = () => {
     let params = { pageNo: 1, pageSize: 30, keyword: keyword.value };
     if (startDate.value != null) {
@@ -127,10 +120,11 @@
     }
     queryList();
   });
-  watch(activeKey, () => {
+  const tabClick = (tabKey) => {
+    activeKey.value = tabKey;
     IdeaDataListRef.value.changeActiveKey(activeKey);
     queryList();
-  });
+  };
   watch(endDate, queryList);
   onMounted(() => {
     queryList();

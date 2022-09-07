@@ -1,34 +1,45 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text v-show="activeKey === '0'" mark>有效的分组</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1'" mark>失效的分组</a-typography-text>
-      <a-typography-text v-show="activeKey === '2'" mark>有效+失效的分组</a-typography-text>
+      <a-typography-text v-show="activeKey === '-1'" mark>失效的账号</a-typography-text>
+      <a-typography-text v-show="activeKey === '0'" mark>待启用的账号</a-typography-text>
+      <a-typography-text v-show="activeKey === '1'" mark>使用中的账号</a-typography-text>
+      <a-typography-text v-show="activeKey === '5'" mark>所有账号</a-typography-text>
+    </template>
+    <template #left="{ item, index }">
+      <div class="mt-1">
+        <a-typography-text :copyable="{ text: copyAccount(item.account, item.password) }">账密</a-typography-text>
+      </div>
     </template>
     <template #operate="{ item, index }">
-      <a-menu>
-        <a-menu-item>
-          <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
-        </a-menu-item>
-        <a-menu-item>
-          <a-button v-if="item.status === 0" @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
-          <a-button v-if="item.status === -1" @click="changeStatus(item, 0)" type="link" size="small">恢复</a-button>
-        </a-menu-item>
-      </a-menu>
+      <div>
+        <a-menu>
+          <a-menu-item>
+            <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item.status === 0 || item.status === 1">
+            <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item.status === -1 || item.status === 1">
+            <a-button @click="changeStatus(item, 0)" type="link" size="small">待用</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item.status === -1 || item.status === 0">
+            <a-button @click="changeStatus(item, 1)" type="link" size="small">在用</a-button>
+          </a-menu-item>
+        </a-menu>
+      </div>
     </template>
     <template #bottom="{ item }">
       <div>
-        <a-tag>账号密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text>
+        <a-tag>账号</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.account }}</a-typography-text>
       </div>
       <div>
         <a-tag>密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.password }}</a-typography-text>
       </div>
-      <div><a-tag>失效时间</a-tag>{{ item?.invalidTime }}</div>
+      <div><a-tag>有效期至</a-tag>{{ item?.invalidTime }}</div>
     </template>
     <template #right="{ item }">
-      <div v-if="item.status === 0">
-        <a-typography-text :copyable="{ text: copyAccount(item.account, item.password) }">复制账密</a-typography-text>
-      </div>
+      <div> </div>
     </template>
   </CommonList>
 </template>

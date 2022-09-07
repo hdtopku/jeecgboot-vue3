@@ -59,7 +59,7 @@ export const formSchema: FormSchema[] = [
     ],
   },
   {
-    label: '失效时间',
+    label: '有效期至',
     helpMessage: '默认为激活时间+1年',
     field: 'invalidTime',
     component: 'DatePicker',

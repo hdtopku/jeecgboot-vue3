@@ -25,7 +25,7 @@
                 >#{{ index + 1 }}
                 <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>
               </div>
-              <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" copyable>
+              <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" :copyable="{ text: copyLink(item.code) }">
                 <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
               </a-typography-paragraph>
 
@@ -140,7 +140,9 @@
     activeKey.value = key;
   };
   defineExpose({ initQuery, changeActiveKey });
-
+  const copyLink = (code) => {
+    return 'https://c.taojingling.cn/c/' + code;
+  };
   const refuneCount = ref(0);
   watch(dataList, () => {
     refuneCount.value = 0;
