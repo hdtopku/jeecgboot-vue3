@@ -94,7 +94,7 @@
   const loadingMore = ref(false);
   const dataList = ref();
   const listFunction = ref();
-  const queryParams = ref();
+  const queryParams = ref(); // loadMore记录上一次参数
   const initData = (list: Function, params: { pageNo: 1; pageSize: 30 }, loadMore = false) => {
     listFunction.value = list;
     queryParams.value = params;

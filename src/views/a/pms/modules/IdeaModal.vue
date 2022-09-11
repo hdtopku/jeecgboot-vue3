@@ -36,7 +36,7 @@
     } else {
       //表单赋值
       await setFieldsValue({
-        invalidTime: moment().add(1, 'years'),
+        invalidTime: moment().add(364, 'days'),
       });
     }
   });

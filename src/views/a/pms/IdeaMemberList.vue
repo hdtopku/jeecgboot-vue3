@@ -2,8 +2,7 @@
   <a-card size="small">
     <div>
       <a-space class="mt-2">
-        <a-button type="link" @click="router.push('/pms/id/group')">idea分组</a-button>
-        <a-button type="link" @click="router.push('/pms/id')">idea列表</a-button>
+        <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>
       </a-space>
       <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>
         <template #suffix> </template>
