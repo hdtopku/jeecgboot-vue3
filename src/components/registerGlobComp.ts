@@ -16,6 +16,7 @@ import {
   List,
   Tabs,
   Descriptions,
+  DescriptionsItem,
   Tree,
   Table,
   Divider,
@@ -73,6 +74,7 @@ export function registerGlobComp(app: App) {
     .use(Card)
     .use(List)
     .use(Descriptions)
+    .use(DescriptionsItem)
     .use(Tree)
     .use(TreeSelect)
     .use(Table)
