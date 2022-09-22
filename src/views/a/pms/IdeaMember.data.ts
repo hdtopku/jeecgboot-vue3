@@ -69,8 +69,6 @@ export const formSchema: FormSchema[] = [
     field: 'ideaId',
     component: 'Select',
     componentProps: ({ schema, formModel }) => {
-      console.log('form:', schema);
-      console.log('formModel:', formModel);
       const options = ref([]);
       getList({ pageSize: 1000, status: 1 }).then((res) => {
         res?.records?.forEach((item) => {
@@ -84,6 +82,7 @@ export const formSchema: FormSchema[] = [
         onChange: (e: any) => {
           console.log(e);
         },
+        optionLabelProp: 'label',
       };
     },
   },

@@ -7,14 +7,15 @@
     </template>
     <template #top="{ item }">
       <a-tag> <a-typography-text>标识</a-typography-text> </a-tag>
-      <a-typography-text v-if="item?.identity.length > 0" copyable>
-        <span>{{ item.identity }}</span>
-        <!--        <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>-->
-      </a-typography-text>
+      <span v-if="item?.identity.length > 0">{{ item.identity }}</span>
+
       <a-tag v-else color="error">未绑定</a-tag>
     </template>
     <template #bottom="{ item }">
-      <!--      <a-tag>绑定分组</a-tag><IdeaGroupSelect :ideaGroup="ideaGroup" :currentGroupId="item.ideaGroupId" @changeGroup="(groupId) => changeGroup(item.id, groupId)" />-->
+      <div><a-tag>打开</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>激活</a-tag>{{ item?.activeTime }}</div>
+      <!--      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>-->
+      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>
       <div>
         <a-tag> <a-typography-text>账密</a-typography-text> </a-tag>
         <span v-if="item?.status === 2 && item?.ideaStatus != null"
@@ -26,12 +27,6 @@
         </span>
         <a-tag v-else color="error">未关联</a-tag>
       </div>
-      <div><a-tag>打开</a-tag>{{ item?.createTime }}</div>
-      <div><a-tag>激活</a-tag>{{ item?.activeTime }}</div>
-      <!--      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>-->
-      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>
-      <div><a-tag>访问</a-tag>总次数：{{ item?.totalVisitCount }}，设备数：{{ item?.sysIps.length }}</div>
-      <div><a-tag>使用</a-tag>总次数：{{ item?.totalUseCount }}，账号数：{{ item?.ideaMemberRels.length }}</div>
     </template>
     <template #left="{ item, index }">
       <div>
@@ -39,17 +34,12 @@
           <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
       </div>
-      <div>
-        <div
-          ><span style="color: #dc2626">{{ item.totalVisitCount }}次</span>
-        </div>
-        <div>
-          <span style="color: #dc2626">{{ item?.sysIps.length }}条</span>
-        </div>
-        <div>
-          <a-button size="small" type="primary" ghost @click="showSysIpInfo(item, index)"> 详情 </a-button>
-        </div>
-      </div>
+      <div style="color: #dc2626"
+        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalVisitCount }}次访问</a> <div>{{ item?.sysIps.length }}个设备</div></div
+      >
+      <div style="color: #dc2626"
+        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalUseCount }}次使用</a> <div>{{ item?.ideaMemberRels.length }}个账号</div></div
+      >
     </template>
     <template #operate="{ item, index }">
       <a-menu>
@@ -59,6 +49,9 @@
         <a-menu-item>
           <a-button v-if="item.valid === 0" @click="changeValid(item, -1)" type="link" size="small" danger>失效</a-button>
           <a-button v-if="item.valid === -1" @click="changeValid(item, 0)" type="link" size="small">恢复</a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.status === 2">
+          <a-button type="link" size="small" @click="copyIdentity(item)">复制标识</a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -112,6 +105,9 @@
   const copyAccount = (account, password) => {
     return `账号【${account}】
 密码【${password}】`;
+  };
+  const copyIdentity = (item) => {
+    proxy.tool.copy(item?.identity + '已复制');
   };
   const emit = defineEmits(['queryList', 'handleEdit']);
   const copyLink = (code) => {
