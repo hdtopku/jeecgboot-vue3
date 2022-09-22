@@ -68,10 +68,10 @@ export const formSchema: FormSchema[] = [
     label: '选择账号',
     field: 'ideaId',
     component: 'Select',
-    componentProps: ({ schema, formModel }) => {
+    componentProps: ({}) => {
       const options = ref([]);
       getList({ pageSize: 1000, status: 1 }).then((res) => {
-        res?.records?.forEach((item) => {
+        res?.records?.forEach((item: any) => {
           options.value.push({ label: item.invalidTime + '👉 ' + item.account, value: item.id });
         });
       });

@@ -52,7 +52,7 @@
   import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   const advanced = ref(false);
-  import moment, { Moment } from 'moment';
+  import moment, { Moment } from 'dayjs';
   const count = ref<number>(1);
   const startDate = ref<Moment>(moment());
   const endDate = ref<Moment>(moment());

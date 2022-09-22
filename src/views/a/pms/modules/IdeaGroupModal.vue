@@ -26,7 +26,7 @@
   import { ref, computed, unref, toRaw } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { saveOrUpdate } from '/@/views/a/pms/IdeaGroup.api';
-  import moment from 'moment';
+  import moment from 'dayjs';
 
   defineProps({
     ideaList: {

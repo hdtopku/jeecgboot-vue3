@@ -1,36 +1,47 @@
 <template>
-  <a-card size="small">
-    <div>
-      <a-space class="mt-2">
-        <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>
-      </a-space>
+  <a-card style="padding-bottom: 200px" size="small">
+    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handleEdit="handleEdit" @queryList="queryList" />
+    <a-card size="small" class="w-full" style="position: fixed; bottom: 0; right: 0">
+      <div class="flex flex-wrap justify-evenly">
+        <a-tabs tabPosition="bottom" :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
+          <a-tab-pane key="-1" tab="失效" />
+          <a-tab-pane key="1" tab="待用" />
+          <a-tab-pane key="4" tab="刷新" />
+          <a-tab-pane key="2" tab="已用" />
+        </a-tabs>
+      </div>
       <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>
-        <template #suffix> </template>
+        <template v-if="advanced" #suffix>
+          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
+            >帮助</a-button
+          >
+        </template>
+        <template #prefix>
+          <a-button type="link" @click="changeAdvanced">
+            <DownOutlined v-if="advanced" />
+            <UpOutlined v-else />
+          </a-button>
+        </template>
       </a-input>
       <a-row class="w-full my-2">
         <a-col :span="4">
-          <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+          <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>
         </a-col>
         <a-col :span="12">
           <a-slider v-model:value="count" :min="1" :max="500" />
         </a-col>
         <a-col class="text-center" :span="8">
-          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
+            >复制{{ count }}条</a-button
+          >
           <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
+              >复制{{ count }}条</a-button
+            >
           </a-popconfirm>
         </a-col>
       </a-row>
-    </div>
-    <div class="flex flex-wrap justify-evenly">
-      <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
-        <a-tab-pane key="-1" tab="失效" />
-        <a-tab-pane key="1" tab="待用" />
-        <a-tab-pane key="4" tab="刷新" />
-        <a-tab-pane key="2" tab="已用" />
-      </a-tabs>
-    </div>
-    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handleEdit="handleEdit" @queryList="queryList" />
+    </a-card>
   </a-card>
   <IdeaMemberModal @register="registerModal" @success="queryList" />
 </template>
@@ -38,6 +49,7 @@
 <script lang="ts" setup>
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
+  import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   import { getCurrentInstance, onMounted, ref, watch } from 'vue';
   import { useModal } from '/@/components/Modal';
   import { router } from '/@/router';
@@ -50,6 +62,7 @@
     queryList();
   });
   const activeKey = ref('4');
+  const advanced = ref(false);
 
   const btnLoading = ref(false);
   const confirmCopy = () => {
@@ -91,6 +104,10 @@
   const tabClick = (tabKey) => {
     activeKey.value = tabKey;
     queryList();
+  };
+  const changeAdvanced = () => {
+    advanced.value = !advanced.value;
+    IdeaMemberDataListRef.value.changeAdvanced();
   };
   watch(keyword, queryList);
 </script>

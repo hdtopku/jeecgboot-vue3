@@ -14,13 +14,28 @@
       <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
         <a-space v-show="advanced" class="mb-2">
           <a-date-picker @change="clickDatePicker" allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
-          <a-date-picker @change="clickDatePicker(false)" allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
+          <a-date-picker
+            @change="clickDatePicker(false)"
+            allowClear
+            placeholder="结束日期"
+            :disabled-date="disabledEndDate"
+            v-model:value="endDate"
+          />
         </a-space>
       </transition>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链，或模糊搜索激活码" @search="queryList" size="large">
         <template #prefix>
           <span v-if="advanced">
-            <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
+            <a-select
+              v-if="hasPermission('am:selectUser')"
+              :loading="userLoading"
+              allowClear
+              ref="select"
+              v-model:value="selectName"
+              style="width: 120px"
+              @focus="focus"
+              @change="handleChange"
+            >
               <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
               <template v-if="userLoading" #notFoundContent>
                 <a-spin size="small" />
@@ -39,9 +54,13 @@
           <a-slider v-model:value="count" :min="1" :max="500" />
         </a-col>
         <a-col class="text-center" :span="8">
-          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
+            >复制{{ count }}条</a-button
+          >
           <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
+              >复制{{ count }}条</a-button
+            >
           </a-popconfirm>
         </a-col>
       </a-row>
@@ -72,15 +91,15 @@
   import AmDataList from './modules/AmDataList.vue';
   import _ from 'lodash-es';
   const advanced = ref(false);
-  import moment, { Moment } from 'moment';
+  import dayjs, { Dayjs } from 'dayjs';
   const count = ref<number>(1);
-  const startDate = ref<Moment>(moment());
-  const endDate = ref<Moment>(moment());
-  const disabledStartDate = (current: Moment) => {
+  const startDate = ref<Dayjs>(dayjs());
+  const endDate = ref<Dayjs>(dayjs());
+  const disabledStartDate = (current: Dayjs) => {
     // Can not select days before today and today
-    return current && current > moment().endOf('day');
+    return current && current > dayjs().endOf('day');
   };
-  const disabledEndDate = (current: Moment) => {
+  const disabledEndDate = (current: Dayjs) => {
     return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
   };
   const dayOff = ref(0);

@@ -7,7 +7,9 @@
     </template>
     <template #top="{ item }">
       <a-tag> <a-typography-text>标识</a-typography-text> </a-tag>
-      <span v-if="item?.identity.length > 0">{{ item.identity }}</span>
+      <span v-if="item?.identity.length > 0">
+        <a-typography-text :copyable="advanced"> {{ item.identity }}</a-typography-text>
+      </span>
 
       <a-tag v-else color="error">未绑定</a-tag>
     </template>
@@ -19,11 +21,16 @@
       <div>
         <a-tag> <a-typography-text>账密</a-typography-text> </a-tag>
         <span v-if="item?.status === 2 && item?.ideaStatus != null"
-          ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
-            <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
-            <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text
-            >{{ item?.ideaInvalidTime }}</a-typography-text
+          ><a-typography-text
+            :delete="item?.ideaStatus === -1"
+            :copyable="advanced ? { text: copyAccount(item.ideaAccount, item.ideaPassword) } : false"
           >
+            <a-typography-text :copyable="advanced">{{ item.ideaAccount }}</a-typography-text>
+            <div
+              ><a-typography-text :copyable="advanced">{{ item.ideaPassword }}</a-typography-text></div
+            >
+            {{ item?.ideaInvalidTime }}
+          </a-typography-text>
         </span>
         <a-tag v-else color="error">未关联</a-tag>
       </div>
@@ -35,10 +42,12 @@
         </a-typography-text>
       </div>
       <div style="color: #dc2626"
-        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalVisitCount }}次访问</a> <div>{{ item?.sysIps.length }}个设备</div></div
+        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalVisitCount }}次访问</a>
+        <div>{{ item?.sysIps.length }}个设备</div></div
       >
       <div style="color: #dc2626"
-        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalUseCount }}次使用</a> <div>{{ item?.ideaMemberRels.length }}个账号</div></div
+        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalUseCount }}次使用</a>
+        <div>{{ item?.ideaMemberRels.length }}个账号</div></div
       >
     </template>
     <template #operate="{ item, index }">
@@ -66,7 +75,9 @@
       <div>
         <a-tag>总次数：{{ sysIpInfoItem?.totalVisitCount }}</a-tag>
         <a-typography-text :copyable="{ text: copyLink(sysIpInfoItem?.code) }">
-          <span class="" :class="sysIpInfoItem?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ sysIpInfoItem?.code }}</span>
+          <span class="" :class="sysIpInfoItem?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'">
+            {{ sysIpInfoItem?.code }}</span
+          >
         </a-typography-text>
       </div>
       <div>
@@ -83,11 +94,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { getCurrentInstance, ref } from 'vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
   import { getList, saveOrUpdate } from '/@/views/a/pms/IdeaMember.api';
   import { list as listGroup } from '/@/views/a/pms/IdeaGroup.api';
   import IdeaSysIpInfo from './IdeaSysIpInfo.vue';
+  const { proxy } = getCurrentInstance();
+  const advanced = ref(false);
 
   const ideaGroup = ref();
   const showDrawer = ref(false);
@@ -153,6 +166,9 @@
   const initQuery = (params = {}) => {
     CommonListRef.value.initData(getList, params);
   };
-  defineExpose({ initQuery, changeActiveKey });
+  const changeAdvanced = () => {
+    advanced.value = !advanced.value;
+  };
+  defineExpose({ initQuery, changeActiveKey, changeAdvanced });
 </script>
 <style scoped></style>

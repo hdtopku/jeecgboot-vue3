@@ -42,18 +42,18 @@
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
   import { nextTick, onMounted, ref, watch } from 'vue';
-  import moment, { Moment } from 'moment';
+  import moment, { Dayjs } from 'dayjs';
   import { message } from 'ant-design-vue';
 
   const advanced = ref(false);
-  const startDate = ref<Moment>(moment().subtract(1.5, 'year'));
-  const endDate = ref<Moment>(moment());
+  const startDate = ref<Dayjs>(moment().subtract(1.5, 'year'));
+  const endDate = ref<Dayjs>(moment());
   const keyword = ref();
-  const disabledStartDate = (current: Moment) => {
+  const disabledStartDate = (current: Dayjs) => {
     // Can not select days before today and today
     return current && current > moment().endOf('day');
   };
-  const disabledEndDate = (current: Moment) => {
+  const disabledEndDate = (current: Dayjs) => {
     return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
   };
 

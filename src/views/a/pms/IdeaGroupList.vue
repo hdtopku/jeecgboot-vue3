@@ -4,7 +4,9 @@
       <a-space class="mb-2">
         <a-button type="link" @click="router.push('/pms/idea')">idea列表</a-button>
         <a-select style="width: 150px" v-model:value="currentGroupId" @change="updateCurGroup">
-          <a-select-option v-for="(item, index) in ideaGroup" :key="item.id" :value="item.id"> #{{ index + 1 }}|{{ item.groupName }} </a-select-option>
+          <a-select-option v-for="(item, index) in ideaGroup" :key="item.id" :value="item.id">
+            #{{ index + 1 }}|{{ item.groupName }}
+          </a-select-option>
         </a-select>
       </a-space>
       <a-space class="mb-2">
@@ -35,7 +37,7 @@
   import { onMounted, ref, watch } from 'vue';
   import { getList } from '/@/views/a/pms/Idea.api';
   import { list as listGroup, updateCurrentGroup } from '/@/views/a/pms/IdeaGroup.api';
-  import moment from 'moment';
+  import moment from 'dayjs';
   import { router } from '/@/router';
   const [registerModal, { openModal }] = useModal();
   import { useMessage } from '/@/hooks/web/useMessage';

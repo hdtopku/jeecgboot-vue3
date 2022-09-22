@@ -10,7 +10,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../Idea.data';
   import { saveOrUpdate } from '../Idea.api';
-  import moment from 'moment';
+  import dayjs from 'dayjs';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -36,7 +36,7 @@
     } else {
       //表单赋值
       await setFieldsValue({
-        invalidTime: moment().add(364, 'days'),
+        invalidTime: dayjs().add(364, 'days'),
       });
     }
   });
