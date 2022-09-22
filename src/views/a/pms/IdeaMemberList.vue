@@ -1,15 +1,6 @@
 <template>
-  <a-card style="padding-bottom: 200px" size="small">
-    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handleEdit="handleEdit" @queryList="queryList" />
-    <a-card size="small" class="w-full" style="position: fixed; bottom: 0; right: 0">
-      <div class="flex flex-wrap justify-evenly">
-        <a-tabs tabPosition="bottom" :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
-          <a-tab-pane key="-1" tab="失效" />
-          <a-tab-pane key="1" tab="待用" />
-          <a-tab-pane key="4" tab="刷新" />
-          <a-tab-pane key="2" tab="已用" />
-        </a-tabs>
-      </div>
+  <a-card size="small">
+    <div size="small" class="w-full">
       <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>
         <template v-if="advanced" #suffix>
           <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
@@ -41,7 +32,16 @@
           </a-popconfirm>
         </a-col>
       </a-row>
-    </a-card>
+      <div class="flex flex-wrap justify-evenly">
+        <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
+          <a-tab-pane key="-1" tab="失效" />
+          <a-tab-pane key="1" tab="待用" />
+          <a-tab-pane key="4" tab="刷新" />
+          <a-tab-pane key="2" tab="已用" />
+        </a-tabs>
+      </div>
+    </div>
+    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handleEdit="handleEdit" @queryList="queryList" />
   </a-card>
   <IdeaMemberModal @register="registerModal" @success="queryList" />
 </template>

@@ -41,13 +41,13 @@
           <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
       </div>
-      <div style="color: #dc2626"
-        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalVisitCount }}次访问</a>
-        <div>{{ item?.sysIps.length }}个设备</div></div
+      <div style="color: #dc2626">
+        <div>{{ item?.sysIps.length }}个设备</div>
+        <a href="javascript:;" @click="showSysIpInfo(item)">{{ item?.totalVisitCount }}次访问</a></div
       >
-      <div style="color: #dc2626"
-        ><a href="javascript:;" @click="showSysIpInfo(item, index)">{{ item?.totalUseCount }}次使用</a>
-        <div>{{ item?.ideaMemberRels.length }}个账号</div></div
+      <div style="color: #dc2626">
+        <div>{{ item?.ideaUsages.length }}个账号</div
+        ><a href="javascript:;" @click="showSysIpInfo(item, true)">{{ item?.totalUseCount }}次使用</a></div
       >
     </template>
     <template #operate="{ item, index }">
@@ -58,9 +58,6 @@
         <a-menu-item>
           <a-button v-if="item.valid === 0" @click="changeValid(item, -1)" type="link" size="small" danger>失效</a-button>
           <a-button v-if="item.valid === -1" @click="changeValid(item, 0)" type="link" size="small">恢复</a-button>
-        </a-menu-item>
-        <a-menu-item v-if="item.status === 2">
-          <a-button type="link" size="small" @click="copyIdentity(item)">复制标识</a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -73,23 +70,23 @@
   <a-drawer placement="bottom" closable :visible="showDrawer" @close="onClose">
     <template #title>
       <div>
-        <a-tag>总次数：{{ sysIpInfoItem?.totalVisitCount }}</a-tag>
-        <a-typography-text :copyable="{ text: copyLink(sysIpInfoItem?.code) }">
-          <span class="" :class="sysIpInfoItem?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'">
-            {{ sysIpInfoItem?.code }}</span
+        <a-tag>总次数：{{ ipIdeaItem?.showIp ? ipIdeaItem.totalUseCount : ipIdeaItem.totalVisitCount }}</a-tag>
+        <a-typography-text :copyable="{ text: copyLink(ipIdeaItem?.code) }">
+          <span class="" :class="ipIdeaItem?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'">
+            {{ ipIdeaItem?.code }}</span
           >
         </a-typography-text>
       </div>
       <div>
-        <a-tag>总条数：{{ sysIpInfoItem?.sysIps.length }}</a-tag>
-        <a-typography-text v-if="sysIpInfoItem?.identity.length > 0" copyable>
-          <span>{{ sysIpInfoItem.identity }}</span>
+        <a-tag>总条数：{{ ipIdeaItem?.showIp ? ipIdeaItem.ideaUsages.length : ipIdeaItem?.sysIps.length }}</a-tag>
+        <a-typography-text v-if="ipIdeaItem?.identity.length > 0" copyable>
+          <span>{{ ipIdeaItem.identity }}</span>
           <!--        <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>-->
         </a-typography-text>
         <a-tag v-else color="error">未绑定</a-tag>
       </div>
     </template>
-    <IdeaSysIpInfo :sysIpInfoItem="sysIpInfoItem" />
+    <IdeaSysIpInfo :ipIdeaItem="ipIdeaItem" />
   </a-drawer>
 </template>
 
@@ -119,9 +116,6 @@
     return `账号【${account}】
 密码【${password}】`;
   };
-  const copyIdentity = (item) => {
-    proxy.tool.copy(item?.identity + '已复制');
-  };
   const emit = defineEmits(['queryList', 'handleEdit']);
   const copyLink = (code) => {
     return 'https://c.taojingling.cn/j/' + code;
@@ -142,11 +136,10 @@
         return 'error';
     }
   };
-  const sysIpInfoItem = ref();
-  const sysIpInfoIndex = ref();
-  const showSysIpInfo = (item, index) => {
-    sysIpInfoItem.value = item;
-    sysIpInfoIndex.value = index;
+  const ipIdeaItem = ref();
+  const showSysIpInfo = (item, showIp = false) => {
+    ipIdeaItem.value = item;
+    ipIdeaItem.value.showIp = showIp;
     showDrawer.value = true;
   };
   const changeValid = (record, valid) => {
