@@ -13,6 +13,8 @@
   import { useLocale } from '/@/locales/useLocale';
   import '/@/views/a/assets/css/animate.css';
 
+  // 解决日期时间国际化问题
+  import 'dayjs/locale/zh-cn';
   // support Multi-language
   const { getAntdLocale } = useLocale();
 

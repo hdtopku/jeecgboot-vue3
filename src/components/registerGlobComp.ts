@@ -10,6 +10,8 @@ import {
   Alert,
   Checkbox,
   DatePicker,
+  TimePicker,
+  Calendar,
   Radio,
   Switch,
   Card,
@@ -69,6 +71,8 @@ export function registerGlobComp(app: App) {
     .use(Breadcrumb)
     .use(Checkbox)
     .use(DatePicker)
+    .use(TimePicker)
+    .use(Calendar)
     .use(Radio)
     .use(Switch)
     .use(Card)
