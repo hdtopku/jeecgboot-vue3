@@ -74,8 +74,8 @@
         </a-tab-pane>
         <a-tab-pane key="2" tab="成交" />
       </a-tabs>
-      <AmDataList ref="AmDataListRef" class="w-full" />
     </div>
+    <AmDataList ref="AmDataListRef" class="w-full" />
   </a-card>
 </template>
 <script lang="ts" setup>
@@ -185,13 +185,13 @@
     dayOff.value = day;
     rangeQuery.value = false;
     if (dayOff.value === 100) {
-      startDate.value = moment().startOf('month');
+      startDate.value = dayjs().startOf('month');
       debounceQueryList();
       return;
     }
     endOff.value = end;
-    startDate.value = moment().subtract(day, 'day');
-    endDate.value = moment().subtract(end, 'day');
+    startDate.value = dayjs().subtract(day, 'day');
+    endDate.value = dayjs().subtract(end, 'day');
     debounceQueryList();
   };
   const tabClick = (tabKey) => {

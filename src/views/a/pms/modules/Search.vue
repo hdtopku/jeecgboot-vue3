@@ -2,7 +2,9 @@
   <a-card size="small">
     <a-row>
       <a-col :span="4">
-        <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger>帮助</a-button>
+        <a-button class="animate__animated animate__slideInLeft animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
+          >帮助</a-button
+        >
       </a-col>
       <a-col :span="12">
         <a-slider v-model:value="count" :min="1" :max="200" />
@@ -33,7 +35,16 @@
       </transition>
       <a-input ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴激活链并查询" @search="queryList">
         <template v-if="advanced" #prefix>
-          <a-select v-if="hasPermission('am:selectUser')" :loading="userLoading" allowClear ref="select" v-model:value="selectName" style="width: 120px" @focus="focus" @change="handleChange">
+          <a-select
+            v-if="hasPermission('am:selectUser')"
+            :loading="userLoading"
+            allowClear
+            ref="select"
+            v-model:value="selectName"
+            style="width: 120px"
+            @focus="focus"
+            @change="handleChange"
+          >
             <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
             <template v-if="userLoading" #notFoundContent>
               <a-spin size="small" />
@@ -52,10 +63,10 @@
   import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   const advanced = ref(false);
-  import moment, { Moment } from 'dayjs';
+  import dayjs, { Dayjs } from 'dayjs';
   const count = ref<number>(1);
-  const startDate = ref<Moment>(moment());
-  const endDate = ref<Moment>(moment());
+  const startDate = ref<Dayjs>(dayjs());
+  const endDate = ref<Dayjs>(dayjs());
   import { message } from 'ant-design-vue';
   import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
   import { getAuthCache } from '/@/utils/auth';
