@@ -6,7 +6,7 @@
       <a-typography-text v-show="activeKey === '2'" mark>有效+失效的用户</a-typography-text>
     </template>
     <template #top="{ item }">
-      <a-tag> <a-typography-text>用户标识</a-typography-text> </a-tag>
+      <a-tag> <a-typography-text>标识</a-typography-text> </a-tag>
       <a-typography-text v-if="item?.identity.length > 0" copyable>
         <span>{{ item.identity }}</span>
         <!--        <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>-->
@@ -14,27 +14,41 @@
       <a-tag v-else color="error">未绑定</a-tag>
     </template>
     <template #bottom="{ item }">
-      <div><a-tag>打开时间</a-tag>{{ item?.createTime }}</div>
-      <div><a-tag>激活时间</a-tag>{{ item?.activeTime }}</div>
-      <div><a-tag>有效期至</a-tag>{{ item?.invalidTime }}</div>
       <!--      <a-tag>绑定分组</a-tag><IdeaGroupSelect :ideaGroup="ideaGroup" :currentGroupId="item.ideaGroupId" @changeGroup="(groupId) => changeGroup(item.id, groupId)" />-->
       <div>
-        <a-tag> <a-typography-text :delete="item?.ideaStatus === -1">账号密码</a-typography-text> </a-tag
-        ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
-          <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
-          <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text></a-typography-text
-        >
+        <a-tag> <a-typography-text>账密</a-typography-text> </a-tag>
+        <span v-if="item?.status === 2 && item?.ideaStatus != null"
+          ><a-typography-text :delete="item?.ideaStatus === -1" :copyable="{ text: copyAccount(item.ideaAccount, item.ideaPassword) }">
+            <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
+            <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text
+            >{{ item?.ideaInvalidTime }}</a-typography-text
+          >
+        </span>
+        <a-tag v-else color="error">未关联</a-tag>
       </div>
-      <div><a-tag>账号截至</a-tag>{{ item?.ideaInvalidTime }}</div>
+      <div><a-tag>打开</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>激活</a-tag>{{ item?.activeTime }}</div>
+      <!--      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>-->
+      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>
+      <div><a-tag>访问</a-tag>总次数：{{ item?.totalVisitCount }}，设备数：{{ item?.sysIps.length }}</div>
+      <div><a-tag>使用</a-tag>总次数：{{ item?.totalUseCount }}，账号数：{{ item?.ideaMemberRels.length }}</div>
     </template>
     <template #left="{ item, index }">
       <div>
-        <a-typography-text :copyable="{ text: copyLink(item.code) }">
-          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
+        <a-typography-text :copyable="{ text: copyLink(item?.code) }">
+          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
       </div>
       <div>
-        <a-button @click="showSysIpInfo(item, index)" size="small">查看</a-button>
+        <div
+          ><span style="color: #dc2626">{{ item.totalVisitCount }}次</span>
+        </div>
+        <div>
+          <span style="color: #dc2626">{{ item?.sysIps.length }}条</span>
+        </div>
+        <div>
+          <a-button size="small" type="primary" ghost @click="showSysIpInfo(item, index)"> 详情 </a-button>
+        </div>
       </div>
     </template>
     <template #operate="{ item, index }">
@@ -54,7 +68,23 @@
       </a-tag>
     </template>
   </CommonList>
-  <a-drawer title="Basic Drawer" placement="bottom" closable :visible="showDrawer" @close="onClose">
+  <a-drawer placement="bottom" closable :visible="showDrawer" @close="onClose">
+    <template #title>
+      <div>
+        <a-tag>总次数：{{ sysIpInfoItem?.totalVisitCount }}</a-tag>
+        <a-typography-text :copyable="{ text: copyLink(sysIpInfoItem?.code) }">
+          <span class="" :class="sysIpInfoItem?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ sysIpInfoItem?.code }}</span>
+        </a-typography-text>
+      </div>
+      <div>
+        <a-tag>总条数：{{ sysIpInfoItem?.sysIps.length }}</a-tag>
+        <a-typography-text v-if="sysIpInfoItem?.identity.length > 0" copyable>
+          <span>{{ sysIpInfoItem.identity }}</span>
+          <!--        <span :class="item.status === -1 ? 'line-through text-gray-400' : ''">{{ item.identity }}</span>-->
+        </a-typography-text>
+        <a-tag v-else color="error">未绑定</a-tag>
+      </div>
+    </template>
     <IdeaSysIpInfo :sysIpInfoItem="sysIpInfoItem" />
   </a-drawer>
 </template>

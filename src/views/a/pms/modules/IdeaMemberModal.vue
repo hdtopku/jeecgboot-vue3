@@ -10,6 +10,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../IdeaMember.data';
   import { saveOrUpdate } from '../IdeaMember.api';
+
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);

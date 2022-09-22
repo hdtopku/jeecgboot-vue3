@@ -25,7 +25,7 @@
     <div class="flex flex-wrap justify-evenly">
       <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
         <a-tab-pane key="-1" tab="失效" />
-        <a-tab-pane key="1" tab="打开" />
+        <a-tab-pane key="1" tab="待用" />
         <a-tab-pane key="4" tab="刷新" />
         <a-tab-pane key="2" tab="已用" />
       </a-tabs>

@@ -1,5 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import { getList } from '/@/views/a/pms/Idea.api';
+import { ref } from 'vue';
 
 export const columns: BasicColumn[] = [
   {
@@ -61,5 +63,28 @@ export const formSchema: FormSchema[] = [
         message: '请选择有效截至日期',
       },
     ],
+  },
+  {
+    label: '选择账号',
+    field: 'ideaId',
+    component: 'Select',
+    componentProps: ({ schema, formModel }) => {
+      console.log('form:', schema);
+      console.log('formModel:', formModel);
+      const options = ref([]);
+      getList({ pageSize: 1000, status: 1 }).then((res) => {
+        res?.records?.forEach((item) => {
+          options.value.push({ label: item.invalidTime + '👉 ' + item.account, value: item.id });
+        });
+      });
+      return {
+        options: options.value,
+        showSearch: true,
+        placeholder: '请选择账号',
+        onChange: (e: any) => {
+          console.log(e);
+        },
+      };
+    },
   },
 ];
