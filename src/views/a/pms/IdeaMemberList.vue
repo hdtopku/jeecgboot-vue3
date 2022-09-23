@@ -4,29 +4,23 @@
       <Search
         ref="SearchRef"
         showTop
+        showCenter
         showBottom
-        @init-query="initQuery"
+        @query-list="(params) => queryList(params, true)"
         @change-advanced="changeAdvanced"
         @confirm-copy="confirmCopy"
         placeholder="粘贴或模糊搜索激活码、用户标识"
+        :tabs="tabs"
       >
         <template #suffix>
           <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
             >帮助</a-button
           >
         </template>
-        <template #bottomLeft>
-          <a-button ghost type="link" @click="router.push('/pms/id/list')">idea管理</a-button>
+        <template #left>
+          <a-button type="link" @click="router.push('/pms/id/list')">idea管理</a-button>
         </template>
       </Search>
-      <div class="flex flex-wrap justify-evenly">
-        <a-tabs :animated="false" v-model:activeKey="activeKey" @tab-click="tabClick">
-          <a-tab-pane key="-1" tab="失效" />
-          <a-tab-pane key="1" tab="待用" />
-          <a-tab-pane key="4" tab="刷新" />
-          <a-tab-pane key="2" tab="已用" />
-        </a-tabs>
-      </div>
     </div>
     <IdeaMemberDataList ref="IdeaMemberDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
   </a-card>
@@ -44,12 +38,11 @@
   const IdeaMemberDataListRef = ref();
   const [registerModal, { openModal }] = useModal();
   const SearchRef = ref();
-  const activeKey = ref('4');
   const advanced = ref(false);
 
-  const confirmCopy = (count) => {
+  const confirmCopy = (params) => {
     getCodes(
-      { count: count.value },
+      params,
       (data) => {
         SearchRef.value.queryFinish(data);
       },
@@ -69,25 +62,32 @@
     });
   };
   const queryParams = ref();
-  const initQuery = (params) => {
-    queryParams.value = params;
-    queryList();
-  };
-  const queryList = () => {
-    let params = { pageNo: 1, pageSize: 30 };
-    if (activeKey.value != '0') {
-      params.status = activeKey.value;
+  const queryList = (params = {}, fromSearch = false) => {
+    if (fromSearch) {
+      queryParams.value = params;
+    } else {
+      params = queryParams.value;
     }
-    params.keyword = queryParams.value.keyword;
-    params.startTime = queryParams.value?.startTime;
-    params.endTime = queryParams.value?.endTime;
-    params.username = queryParams.value?.username;
     IdeaMemberDataListRef.value.initQuery(params);
   };
-  const tabClick = (tabKey) => {
-    activeKey.value = tabKey;
-    queryList();
-  };
+  const tabs = [
+    {
+      tabKey: '-1',
+      tabName: '失效',
+    },
+    {
+      tabKey: '1',
+      tabName: '待用',
+    },
+    {
+      tabKey: '0',
+      tabName: '刷新',
+    },
+    {
+      tabKey: '2',
+      tabName: '已用',
+    },
+  ];
   const changeAdvanced = () => {
     advanced.value = !advanced.value;
     IdeaMemberDataListRef.value.changeAdvanced();

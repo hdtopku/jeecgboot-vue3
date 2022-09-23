@@ -18,7 +18,7 @@
         </transition>
       </div>
 
-      <a-input size="large" v-model:value="keyword" @change="initQuery" :placeholder="placeholder" allowClear>
+      <a-input size="large" v-model:value="keyword" @change="queryList" :placeholder="placeholder" allowClear>
         <template #prefix>
           <a-button type="link" @click="changeAdvanced">
             <DownOutlined v-if="advanced" />
@@ -51,10 +51,10 @@
     </div>
   </a-card>
 
-  <!--      bottom -->
-  <a-row v-if="showBottom" class="w-full mt-2">
+  <!--      center -->
+  <a-row v-if="showCenter" class="w-full mt-2">
     <a-col :span="5">
-      <slot name="bottomLeft"></slot>
+      <slot name="left"></slot>
     </a-col>
     <a-col :span="13">
       <a-slider v-model:value="count" :min="1" :max="500" />
@@ -66,6 +66,12 @@
       </a-popconfirm>
     </a-col>
   </a-row>
+  <!--  showTabs-->
+  <div v-if="showBottom" class="flex flex-wrap justify-evenly">
+    <a-tabs size="large" :animated="false" v-model:activeKey="status" @tab-click="tabClick">
+      <a-tab-pane v-for="item in tabs" :key="item.tabKey" :tab="item.tabName" />
+    </a-tabs>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -80,7 +86,6 @@
   import { message } from 'ant-design-vue';
   import { isPc } from '/@/views/a/utils/browser.js';
   const { hasPermission } = usePermission();
-  const { proxy } = getCurrentInstance();
 
   defineProps({
     placeholder: {
@@ -91,19 +96,32 @@
       type: Boolean,
       default: false,
     },
+    showCenter: {
+      type: Boolean,
+      default: false,
+    },
     showBottom: {
       type: Boolean,
       default: false,
     },
+    tabs: {
+      type: Array,
+      default: () => [],
+    },
   });
 
-  // const startDate = ref<Dayjs>(dayjs());
-  const startDate = ref<Dayjs>(dayjs().subtract(1, 'year'));
+  const startDate = ref<Dayjs>(dayjs());
+  // const startDate = ref<Dayjs>(dayjs().subtract(1, 'year'));
   const endDate = ref<Dayjs>(dayjs());
   const keyword = ref();
-
+  const count = ref<number>(1);
+  const isSelf = ref(true);
+  const btnLoading = ref(false);
+  const userLoading = ref(false);
+  const userList = ref([]);
   const dayOff = ref(0);
   const advanced = ref(false);
+
   const disabledStartDate = (current: Dayjs) => {
     // Can not select days before today and today
     return current && current > dayjs().endOf('day');
@@ -112,30 +130,6 @@
     return (current && current > dayjs().endOf('day')) || current.isBefore(startDate.value);
   };
 
-  const emit = defineEmits(['initQuery', 'changeAdvanced', 'confirmCopy']);
-  const initQuery = () => {
-    if (startDate.value.isAfter(endDate.value)) {
-      endDate.value = startDate.value;
-    }
-    keyword.value = extractUrl(keyword?.value?.trim());
-    let idx = keyword.value?.indexOf('j/');
-    if (idx < 0) {
-      idx = keyword.value?.indexOf('c/');
-    }
-    if (idx >= 0) {
-      keyword.value = keyword.value?.substring(idx + 2);
-    }
-    emit('initQuery', {
-      startTime: startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      endTime: endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
-      keyword,
-      username,
-    });
-  };
-  const changeAdvanced = () => {
-    advanced.value = !advanced.value;
-    emit('changeAdvanced');
-  };
   const rangeQuery = ref();
   const clickNearDay = (day, end = 0) => {
     dayOff.value = day;
@@ -148,31 +142,19 @@
     }
     endDate.value = dayjs().subtract(end, 'day');
     rangeQuery.value = false;
-    initQuery();
+    queryList();
   };
   const clickDatePicker = () => {
     rangeQuery.value = true;
-    initQuery();
+    queryList();
   };
-
-  const count = ref<number>(1);
-  const isSelf = ref(true);
-  const btnLoading = ref(false);
-
-  const loginInfo = getAuthCache(LOGIN_INFO_KEY);
-  const selectName = ref();
-  let { username, realname } = loginInfo?.userInfo;
-  const originUsername = username;
-  selectName.value = realname;
-  const userLoading = ref(false);
-  const userList = ref([]);
 
   const clickPaste = () => {
     navigator.clipboard
       .readText()
       .then((text) => {
         keyword.value = text;
-        initQuery();
+        queryList();
       })
       .catch((err) => {
         if (err instanceof DOMException) {
@@ -192,19 +174,60 @@
       });
     }
   };
+  const loginInfo = getAuthCache(LOGIN_INFO_KEY);
+  const selectName = ref();
+  let { username, realname } = loginInfo?.userInfo;
+  const originUsername = username;
+  selectName.value = realname;
   const handleChange = (value) => {
     username = value;
     isSelf.value = originUsername === selectName.value;
     if (value == null) {
       selectName.value = '所有人';
     }
-    initQuery();
+    queryList();
+  };
+  const status = ref('0');
+
+  const tabClick = (tabKey) => {
+    status.value = tabKey;
+    queryList();
+  };
+  // defineEmits
+  const emit = defineEmits(['queryList', 'changeAdvanced', 'confirmCopy']);
+  const queryList = () => {
+    if (startDate.value.isAfter(endDate.value)) {
+      endDate.value = startDate.value;
+    }
+    keyword.value = extractUrl(keyword?.value?.trim());
+    let idx = keyword.value?.indexOf('j/');
+    if (idx < 0) {
+      idx = keyword.value?.indexOf('c/');
+    }
+    if (idx >= 0) {
+      keyword.value = keyword.value?.substring(idx + 2);
+    }
+    emit('queryList', {
+      pageNo: 1,
+      pageSize: 30,
+      startTime: startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      keyword: keyword.value,
+      username,
+      status: status.value,
+    });
+  };
+  const changeAdvanced = () => {
+    advanced.value = !advanced.value;
+    emit('changeAdvanced');
   };
   const confirmCopy = () => {
     btnLoading.value = true;
-    emit('confirmCopy', count);
+    emit('confirmCopy', { count: count.value, username: username.value });
   };
 
+  // defineExpose
+  const { proxy } = getCurrentInstance();
   const queryFinish = (data = '') => {
     if (count.value === 1) {
       let idx = data?.indexOf('j/');
@@ -219,7 +242,7 @@
   };
   defineExpose({ queryFinish });
   onMounted(() => {
-    initQuery();
+    queryList();
   });
 </script>
 <style scoped></style>
