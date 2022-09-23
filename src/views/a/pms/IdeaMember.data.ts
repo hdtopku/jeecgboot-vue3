@@ -34,7 +34,10 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
   },
 ];
-
+interface Options {
+  label: String;
+  value: String;
+}
 export const formSchema: FormSchema[] = [
   // TODO 主键隐藏字段，目前写死为ID
   { label: '', field: 'id', component: 'Input', show: false },
@@ -69,7 +72,7 @@ export const formSchema: FormSchema[] = [
     field: 'ideaId',
     component: 'Select',
     componentProps: ({}) => {
-      const options = ref([]);
+      const options = ref<Array<Options>>([]);
       getList({ pageSize: 1000, status: 1 }).then((res) => {
         res?.records?.forEach((item: any) => {
           options.value.push({ label: item.invalidTime + '👉 ' + item.account, value: item.id });

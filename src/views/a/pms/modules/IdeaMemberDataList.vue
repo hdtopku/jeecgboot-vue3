@@ -92,26 +92,16 @@
 </template>
 
 <script lang="ts" setup>
-  import { getCurrentInstance, ref } from 'vue';
+  import { ref } from 'vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
   import { getList, saveOrUpdate } from '/@/views/a/pms/IdeaMember.api';
-  import { list as listGroup } from '/@/views/a/pms/IdeaGroup.api';
   import IdeaSysIpInfo from './IdeaSysIpInfo.vue';
-  const { proxy } = getCurrentInstance();
   const advanced = ref(false);
 
-  const ideaGroup = ref();
   const showDrawer = ref(false);
   const onClose = () => {
     showDrawer.value = false;
   };
-
-  const queryIdeaGroupList = () => {
-    listGroup({ pageSize: 1000, status: 0 }).then((res) => {
-      ideaGroup.value = res?.groups?.records;
-    });
-  };
-  queryIdeaGroupList();
 
   const copyAccount = (account, password) => {
     return `账号【${account}】

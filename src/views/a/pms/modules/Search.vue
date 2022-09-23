@@ -1,45 +1,99 @@
 <template>
   <a-card size="small">
+    <!--    top -->
     <div class="flex flex-wrap justify-evenly">
-      <a-space class="mb-2">
-        <a-button :type="dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
-        <a-button :type="dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
-        <a-button :type="dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
-        <a-button :type="dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
-      </a-space>
-      <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
-        <a-space v-show="advanced" class="mb-2">
-          <a-date-picker @change="clickDatePicker" allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
-          <a-date-picker
-            @change="clickDatePicker(false)"
-            allowClear
-            placeholder="结束日期"
-            :disabled-date="disabledEndDate"
-            v-model:value="endDate"
-          />
+      <div v-if="showTop" class="flex flex-wrap justify-evenly">
+        <a-space class="mb-2">
+          <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
+          <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
+          <a-button :type="!rangeQuery && dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
+          <a-button :type="!rangeQuery && dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
         </a-space>
-      </transition>
-      <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>
-        <template v-if="advanced" #suffix>
-          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
-            >帮助</a-button
-          >
-        </template>
+        <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
+          <a-space v-show="advanced" class="mb-2">
+            <a-date-picker @change="clickDatePicker" allowClear placeholder="开始日期" :disabled-date="disabledStartDate" v-model:value="startDate" />
+            <a-date-picker @change="clickDatePicker" allowClear placeholder="结束日期" :disabled-date="disabledEndDate" v-model:value="endDate" />
+          </a-space>
+        </transition>
+      </div>
+
+      <a-input size="large" v-model:value="keyword" @change="initQuery" :placeholder="placeholder" allowClear>
         <template #prefix>
-          <a-button type="link" @click="advanced = !advanced">
+          <a-button type="link" @click="changeAdvanced">
             <DownOutlined v-if="advanced" />
-            <UpOutlined v-else />
-          </a-button>
+            <UpOutlined v-else /> </a-button
+          ><a-space v-if="advanced">
+            <a-select
+              size=""
+              v-if="hasPermission('am:selectUser')"
+              :loading="userLoading"
+              allowClear
+              ref="select"
+              v-model:value="selectName"
+              style="width: 90px"
+              @focus="focus"
+              @change="handleChange"
+            >
+              <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
+              <template v-if="userLoading" #notFoundContent>
+                <a-spin size="small" />
+              </template>
+            </a-select>
+            <a-button ghost type="success" v-if="isPc()" @click="clickPaste">粘贴</a-button>
+          </a-space>
+          <slot name="prefix"></slot>
+        </template>
+        <template v-if="advanced" #suffix>
+          <slot name="suffix"></slot>
         </template>
       </a-input>
     </div>
   </a-card>
+
+  <!--      bottom -->
+  <a-row v-if="showBottom" class="w-full mt-2">
+    <a-col :span="4">
+      <slot name="bottomLeft"></slot>
+    </a-col>
+    <a-col :span="13">
+      <a-slider v-model:value="count" :min="1" :max="500" />
+    </a-col>
+    <a-col class="text-center" :span="7">
+      <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+      <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
+        <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+      </a-popconfirm>
+    </a-col>
+  </a-row>
 </template>
 
 <script lang="ts" setup>
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref } from 'vue';
   import dayjs, { Dayjs } from 'dayjs';
+  import { extractUrl } from '/@/utils/urlUtil';
+  import { getAuthCache } from '/@/utils/auth';
+  import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
+  import { getUserList } from '/@/api/common/api';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  import { message } from 'ant-design-vue';
+  import { isPc } from '/@/views/a/utils/browser.js';
+  const { hasPermission } = usePermission();
+
+  defineProps({
+    placeholder: {
+      type: String,
+      default: '粘贴搜索',
+    },
+    showTop: {
+      type: Boolean,
+      default: false,
+    },
+    showBottom: {
+      type: Boolean,
+      default: false,
+    },
+  });
 
   const startDate = ref<Dayjs>(dayjs().subtract(1, 'year'));
   const endDate = ref<Dayjs>(dayjs());
@@ -55,11 +109,31 @@
     return (current && current > dayjs().endOf('day')) || current.isBefore(startDate.value);
   };
 
-  const emit = defineEmits(['initQuery']);
+  const emit = defineEmits(['initQuery', 'changeAdvanced', 'confirmCopy']);
   const initQuery = () => {
-    emit('initQuery', { startDate, endDate, keyword });
+    if (startDate.value.isAfter(endDate.value)) {
+      endDate.value = startDate.value;
+    }
+    keyword.value = extractUrl(keyword?.value?.trim());
+    let idx = keyword.value?.indexOf('j/');
+    if (idx < 0) {
+      idx = keyword.value?.indexOf('c/');
+    }
+    if (idx >= 0) {
+      keyword.value = keyword.value?.substring(idx + 2);
+    }
+    emit('initQuery', {
+      startTime: startDate.value.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      keyword,
+      username,
+    });
   };
-
+  const changeAdvanced = () => {
+    advanced.value = !advanced.value;
+    emit('changeAdvanced');
+  };
+  const rangeQuery = ref();
   const clickNearDay = (day, end = 0) => {
     dayOff.value = day;
     if (dayOff.value === 100) {
@@ -68,19 +142,62 @@
       startDate.value = dayjs().subtract(day, 'day');
     }
     endDate.value = dayjs().subtract(end, 'day');
+    rangeQuery.value = false;
+    initQuery();
   };
-  const clickDatePicker = (isStart = true) => {
-    if (isStart && startDate.value.isAfter(endDate.value)) {
-      endDate.value = startDate.value;
+  const clickDatePicker = () => {
+    rangeQuery.value = true;
+    initQuery();
+  };
+
+  const count = ref<number>(1);
+  const isSelf = ref(true);
+  const btnLoading = ref(false);
+
+  const loginInfo = getAuthCache(LOGIN_INFO_KEY);
+  const selectName = ref();
+  let { username, realname } = loginInfo?.userInfo;
+  const originUsername = username;
+  selectName.value = realname;
+  const userLoading = ref(false);
+  const userList = ref([]);
+
+  const clickPaste = () => {
+    navigator.clipboard
+      .readText()
+      .then((text) => {
+        keyword.value = text;
+        initQuery();
+      })
+      .catch((err) => {
+        if (err instanceof DOMException) {
+          message.error('请手动粘贴，或允许读取剪贴板，失败原因：' + err);
+        } else {
+          message.error('请手动粘贴，失败原因：' + err);
+        }
+      });
+  };
+
+  const focus = () => {
+    if (userList.value.length === 0) {
+      userLoading.value = true;
+      getUserList({}).then((res) => {
+        userList.value = res.records;
+        userLoading.value = false;
+      });
     }
   };
-  watch(keyword, initQuery);
-  watch(startDate, () => {
-    if (startDate.value.isAfter(endDate.value)) {
-      endDate.value = startDate.value;
+  const handleChange = (value) => {
+    username = value;
+    isSelf.value = originUsername === selectName.value;
+    if (value == null) {
+      selectName.value = '所有人';
     }
-  });
-  watch(endDate, initQuery);
+    initQuery();
+  };
+  const confirmCopy = () => {
+    emit('confirmCopy', count);
+  };
   onMounted(() => {
     initQuery();
   });

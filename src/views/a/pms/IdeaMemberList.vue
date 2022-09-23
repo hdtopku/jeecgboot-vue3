@@ -1,38 +1,38 @@
 <template>
   <a-card size="small">
     <div size="small" class="w-full">
-      <!--      <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>-->
-      <!--        <template v-if="advanced" #suffix>-->
-      <!--          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger-->
-      <!--            >帮助</a-button-->
-      <!--          >-->
-      <!--        </template>-->
-      <!--        <template #prefix>-->
-      <!--          <a-button type="link" @click="changeAdvanced">-->
-      <!--            <DownOutlined v-if="advanced" />-->
-      <!--            <UpOutlined v-else />-->
-      <!--          </a-button>-->
-      <!--        </template>-->
-      <!--      </a-input>-->
-      <Search @initQuery="initQuery" />
-      <a-row class="w-full my-2">
-        <a-col :span="4">
-          <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>
-        </a-col>
-        <a-col :span="12">
-          <a-slider v-model:value="count" :min="1" :max="500" />
-        </a-col>
-        <a-col class="text-center" :span="8">
-          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
-            >复制{{ count }}条</a-button
+      <Search
+        showTop
+        showBottom
+        @init-query="initQuery"
+        @change-advanced="changeAdvanced"
+        @confirm-copy="confirmCopy"
+        placeholder="粘贴或模糊搜索激活码、用户标识"
+      >
+        <template #suffix>
+          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
+            >帮助</a-button
           >
-          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"
-              >复制{{ count }}条</a-button
-            >
-          </a-popconfirm>
-        </a-col>
-      </a-row>
+        </template>
+      </Search>
+      <!--      <a-row class="w-full my-2">-->
+      <!--        <a-col :span="4">-->
+      <!--          <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>-->
+      <!--        </a-col>-->
+      <!--        <a-col :span="12">-->
+      <!--          <a-slider v-model:value="count" :min="1" :max="500" />-->
+      <!--        </a-col>-->
+      <!--        <a-col class="text-center" :span="8">-->
+      <!--          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"-->
+      <!--            >复制{{ count }}条</a-button-->
+      <!--          >-->
+      <!--          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">-->
+      <!--            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"-->
+      <!--              >复制{{ count }}条</a-button-->
+      <!--            >-->
+      <!--          </a-popconfirm>-->
+      <!--        </a-col>-->
+      <!--      </a-row>-->
       <div class="flex flex-wrap justify-evenly">
         <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
           <a-tab-pane key="-1" tab="失效" />
@@ -50,14 +50,10 @@
 <script lang="ts" setup>
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
-  import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
-  import Search from '/@/views/a/common/Search.vue';
-  import { getCurrentInstance, onMounted, ref, watch } from 'vue';
+  import Search from '/@/views/a/pms/modules/Search.vue';
+  import { getCurrentInstance, onMounted, ref } from 'vue';
   import { useModal } from '/@/components/Modal';
-  import { router } from '/@/router';
   import { getCodes } from './IdeaMember.api';
-  import { extractUrl } from '/@/utils/urlUtil';
-  const count = ref<number>(1);
   const IdeaMemberDataListRef = ref();
   const [registerModal, { openModal }] = useModal();
   const { proxy } = getCurrentInstance();
@@ -68,7 +64,7 @@
   const advanced = ref(false);
 
   const btnLoading = ref(false);
-  const confirmCopy = () => {
+  const confirmCopy = (count) => {
     btnLoading.value = true;
     getCodes(
       { count: count.value },
@@ -83,7 +79,6 @@
       () => (btnLoading.value = false)
     );
   };
-  const queryParams = ref();
   /**
    * 编辑事件
    */
@@ -94,19 +89,20 @@
       showFooter: true,
     });
   };
+  const queryParams = ref();
   const initQuery = (params) => {
     queryParams.value = params;
+    queryList();
   };
   const queryList = () => {
     let params = { pageNo: 1, pageSize: 30 };
     if (activeKey.value != '0') {
       params.status = activeKey.value;
     }
-    if (queryParams.value.keyword.value != null && queryParams.value.keyword.value.trim() !== '') {
-      params.keyword = queryParams.value.keyword.value;
-    }
-    params.startDate = queryParams.value.startDate;
-    params.endDate = queryParams.value.endDate;
+    params.keyword = queryParams.value.keyword;
+    params.startTime = queryParams.value?.startTime;
+    params.endTime = queryParams.value?.endTime;
+    params.username = queryParams.value?.username;
     IdeaMemberDataListRef.value.initQuery(params);
   };
   const tabClick = (tabKey) => {
@@ -117,13 +113,5 @@
     advanced.value = !advanced.value;
     IdeaMemberDataListRef.value.changeAdvanced();
   };
-  watch(keyword, () => {
-    keyword.value = extractUrl(keyword.value?.trim());
-    let idx = keyword.value.indexOf('j/');
-    if (idx > 0) {
-      keyword.value = keyword.value.substring(idx + 2);
-    }
-    queryList();
-  });
 </script>
 <style scoped></style>
