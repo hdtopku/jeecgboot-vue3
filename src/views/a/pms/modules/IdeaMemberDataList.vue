@@ -14,7 +14,7 @@
       <a-tag v-else color="error">未绑定</a-tag>
     </template>
     <template #bottom="{ item }">
-      <div><a-tag>打开</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>打开</a-tag>{{ item?.openTime }}</div>
       <div><a-tag>激活</a-tag>{{ item?.activeTime }}</div>
       <!--      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>-->
       <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>
@@ -42,12 +42,13 @@
         </a-typography-text>
       </div>
       <div style="color: #dc2626">
-        <div>{{ item?.sysIps.length }}个设备</div>
-        <a href="javascript:;" @click="showSysIpInfo(item)">{{ item?.totalVisitCount }}次访问</a></div
-      >
-      <div style="color: #dc2626">
-        <div>{{ item?.ideaUsages.length }}个账号</div
-        ><a href="javascript:;" @click="showSysIpInfo(item, true)">{{ item?.totalUseCount }}次使用</a></div
+        <div
+          ><a href="javascript:;" @click="showSysIpInfo(item)">{{ item?.sysIps.length }}个设备</a></div
+        >
+        <div
+          ><a href="javascript:;" @click="showSysIpInfo(item, true)">{{ item?.ideaUsages.length }}个账号</a></div
+        >
+        总{{ item?.totalVisitCount }}次提取</div
       >
     </template>
     <template #operate="{ item, index }">
@@ -62,8 +63,8 @@
       </a-menu>
     </template>
     <template #right="{ item }">
-      <a-tag :color="getColor(item.status)">
-        <a-typography-text :delete="item?.valid === -1"> {{ item.statusName }}</a-typography-text>
+      <a-tag :color="getColor(item)">
+        <text :class="item?.valid === -1 ? 'line-through' : ''">{{ item.statusName }}</text>
       </a-tag>
     </template>
   </CommonList>
@@ -120,19 +121,16 @@
   const copyLink = (code) => {
     return 'https://c.taojingling.cn/j/' + code;
   };
-  const getColor = (status) => {
-    status = Number.parseInt(status);
-    switch (status) {
-      case 0:
+  const getColor = (item) => {
+    if (item.valid === -1) {
+      return 'error';
+    }
+    switch (Number.parseInt(item.status)) {
       case 1:
-      case 2:
         return 'processing';
-      case 3:
-        return 'cyan';
-      case 4:
+      case 2:
         return 'success';
-      case -1:
-      case -2:
+      case 0:
         return 'error';
     }
   };

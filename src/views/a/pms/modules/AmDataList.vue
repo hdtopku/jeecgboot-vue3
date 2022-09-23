@@ -46,7 +46,8 @@
             </template>
             <template #title>
               <div>
-                {{ item?.country?.indexOf('中国') > -1 || item?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : item.country }} {{ item.province }}{{ item.city }}{{ item.county }} |
+                {{ item?.country?.indexOf('中国') > -1 || item?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : item.country }} {{ item.province
+                }}{{ item.city }}{{ item.county }} |
                 {{ item.browser }}
               </div>
               <div> {{ item.operator }} | {{ item.model }} | {{ item.system }}</div>
@@ -69,7 +70,7 @@
           </a-list-item-meta>
           <div>
             <a-tag :color="getColor(item.status)">
-              <a-typography-text :delete="item?.valid === -1"> {{ item.statusName }}</a-typography-text>
+              <text :class="item?.valid === -1 ? 'line-through' : ''">{{ item.statusName }}</text>
             </a-tag>
             <div class="font-light text-sm text-gray-500" v-if="!(item?.valid !== -1 && item?.status > -1 && item?.status < 4)"> 页面空白 </div>
           </div>

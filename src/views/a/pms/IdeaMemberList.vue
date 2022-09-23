@@ -54,6 +54,7 @@
   import { useModal } from '/@/components/Modal';
   import { router } from '/@/router';
   import { getCodes } from './IdeaMember.api';
+  import { extractUrl } from '/@/utils/urlUtil';
   const count = ref<number>(1);
   const IdeaMemberDataListRef = ref();
   const [registerModal, { openModal }] = useModal();
@@ -109,6 +110,13 @@
     advanced.value = !advanced.value;
     IdeaMemberDataListRef.value.changeAdvanced();
   };
-  watch(keyword, queryList);
+  watch(keyword, () => {
+    keyword.value = extractUrl(keyword.value?.trim());
+    let idx = keyword.value.indexOf('j/');
+    if (idx > 0) {
+      keyword.value = keyword.value.substring(idx + 2);
+    }
+    queryList();
+  });
 </script>
 <style scoped></style>

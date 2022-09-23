@@ -90,6 +90,7 @@
   import { useRouter } from 'vue-router';
   import AmDataList from './modules/AmDataList.vue';
   import _ from 'lodash-es';
+  import { extractUrl } from '/@/utils/urlUtil';
   const advanced = ref(false);
   import dayjs, { Dayjs } from 'dayjs';
   const count = ref<number>(1);
@@ -148,9 +149,9 @@
   const debounceQueryList = _.debounce(queryList, 0, { trailing: true });
 
   const dealKeyword = () => {
-    keyword.value = keyword.value?.trim();
+    keyword.value = extractUrl(keyword.value?.trim());
     if (keyword.value != null && keyword.value.indexOf('c/') > -1) {
-      keyword.value = keyword.value.substring(keyword.value.indexOf('c/') + 2, keyword.value.indexOf('c/') + 8);
+      keyword.value = keyword.value.substring(keyword.value.indexOf('c/') + 2);
     }
     queryList();
   };
