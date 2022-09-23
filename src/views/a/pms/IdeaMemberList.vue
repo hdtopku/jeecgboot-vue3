@@ -1,19 +1,20 @@
 <template>
   <a-card size="small">
     <div size="small" class="w-full">
-      <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>
-        <template v-if="advanced" #suffix>
-          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
-            >帮助</a-button
-          >
-        </template>
-        <template #prefix>
-          <a-button type="link" @click="changeAdvanced">
-            <DownOutlined v-if="advanced" />
-            <UpOutlined v-else />
-          </a-button>
-        </template>
-      </a-input>
+      <!--      <a-input size="large" v-model:value="keyword" placeholder="粘贴或模糊搜索激活码、用户标识" allowClear>-->
+      <!--        <template v-if="advanced" #suffix>-->
+      <!--          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger-->
+      <!--            >帮助</a-button-->
+      <!--          >-->
+      <!--        </template>-->
+      <!--        <template #prefix>-->
+      <!--          <a-button type="link" @click="changeAdvanced">-->
+      <!--            <DownOutlined v-if="advanced" />-->
+      <!--            <UpOutlined v-else />-->
+      <!--          </a-button>-->
+      <!--        </template>-->
+      <!--      </a-input>-->
+      <Search @initQuery="initQuery" />
       <a-row class="w-full my-2">
         <a-col :span="4">
           <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>
@@ -50,6 +51,7 @@
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
+  import Search from '/@/views/a/common/Search.vue';
   import { getCurrentInstance, onMounted, ref, watch } from 'vue';
   import { useModal } from '/@/components/Modal';
   import { router } from '/@/router';
@@ -81,7 +83,7 @@
       () => (btnLoading.value = false)
     );
   };
-  const keyword = ref();
+  const queryParams = ref();
   /**
    * 编辑事件
    */
@@ -92,14 +94,19 @@
       showFooter: true,
     });
   };
+  const initQuery = (params) => {
+    queryParams.value = params;
+  };
   const queryList = () => {
     let params = { pageNo: 1, pageSize: 30 };
     if (activeKey.value != '0') {
       params.status = activeKey.value;
     }
-    if (keyword.value != null && keyword.value.trim() !== '') {
-      params.keyword = keyword.value;
+    if (queryParams.value.keyword.value != null && queryParams.value.keyword.value.trim() !== '') {
+      params.keyword = queryParams.value.keyword.value;
     }
+    params.startDate = queryParams.value.startDate;
+    params.endDate = queryParams.value.endDate;
     IdeaMemberDataListRef.value.initQuery(params);
   };
   const tabClick = (tabKey) => {
