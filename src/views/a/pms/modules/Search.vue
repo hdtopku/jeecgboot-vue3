@@ -20,10 +20,7 @@
 
       <a-input size="large" v-model:value="keyword" @change="queryList" :placeholder="placeholder" allowClear>
         <template #prefix>
-          <a-button type="link" @click="changeAdvanced">
-            <DownOutlined v-if="advanced" />
-            <UpOutlined v-else /> </a-button
-          ><a-space v-if="advanced">
+          <a-space v-if="advanced">
             <a-select
               size=""
               v-if="hasPermission('am:selectUser')"
@@ -53,10 +50,13 @@
 
   <!--      center -->
   <a-row v-if="showCenter" class="w-full mt-2">
-    <a-col :span="5">
-      <slot name="left"></slot>
+    <a-col :span="3">
+      <a-button type="link" @click="changeAdvanced">
+        <DownOutlined v-if="advanced" />
+        <UpOutlined v-else />
+      </a-button>
     </a-col>
-    <a-col :span="13">
+    <a-col :span="15">
       <a-slider v-model:value="count" :min="1" :max="500" />
     </a-col>
     <a-col class="text-center" :span="6">
@@ -66,9 +66,10 @@
       </a-popconfirm>
     </a-col>
   </a-row>
+
   <!--  showTabs-->
   <div v-if="showBottom" class="flex flex-wrap justify-evenly">
-    <a-tabs size="large" :animated="false" v-model:activeKey="status" @tab-click="tabClick">
+    <a-tabs :animated="false" v-model:activeKey="status" @tab-click="tabClick">
       <a-tab-pane v-for="item in tabs" :key="item.tabKey" :tab="item.tabName" />
     </a-tabs>
   </div>

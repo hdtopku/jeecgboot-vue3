@@ -10,7 +10,7 @@
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabs="tabs"
     >
-      <template #left>
+      <template #suffix>
         <a-button
           class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
           @click="router.push('/pms/am/help')"
