@@ -4,8 +4,9 @@
     <div class="flex flex-wrap justify-evenly">
       <div v-if="showTop" class="flex flex-wrap justify-evenly">
         <a-space class="mb-2">
-          <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
+          <a-button :type="!rangeQuery && dayOff === 365 ? 'link' : ''" @click="clickNearDay(365, 0)">今年</a-button>
           <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
+          <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
           <a-button :type="!rangeQuery && dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
           <a-button :type="!rangeQuery && dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
         </a-space>
@@ -52,13 +53,13 @@
 
   <!--      bottom -->
   <a-row v-if="showBottom" class="w-full mt-2">
-    <a-col :span="4">
+    <a-col :span="5">
       <slot name="bottomLeft"></slot>
     </a-col>
     <a-col :span="13">
       <a-slider v-model:value="count" :min="1" :max="500" />
     </a-col>
-    <a-col class="text-center" :span="7">
+    <a-col class="text-center" :span="6">
       <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
       <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
         <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
@@ -69,7 +70,7 @@
 
 <script lang="ts" setup>
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
-  import { onMounted, ref } from 'vue';
+  import { getCurrentInstance, onMounted, ref } from 'vue';
   import dayjs, { Dayjs } from 'dayjs';
   import { extractUrl } from '/@/utils/urlUtil';
   import { getAuthCache } from '/@/utils/auth';
@@ -79,6 +80,7 @@
   import { message } from 'ant-design-vue';
   import { isPc } from '/@/views/a/utils/browser.js';
   const { hasPermission } = usePermission();
+  const { proxy } = getCurrentInstance();
 
   defineProps({
     placeholder: {
@@ -95,6 +97,7 @@
     },
   });
 
+  // const startDate = ref<Dayjs>(dayjs());
   const startDate = ref<Dayjs>(dayjs().subtract(1, 'year'));
   const endDate = ref<Dayjs>(dayjs());
   const keyword = ref();
@@ -136,7 +139,9 @@
   const rangeQuery = ref();
   const clickNearDay = (day, end = 0) => {
     dayOff.value = day;
-    if (dayOff.value === 100) {
+    if (dayOff.value === 365) {
+      startDate.value = dayjs().startOf('year');
+    } else if (dayOff.value === 100) {
       startDate.value = dayjs().startOf('month');
     } else {
       startDate.value = dayjs().subtract(day, 'day');
@@ -196,8 +201,23 @@
     initQuery();
   };
   const confirmCopy = () => {
+    btnLoading.value = true;
     emit('confirmCopy', count);
   };
+
+  const queryFinish = (data = '') => {
+    if (count.value === 1) {
+      let idx = data?.indexOf('j/');
+      if (idx < 0) {
+        idx = data?.indexOf('c/');
+      }
+      proxy.tool.copy(data, data?.substring(idx + 2) + '已复制');
+    } else {
+      proxy.tool.copy(data, count.value + '条已复制');
+    }
+    btnLoading.value = false;
+  };
+  defineExpose({ queryFinish });
   onMounted(() => {
     initQuery();
   });

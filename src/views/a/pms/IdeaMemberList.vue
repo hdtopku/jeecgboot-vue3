@@ -2,6 +2,7 @@
   <a-card size="small">
     <div size="small" class="w-full">
       <Search
+        ref="SearchRef"
         showTop
         showBottom
         @init-query="initQuery"
@@ -14,27 +15,12 @@
             >帮助</a-button
           >
         </template>
+        <template #bottomLeft>
+          <a-button ghost type="link" @click="router.push('/pms/id/list')">idea管理</a-button>
+        </template>
       </Search>
-      <!--      <a-row class="w-full my-2">-->
-      <!--        <a-col :span="4">-->
-      <!--          <a-button type="link" @click="router.push('/pms/id/list')">id列表</a-button>-->
-      <!--        </a-col>-->
-      <!--        <a-col :span="12">-->
-      <!--          <a-slider v-model:value="count" :min="1" :max="500" />-->
-      <!--        </a-col>-->
-      <!--        <a-col class="text-center" :span="8">-->
-      <!--          <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"-->
-      <!--            >复制{{ count }}条</a-button-->
-      <!--          >-->
-      <!--          <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">-->
-      <!--            <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'"-->
-      <!--              >复制{{ count }}条</a-button-->
-      <!--            >-->
-      <!--          </a-popconfirm>-->
-      <!--        </a-col>-->
-      <!--      </a-row>-->
       <div class="flex flex-wrap justify-evenly">
-        <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">
+        <a-tabs :animated="false" v-model:activeKey="activeKey" @tab-click="tabClick">
           <a-tab-pane key="-1" tab="失效" />
           <a-tab-pane key="1" tab="待用" />
           <a-tab-pane key="4" tab="刷新" />
@@ -42,7 +28,7 @@
         </a-tabs>
       </div>
     </div>
-    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handleEdit="handleEdit" @queryList="queryList" />
+    <IdeaMemberDataList ref="IdeaMemberDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
   </a-card>
   <IdeaMemberModal @register="registerModal" @success="queryList" />
 </template>
@@ -51,32 +37,25 @@
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
   import Search from '/@/views/a/pms/modules/Search.vue';
-  import { getCurrentInstance, onMounted, ref } from 'vue';
+  import { ref } from 'vue';
+  import { router } from '/@/router';
   import { useModal } from '/@/components/Modal';
   import { getCodes } from './IdeaMember.api';
   const IdeaMemberDataListRef = ref();
   const [registerModal, { openModal }] = useModal();
-  const { proxy } = getCurrentInstance();
-  onMounted(() => {
-    queryList();
-  });
+  const SearchRef = ref();
   const activeKey = ref('4');
   const advanced = ref(false);
 
-  const btnLoading = ref(false);
   const confirmCopy = (count) => {
-    btnLoading.value = true;
     getCodes(
       { count: count.value },
       (data) => {
-        if (count.value === 1) {
-          proxy.tool.copy(data, data.substring(27) + '已复制');
-        } else {
-          proxy.tool.copy(data, count.value + '条已复制');
-        }
-        btnLoading.value = false;
+        SearchRef.value.queryFinish(data);
       },
-      () => (btnLoading.value = false)
+      () => {
+        SearchRef.value.queryFinish();
+      }
     );
   };
   /**

@@ -101,7 +101,7 @@
     return current && current > dayjs().endOf('day');
   };
   const disabledEndDate = (current: Dayjs) => {
-    return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
+    return (current && current > dayjs().endOf('day')) || current.isBefore(startDate.value);
   };
   const dayOff = ref(0);
   const endOff = ref(0);
