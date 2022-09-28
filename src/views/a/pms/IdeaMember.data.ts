@@ -57,7 +57,7 @@ export const formSchema: FormSchema[] = [
     field: 'invalidTime',
     component: 'DatePicker',
     componentProps: {
-      showTime: true,
+      showTime: false,
       valueFormat: 'YYYY-MM-DD hh:mm:ss',
     },
     rules: [

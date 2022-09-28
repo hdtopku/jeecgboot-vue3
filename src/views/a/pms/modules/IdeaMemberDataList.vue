@@ -14,7 +14,11 @@
       <a-tag v-else color="error">未绑定</a-tag>
     </template>
     <template #bottom="{ item }">
-      <div><a-tag>打开</a-tag>{{ item?.openTime }}</div>
+      <div
+        ><a-tag>打开</a-tag>
+        <span v-if="item?.openTime?.length > 0">{{ item?.openTime }}</span>
+        <a-tag v-else color="error">未打开</a-tag>
+      </div>
       <div><a-tag>激活</a-tag>{{ item?.activeTime }}</div>
       <!--      <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>-->
       <div><a-tag>截止</a-tag>{{ item?.invalidTime }}</div>

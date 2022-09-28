@@ -1,5 +1,5 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="96%">
+  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="96%" defaultFullscreen>
     <BasicForm @register="registerForm" autoFocusFirstItem />
   </BasicModal>
 </template>

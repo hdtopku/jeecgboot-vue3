@@ -5,18 +5,15 @@
         <div>
           <div>
             <a-tag> <a-typography-text>次数</a-typography-text> </a-tag>
-            <a-tag color="blue">共{{ item.count }}次</a-tag>
+            <a-tag color="blue">共{{ item.useCount }}次</a-tag>
           </div>
           <div>
             <a-tag> <a-typography-text>账密</a-typography-text> </a-tag>
             <span
-              ><a-typography-text
-                :delete="item?.ideaStatus === -1"
-                :copyable="true ? false : { text: copyAccount(item.ideaAccount, item.ideaPassword) }"
-              >
-                <a-typography-text copyable>{{ item.ideaAccount }}</a-typography-text>
-                <a-typography-text copyable>{{ item.ideaPassword }}</a-typography-text>
-                {{ item?.ideaInvalidTime }}
+              ><a-typography-text :delete="item?.status === -1" :copyable="{ text: copyAccount(item.account, item.password) }">
+                <a-typography-text copyable>{{ item.account }}</a-typography-text>
+                <a-typography-text copyable>{{ item.password }}</a-typography-text>
+                {{ item?.invalidTime }}
               </a-typography-text>
             </span>
           </div>

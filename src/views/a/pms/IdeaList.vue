@@ -38,10 +38,10 @@
 
 <script lang="ts" setup>
   import IdeaDataList from './modules/IdeaDataList.vue';
-  import { DownOutlined, UpOutlined, LinkOutlined } from '@ant-design/icons-vue';
+  import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
-  import { nextTick, onMounted, ref, watch } from 'vue';
+  import {  onMounted, ref, watch } from 'vue';
   import moment, { Dayjs } from 'dayjs';
   import { message } from 'ant-design-vue';
 
@@ -49,13 +49,6 @@
   const startDate = ref<Dayjs>(moment().subtract(1.5, 'year'));
   const endDate = ref<Dayjs>(moment());
   const keyword = ref();
-  const disabledStartDate = (current: Dayjs) => {
-    // Can not select days before today and today
-    return current && current > moment().endOf('day');
-  };
-  const disabledEndDate = (current: Dayjs) => {
-    return (current && current > moment().endOf('day')) || current.isBefore(startDate.value);
-  };
 
   const [registerModal, { openModal }] = useModal();
   const clickPaste = () => {

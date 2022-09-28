@@ -20,6 +20,7 @@
 
       <a-input size="large" v-model:value="keyword" @change="queryList" :placeholder="placeholder" allowClear>
         <template #prefix>
+          <slot name="prefix"></slot>
           <a-space v-if="advanced">
             <a-select
               size=""
@@ -39,7 +40,6 @@
             </a-select>
             <a-button ghost type="success" v-if="isPc()" @click="clickPaste">粘贴</a-button>
           </a-space>
-          <slot name="prefix"></slot>
         </template>
         <template v-if="advanced" #suffix>
           <slot name="suffix"></slot>

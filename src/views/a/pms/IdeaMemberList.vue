@@ -17,8 +17,8 @@
             >帮助</a-button
           >
         </template>
-        <template #left>
-          <a-button type="link" @click="router.push('/pms/id/list')">idea管理</a-button>
+        <template #prefix>
+          <a-button type="link" @click="router.push('/pms/id/list')">IDEAs</a-button>
         </template>
       </Search>
     </div>
@@ -77,7 +77,7 @@
     },
     {
       tabKey: '1',
-      tabName: '待用',
+      tabName: '打开',
     },
     {
       tabKey: '0',
