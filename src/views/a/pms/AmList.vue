@@ -38,6 +38,9 @@
     } else {
       params = queryParams.value;
     }
+    if (params?.checked) {
+      params.type = 6;
+    }
     AmDataListRef.value.initQuery(params);
   };
   const tabs = [
@@ -59,6 +62,9 @@
     },
   ];
   const confirmCopy = (params) => {
+    if (params?.checked) {
+      params.type = 6;
+    }
     getCodes(
       params,
       (data) => {

@@ -41,8 +41,9 @@
             <a-button ghost type="success" v-if="isPc()" @click="clickPaste">粘贴</a-button>
           </a-space>
         </template>
-        <template v-if="advanced" #suffix>
-          <slot name="suffix"></slot>
+        <template #suffix>
+          <slot v-if="advanced" name="suffix"></slot>
+          <a-switch @click="queryList" v-if="hasPermission('link:switch')" v-model:checked="checked" />
         </template>
       </a-input>
     </div>
@@ -122,6 +123,7 @@
   const userList = ref([]);
   const dayOff = ref(0);
   const advanced = ref(false);
+  const checked = ref(false);
 
   const disabledStartDate = (current: Dayjs) => {
     // Can not select days before today and today
@@ -201,9 +203,14 @@
       endDate.value = startDate.value;
     }
     keyword.value = extractUrl(keyword?.value?.trim());
-    let idx = keyword.value?.indexOf('j/');
+    let idx = keyword.value?.indexOf('j/'); // jet
     if (idx < 0) {
+      // am普通版
       idx = keyword.value?.indexOf('c/');
+    }
+    if (idx < 0) {
+      // am定制版
+      idx = keyword.value?.indexOf('d/');
     }
     if (idx >= 0) {
       keyword.value = keyword.value?.substring(idx + 2);
@@ -215,6 +222,7 @@
       endTime: endDate.value.endOf('day').format('YYYY-MM-DD HH:mm:ss'),
       keyword: keyword.value,
       username,
+      checked: checked.value,
       status: status.value,
     });
   };
@@ -224,7 +232,7 @@
   };
   const confirmCopy = () => {
     btnLoading.value = true;
-    emit('confirmCopy', { count: count.value, username: username.value });
+    emit('confirmCopy', { count: count.value, username: username.value, checked: checked.value });
   };
 
   // defineExpose
