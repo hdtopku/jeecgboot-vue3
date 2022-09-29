@@ -36,7 +36,9 @@
       <div>
         <a-tag>密码</a-tag><a-typography-text :delete="item?.status === -1" copyable>{{ item.password }}</a-typography-text>
       </div>
-      <div><a-tag>有效期至</a-tag>{{ item?.invalidTime }}</div>
+      <div class="text-red-600" v-if="item?.remark?.length > 0"><a-tag color="red">备注</a-tag>{{ item.remark }}</div>
+      <div><a-tag>售后截至</a-tag>{{ item?.invalidTime }}</div>
+      <div><a-tag>账号失效</a-tag>{{ item?.realInvalidTime }}</div>
     </template>
     <template #right="{ item }">
       <div> </div>

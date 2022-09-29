@@ -59,13 +59,31 @@ export const formSchema: FormSchema[] = [
     ],
   },
   {
-    label: '有效期至',
-    helpMessage: '默认为激活时间+1年',
+    label: '账号售后截至',
+    helpMessage: '默认为激活时间+1年，账号不一定失效',
     field: 'invalidTime',
     component: 'DatePicker',
     componentProps: {
-      showTime: true,
       valueFormat: 'YYYY-MM-DD hh:mm:ss',
     },
+  },
+  {
+    label: '账号失效时间',
+    helpMessage: '默认为激活时间+1年，账号的真实失效时间',
+    field: 'realInvalidTime',
+    component: 'DatePicker',
+    componentProps: {
+      valueFormat: 'YYYY-MM-DD hh:mm:ss',
+    },
+  },
+  {
+    label: '备注',
+    field: 'remark',
+    component: 'Input',
+    rules: [
+      {
+        required: false,
+      },
+    ],
   },
 ];
