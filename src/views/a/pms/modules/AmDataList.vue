@@ -23,12 +23,13 @@
             <template #avatar>
               <div
                 >#{{ index + 1 }}
-                <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>
+                <span v-if="item.verifyCount > 0">|{{ item.verifyCount }}</span>
+                <!--                <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>-->
               </div>
               <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" :copyable="{ text: copyLink(item.code) }">
                 <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
               </a-typography-paragraph>
-
+              <div v-if="item?.type === 6">至尊版</div>
               <a-dropdown v-if="item?.valid !== -1 && item?.status > -1 && item?.status < 4">
                 <a class="ant-dropdown-link">
                   操作
@@ -37,8 +38,8 @@
                 <template #overlay>
                   <a-menu>
                     <a-menu-item>
-                      <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证</a-button>
-                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">销毁验证</a-button>
+                      <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证 </a-button>
+                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">销毁验证 </a-button>
                     </a-menu-item>
                   </a-menu>
                 </template>
@@ -53,18 +54,22 @@
               <div> {{ item.operator }} | {{ item.model }} | {{ item.system }}</div>
             </template>
             <template #description>
-              <div><a-tag>打开时间</a-tag>{{ item?.visitTime?.substring(5) }}</div>
-              <div
-                ><a-tag>验证时间</a-tag>
+              <div>
+                <a-tag>打开时间</a-tag>
+                {{ item?.visitTime?.substring(5) }}
+              </div>
+              <div>
+                <a-tag>验证时间</a-tag>
                 <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
-                <a-tag v-else color="error" plain plainFill> 未开始 </a-tag>
+                <a-tag v-else color="error" plain plainFill> 未开始</a-tag>
               </div>
               <div>
                 <a-tag>最后访问</a-tag>
                 <span v-if="item?.updateTime?.length > 0">{{ item?.updateTime?.substring(5) }}</span>
               </div>
-              <div v-if="item?.refundTime?.length > 0"
-                ><a-tag color="error">买家退款</a-tag><span>{{ item?.refundTime?.substring(5) }}</span>
+              <div v-if="item?.refundTime?.length > 0">
+                <a-tag color="error">买家退款</a-tag>
+                <span>{{ item?.refundTime?.substring(5) }}</span>
               </div>
             </template>
           </a-list-item-meta>
