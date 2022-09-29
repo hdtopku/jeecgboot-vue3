@@ -110,7 +110,7 @@
     api: getDemoList,
     columns,
     formConfig: {
-      labelWidth: 120,
+      //labelWidth: 120,
       schemas: searchFormSchema,
       fieldMapToTime: [['birthday', ['birthday_begin', 'birthday_end'], 'YYYY-MM-DD']],
       fieldMapToNumber: [['age', ['age_begin', 'age_end']]],
@@ -263,17 +263,6 @@
   }
   //自定义查询----end---------
 
-  const superQueryConfig = reactive({
-    name:{ title: "名称", view: "text", type: "string", order: 1 },
-    sex:{ title: "性别", view: "list", type: "string", dictCode:'sex', order: 2 },
-  });
-  
-  function handleSuperQuery(params) {
-    Object.keys(params).map(k=>{
-      queryParam[k] = params[k]
-    });
-    searchQuery();
-  }
 </script>
 <style lang="less" scoped>
   .jeecg-basic-table-form-container {
