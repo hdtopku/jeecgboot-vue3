@@ -29,7 +29,6 @@
               <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" :copyable="{ text: copyLink(item.code) }">
                 <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
               </a-typography-paragraph>
-              <div v-if="item?.type === 6">至尊版</div>
               <a-dropdown v-if="item?.valid !== -1 && item?.status > -1 && item?.status < 4">
                 <a class="ant-dropdown-link">
                   操作
@@ -44,6 +43,7 @@
                   </a-menu>
                 </template>
               </a-dropdown>
+              <div class="text-yellow-600 text-center rounded-sm border-dashed border-2 border-red-600" v-if="item?.type === 6">至尊版</div>
             </template>
             <template #title>
               <div>

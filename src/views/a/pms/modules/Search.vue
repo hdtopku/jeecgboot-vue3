@@ -61,9 +61,9 @@
       <a-slider v-model:value="count" :min="1" :max="500" />
     </a-col>
     <a-col class="text-center" :span="6">
-      <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+      <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="getButtonType()">复制{{ count }}条</a-button>
       <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-        <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="isSelf ? 'primary' : 'error'">复制{{ count }}条</a-button>
+        <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="getButtonType()">复制{{ count }}条</a-button>
       </a-popconfirm>
     </a-col>
   </a-row>
@@ -167,7 +167,15 @@
         }
       });
   };
-
+  const getButtonType = () => {
+    if (!isSelf.value) {
+      return 'error';
+    }
+    if (checked.value) {
+      return 'warning';
+    }
+    return 'primary';
+  };
   const focus = () => {
     if (userList.value.length === 0) {
       userLoading.value = true;
