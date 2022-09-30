@@ -1,40 +1,9 @@
 <template>
   <a-card size="small">
-    <!--    <div class="flex flex-wrap justify-evenly">-->
-    <!--      <a-space size="large" class="mb-2">-->
-    <!--        <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__fast">-->
-    <!--          <div class="flex flex-wrap justify-evenly">-->
-    <!--            <a-button type="link" @click="advanced = !advanced">-->
-    <!--              <DownOutlined v-if="advanced" />-->
-    <!--              <UpOutlined v-else />-->
-    <!--            </a-button>-->
-    <!--          </div>-->
-    <!--        </transition>-->
-    <!--        <a-button type="primary" @click="handleAdd">新增</a-button>-->
-    <!--        <a-button @click="jumpToJet" type="link" shape="round">JET官网</a-button>-->
-    <!--      </a-space>-->
-
-    <!--      <a-input size="large" ref="inputRef" allowClear v-model:value="keyword" placeholder="粘贴账号或密码查询" @search="queryList">-->
-    <!--        <template v-if="advanced" #prefix>-->
-    <!--          <a-button @click="clickPaste">粘贴</a-button>-->
-    <!--        </template>-->
-    <!--        <template #suffix> </template>-->
-    <!--      </a-input>-->
-    <!--    </div>-->
-
-    <!--    <div class="flex flex-wrap justify-evenly">-->
-    <!--      <a-tabs :animated="false" v-model:activeKey="activeKey" @tabClick="tabClick">-->
-    <!--        <a-tab-pane key="0" tab="备用" />-->
-    <!--        <a-tab-pane key="-1" tab="失效" />-->
-    <!--        <a-tab-pane key="1" tab="在用" />-->
-    <!--        <a-tab-pane key="5" tab="全部" />-->
-    <!--      </a-tabs>-->
-    <!--    </div>-->
-
     <Search
       @query-list="(params) => queryList(params, true)"
       ref="SearchRef"
-      showBottom
+      showCopy
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabs="tabs"

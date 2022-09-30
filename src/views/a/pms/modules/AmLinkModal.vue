@@ -1,5 +1,5 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="80%" defaultFullscreen>
+  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="96%">
     <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
@@ -8,9 +8,8 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { formSchema } from '../Idea.data';
-  import { saveOrUpdate } from '../Idea.api';
-  import dayjs from 'dayjs';
+  import { formSchema } from '../AmLink.data';
+  import { saveOrUpdate } from '../AmLink.api';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -19,8 +18,6 @@
     labelWidth: 150,
     schemas: formSchema,
     showActionButtonGroup: false,
-    autoFocusFirstItem: true,
-    autoSubmitOnEnter: true,
   });
   //表单赋值
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -32,11 +29,6 @@
       //表单赋值
       await setFieldsValue({
         ...data.record,
-      });
-    } else {
-      //表单赋值
-      await setFieldsValue({
-        invalidTime: dayjs().add(364, 'days'),
       });
     }
   });

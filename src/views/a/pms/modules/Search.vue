@@ -20,6 +20,10 @@
 
       <a-input size="large" v-model:value="keyword" @change="queryList" :placeholder="placeholder" allowClear>
         <template #prefix>
+          <a-button type="link" @click="changeAdvanced">
+            <DownOutlined v-if="advanced" />
+            <UpOutlined v-else />
+          </a-button>
           <slot name="prefix"></slot>
           <a-space v-if="advanced">
             <a-select
@@ -43,21 +47,15 @@
         </template>
         <template #suffix>
           <slot v-if="advanced" name="suffix"></slot>
-          <a-switch @click="queryList" v-if="hasPermission('link:switch')" v-model:checked="checked" />
+          <a-switch @click="queryList" v-if="showSwitch && hasPermission('link:switch')" v-model:checked="checked" />
         </template>
       </a-input>
     </div>
   </a-card>
 
-  <!--      center -->
-  <a-row v-if="showCenter" class="w-full mt-2">
-    <a-col :span="3">
-      <a-button type="link" @click="changeAdvanced">
-        <DownOutlined v-if="advanced" />
-        <UpOutlined v-else />
-      </a-button>
-    </a-col>
-    <a-col :span="15">
+  <!--      showCopy -->
+  <a-row v-if="showCopy" class="w-full mt-2" gutter="8">
+    <a-col :span="18">
       <a-slider v-model:value="count" :min="1" :max="500" />
     </a-col>
     <a-col class="text-center" :span="6">
@@ -69,7 +67,7 @@
   </a-row>
 
   <!--  showTabs-->
-  <div v-if="showBottom" class="flex flex-wrap justify-evenly">
+  <div v-if="showTabs" class="flex flex-wrap justify-evenly">
     <a-tabs :animated="false" v-model:activeKey="status" @tab-click="tabClick">
       <a-tab-pane v-for="item in tabs" :key="item.tabKey" :tab="item.tabName" />
     </a-tabs>
@@ -98,11 +96,15 @@
       type: Boolean,
       default: false,
     },
-    showCenter: {
+    showCopy: {
       type: Boolean,
       default: false,
     },
-    showBottom: {
+    showTabs: {
+      type: Boolean,
+      default: false,
+    },
+    showSwitch: {
       type: Boolean,
       default: false,
     },

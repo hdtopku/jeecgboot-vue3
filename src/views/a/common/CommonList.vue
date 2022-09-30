@@ -69,7 +69,7 @@
   // import { list } from '/@/views/a/pms/IdeaMember.api';
   // const CommonListRef = ref();
   // const initQuery = (params = {}) => {
-  //   CommonListRef.value.initData(list, params);
+  //   CommonListRef.value.execQuery(list, params);
   // };
   // defineExpose({ initQuery });
   // 最顶层
@@ -77,7 +77,7 @@
   // import { onMounted, ref } from 'vue';
   // const ProductDataListRef = ref();
   // const queryList = () => {
-  //   ProductDataListRef.value.initQuery();
+  //   ProductDataListRef.value.startQuery();
   // };
   // onMounted(() => {
   //   queryList();
@@ -95,7 +95,7 @@
   const dataList = ref();
   const listFunction = ref();
   const queryParams = ref(); // loadMore记录上一次参数
-  const initData = (list: Function, params: { pageNo: 1; pageSize: 30 }, loadMore = false) => {
+  const execQuery = (list: Function, params: { pageNo: 1; pageSize: 30 }, loadMore = false) => {
     listFunction.value = list;
     queryParams.value = params;
     if (loadMore) {
@@ -122,11 +122,11 @@
       });
   };
   const handleLoadMore = () => {
-    initData(listFunction.value, queryParams.value, true);
+    execQuery(listFunction.value, queryParams.value, true);
   };
   const finished = computed(() => {
     return dataList?.value?.total === 0 || (dataList?.value?.records?.length >= dataList?.value?.total ?? false);
   });
-  defineExpose({ initData });
+  defineExpose({ execQuery });
 </script>
 <style scoped></style>

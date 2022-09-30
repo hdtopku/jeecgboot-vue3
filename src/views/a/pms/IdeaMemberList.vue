@@ -4,8 +4,8 @@
       <Search
         ref="SearchRef"
         showTop
-        showCenter
-        showBottom
+        showCopy
+        showTabs
         @query-list="(params) => queryList(params, true)"
         @change-advanced="changeAdvanced"
         @confirm-copy="confirmCopy"
@@ -61,14 +61,12 @@
       showFooter: true,
     });
   };
-  const queryParams = ref();
-  const queryList = (params = {}, fromSearch = false) => {
-    if (fromSearch) {
-      queryParams.value = params;
-    } else {
-      params = queryParams.value;
+  const cachedParams = ref();
+  const queryList = (newParams = {}, useNewParams = false) => {
+    if (useNewParams) {
+      cachedParams.value = newParams;
     }
-    IdeaMemberDataListRef.value.initQuery(params);
+    IdeaMemberDataListRef.value.startQuery(cachedParams.value);
   };
   const tabs = [
     {

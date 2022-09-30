@@ -141,19 +141,21 @@
     });
   };
   const activeKey = ref('0');
-  const changeActiveKey = (key) => {
-    activeKey.value = key.value;
-  };
   const handleEdit = (record) => {
     emit('handleEdit', record);
   };
   const CommonListRef = ref();
-  const initQuery = (params = {}) => {
-    CommonListRef.value.initData(getList, params);
-  };
-  const changeAdvanced = () => {
-    advanced.value = !advanced.value;
-  };
-  defineExpose({ initQuery, changeActiveKey, changeAdvanced });
+
+  defineExpose({
+    startQuery: (params = {}) => {
+      CommonListRef.value.execQuery(getList, params);
+    },
+    changeActiveKey: (key) => {
+      activeKey.value = key.value;
+    },
+    changeAdvanced: () => {
+      advanced.value = !advanced.value;
+    },
+  });
 </script>
 <style scoped></style>

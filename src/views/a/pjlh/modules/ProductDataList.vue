@@ -36,7 +36,7 @@
   };
   const CommonListRef = ref();
   const initQuery = (params = {}) => {
-    CommonListRef.value.initData(getList, params);
+    CommonListRef.value.execQuery(getList, params);
   };
   defineExpose({ initQuery });
 </script>

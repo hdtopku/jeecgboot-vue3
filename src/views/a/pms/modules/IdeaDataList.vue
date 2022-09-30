@@ -51,12 +51,12 @@
   import { ref } from 'vue';
   import CommonList from '../../common/CommonList.vue';
   const CommonListRef = ref();
-  const activeKey = ref('0');
   const queryParams = ref(); // initQuery使用
   const initQuery = (params = { pageNo: 1, pageSize: 30, status: activeKey.value }) => {
     queryParams.value = params;
-    CommonListRef.value.initData(getList, params);
+    CommonListRef.value.execQuery(getList, params);
   };
+  const activeKey = ref('0');
 
   const copyAccount = (account, password) => {
     return `账号【${account}】
