@@ -8,7 +8,15 @@
         <a-select-option value="Yiminghe">yiminghe</a-select-option>
       </a-select>
     </div>
-    <Search showTop showTabs @query-list="(params) => queryList(params, true)" ref="SearchRef" placeholder="模糊搜索" :tabs="tabs">
+    <Search
+      @change-advanced="changeAdvanced"
+      showTop
+      showTabs
+      @query-list="(params) => queryList(params, true)"
+      ref="SearchRef"
+      placeholder="模糊搜索"
+      :tabs="tabs"
+    >
       <template #suffix>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
       </template>
@@ -54,6 +62,7 @@
       tabName: '所有',
     },
   ];
+
   /**
    * 新增事件
    */
@@ -74,6 +83,9 @@
     });
   }
   const AmLinkDataListRef = ref();
+  const changeAdvanced = () => {
+    AmLinkDataListRef.value.changeAdvanced();
+  };
   const cachedParams = ref();
   const queryList = (newParams = {}, useNewParams = false) => {
     if (useNewParams) {

@@ -18,27 +18,19 @@
         </a-menu>
       </div>
     </template>
-    <template #left="{ item, index }">
-      <div>
-        <a-typography-text :copyable="{ text: item?.code }">
-          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
-        </a-typography-text>
-      </div>
-    </template>
+    <!--    <template #left="{ item, index }">-->
+    <!--      <div>-->
+    <!--        <a-typography-text :copyable="{ text: item?.code }">-->
+    <!--          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>-->
+    <!--        </a-typography-text>-->
+    <!--      </div>-->
+    <!--    </template>-->
     <template #bottom="{ item }">
       <div>
         <a-tag>激活链接</a-tag
         ><a-typography-text :delete="item?.status === -1" :copyable="{ text: item.link }">{{ getLink(item.link) }}</a-typography-text>
       </div>
-      <div>
-        <a-tag>邮箱地址</a-tag>
-        <a-typography-text v-if="item?.email.length > 0" :copyable="{ text: item.email }">{{ getLongLink(item.email) }}</a-typography-text>
-        <a-tag v-else color="error">未填写</a-tag>
-      </div>
-      <div>
-        <a-tag>长链地址</a-tag><a-typography-text :copyable="{ text: item.longLink }">{{ getLongLink(item.longLink) }}</a-typography-text>
-      </div>
-      <div>
+      <div v-if="item?.thirdLink.length > 0">
         <a-tag>第三方链</a-tag
         ><a-typography-text v-if="item?.thirdLink.length > 0" :delete="item?.thirdLinkValid === -1" copyable="{ text: item.thirdLink }">{{
           getLongLink(item.thirdLink)
@@ -46,9 +38,19 @@
         <a-tag v-else color="error">未绑定</a-tag>
       </div>
       <div class="text-red-600" v-if="item?.remark?.length > 0"><a-tag color="red">备注事项</a-tag>{{ item.remark }}</div>
-      <div><a-tag>创建者是</a-tag>{{ item.createBy }}</div>
       <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
-      <div><a-tag>更新时间</a-tag>{{ item?.updateTime }}</div>
+      <div v-if="advanced">
+        <div>
+          <a-tag>邮箱地址</a-tag>
+          <a-typography-text v-if="item?.email.length > 0" :copyable="{ text: item.email }">{{ getLongLink(item.email) }}</a-typography-text>
+          <a-tag v-else color="error">未填写</a-tag>
+        </div>
+        <div>
+          <a-tag>长链地址</a-tag><a-typography-text :copyable="{ text: item.longLink }">{{ getLongLink(item.longLink) }}</a-typography-text>
+        </div>
+        <div><a-tag>更新时间</a-tag>{{ item?.updateTime }}</div>
+        <div><a-tag>创建者是</a-tag>{{ item.createBy }}</div>
+      </div>
     </template>
   </CommonList>
 </template>
@@ -91,6 +93,12 @@
   const startQuery = (params = {}) => {
     CommonListRef.value.execQuery(getList, params);
   };
-  defineExpose({ startQuery });
+  const advanced = ref(false);
+  defineExpose({
+    startQuery,
+    changeAdvanced: () => {
+      advanced.value = !advanced.value;
+    },
+  });
 </script>
 <style scoped></style>
