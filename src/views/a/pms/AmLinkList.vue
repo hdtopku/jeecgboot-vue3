@@ -1,6 +1,14 @@
 <template>
   <a-card size="small">
-    <Search showTop showTabs @query-list="(params) => queryList(params, true)" ref="SearchRef" placeholder="输入模糊搜索" :tabs="tabs">
+    <div>
+      <a-select ref="select" v-model:value="value1" style="width: 120px" @focus="getLinks" @change="handleChange">
+        <a-select-option value="jack">Jack</a-select-option>
+        <a-select-option value="lucy">Lucy</a-select-option>
+        <a-select-option value="disabled" disabled>Disabled</a-select-option>
+        <a-select-option value="Yiminghe">yiminghe</a-select-option>
+      </a-select>
+    </div>
+    <Search showTop showTabs @query-list="(params) => queryList(params, true)" ref="SearchRef" placeholder="模糊搜索" :tabs="tabs">
       <template #suffix>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
       </template>
@@ -18,11 +26,24 @@
   import { onMounted, ref } from 'vue';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();
+  import { getList } from './AmLink.api';
+  const currAdvancedLink = () => {};
+  const currentLink = () => {};
+
+  const getLinks = () => {
+    getList().then((res) => {
+      console.log(res);
+    });
+  };
 
   const tabs = [
     {
       tabKey: '-1',
       tabName: '回收站',
+    },
+    {
+      tabKey: '1',
+      tabName: '待使用',
     },
     {
       tabKey: '0',

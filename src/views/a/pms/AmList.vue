@@ -11,15 +11,7 @@
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabs="tabs"
     >
-      <template #suffix>
-        <a-button
-          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
-          @click="router.push('/pms/am/help')"
-          type="link"
-          danger
-          >激活链</a-button
-        >
-      </template>
+      <template #suffix> </template>
       <template #left>
         <a-button
           class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
@@ -39,6 +31,7 @@
   import { getCodes } from '/@/views/a/pms/Am.api';
   import Search from '/@/views/a/pms/modules/Search.vue';
   import { router } from '/@/router';
+
   const AmDataListRef = ref();
   const SearchRef = ref();
   const queryParams = ref();

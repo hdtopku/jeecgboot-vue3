@@ -3,7 +3,7 @@
     <!--    top -->
     <div class="flex flex-wrap justify-evenly">
       <div v-if="showTop" class="flex flex-wrap justify-evenly">
-        <a-space class="mb-2">
+        <a-space :size="5" class="mb-2">
           <a-button :type="!rangeQuery && dayOff === 365 ? 'link' : ''" @click="clickNearDay(365, 0)">今年 </a-button>
           <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)"> 30天 </a-button>
           <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)"> 本月 </a-button>
@@ -52,7 +52,6 @@
 
           <span v-if="showSwitch && hasPermission('link:switch')">
             <a-button
-              v-if="checked"
               class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
               @click="router.push('/pms/am/link')"
               type="link"

@@ -25,6 +25,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'longLink',
   },
   {
+    title: '邮箱',
+    dataIndex: 'email',
+  },
+  {
     title: '备注',
     dataIndex: 'remark',
   },
@@ -67,6 +71,14 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '邮箱',
+    field: 'email',
+    component: 'Input',
+    componentProps: {
+      placeholder: '请输入邮箱',
+    },
+  },
+  {
     label: '第三方短链',
     field: 'thirdLink',
     component: 'Input',
@@ -77,16 +89,6 @@ export const formSchema: FormSchema[] = [
   {
     label: '短链是否有效',
     field: 'thirdLinkValid',
-    component: 'Switch',
-    defaultValue: 0,
-    componentProps: {
-      checkedValue: 0,
-      unCheckedValue: -1,
-    },
-  },
-  {
-    label: '激活链状态',
-    field: 'status',
     component: 'Switch',
     defaultValue: 0,
     componentProps: {
