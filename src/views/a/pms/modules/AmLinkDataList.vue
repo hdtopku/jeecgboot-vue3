@@ -28,8 +28,14 @@
         ><a-typography-text :delete="item?.status === -1" :copyable="{ text: item.link }">{{ getLink(item.link) }}</a-typography-text>
       </div>
       <div>
-        <a-tag>长链接</a-tag
-        ><a-typography-text :delete="item?.status === -1" copyable="{ text: item.longLink }">{{ getLongLink(item.longLink) }}</a-typography-text>
+        <a-tag>第三方短接</a-tag
+        ><a-typography-text v-if="item?.thirdLink.length > 0" :delete="item?.thirdLinkValid === -1" copyable="{ text: item.thirdLink }">{{
+          getLongLink(item.thirdLink)
+        }}</a-typography-text>
+        <a-tag v-else color="error">未绑定</a-tag>
+      </div>
+      <div>
+        <a-tag>长链接</a-tag><a-typography-text copyable="{ text: item.longLink }">{{ getLongLink(item.longLink) }}</a-typography-text>
       </div>
       <div class="text-red-600" v-if="item?.remark?.length > 0"><a-tag color="red">备注</a-tag>{{ item.remark }}</div>
       <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
@@ -53,7 +59,7 @@
     if (link?.length > 0) {
       let index = link.indexOf('&ud_t=');
       if (index >= 0) {
-        return link.substring(index);
+        return link.substring(index + 4);
       }
     }
     return link;
@@ -62,7 +68,7 @@
     if (link?.length > 0) {
       let index = link.indexOf('clicked/');
       if (index >= 0) {
-        return link.substring(index, index + 20);
+        return link.substring(index, index + 13);
       }
     }
     return link;

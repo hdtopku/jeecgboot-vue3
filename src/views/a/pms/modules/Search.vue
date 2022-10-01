@@ -4,11 +4,11 @@
     <div class="flex flex-wrap justify-evenly">
       <div v-if="showTop" class="flex flex-wrap justify-evenly">
         <a-space class="mb-2">
-          <a-button :type="!rangeQuery && dayOff === 365 ? 'link' : ''" @click="clickNearDay(365, 0)">今年</a-button>
-          <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)">近30天</a-button>
-          <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)">本月</a-button>
-          <a-button :type="!rangeQuery && dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)">昨天</a-button>
-          <a-button :type="!rangeQuery && dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)">今天</a-button>
+          <a-button :type="!rangeQuery && dayOff === 365 ? 'link' : ''" @click="clickNearDay(365, 0)">今年 </a-button>
+          <a-button :type="!rangeQuery && dayOff === 30 ? 'link' : ''" @click="clickNearDay(30, 0)"> 30天 </a-button>
+          <a-button :type="!rangeQuery && dayOff === 100 ? 'link' : ''" @click="clickNearDay(100)"> 本月 </a-button>
+          <a-button :type="!rangeQuery && dayOff === 1 ? 'link' : ''" @click="clickNearDay(1, 1)"> 昨天 </a-button>
+          <a-button :type="!rangeQuery && dayOff === 0 ? 'link' : ''" @click="clickNearDay(0, 0)"> 今天 </a-button>
         </a-space>
         <transition enter-active-class="animate__animated animate__flipInX" leave-active-class="animate__animated animate__flipOutX animate__faster">
           <a-space v-show="advanced" class="mb-2">
@@ -37,7 +37,9 @@
               @focus="focus"
               @change="handleChange"
             >
-              <a-select-option :key="item.id" v-for="item in userList" :value="item.username">{{ item.realname }}</a-select-option>
+              <a-select-option :key="item.id" v-for="item in userList" :value="item.username">
+                {{ item.realname }}
+              </a-select-option>
               <template v-if="userLoading" #notFoundContent>
                 <a-spin size="small" />
               </template>
@@ -47,21 +49,35 @@
         </template>
         <template #suffix>
           <slot v-if="advanced" name="suffix"></slot>
-          <a-switch @click="queryList" v-if="showSwitch && hasPermission('link:switch')" v-model:checked="checked" />
+
+          <span v-if="showSwitch && hasPermission('link:switch')">
+            <a-button
+              v-if="checked"
+              class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
+              @click="router.push('/pms/am/link')"
+              type="link"
+              danger
+              >激活链</a-button
+            >
+            <a-switch @click="queryList" v-model:checked="checked" />
+          </span>
         </template>
       </a-input>
     </div>
   </a-card>
 
   <!--      showCopy -->
-  <a-row v-if="showCopy" class="w-full mt-2" gutter="8">
-    <a-col :span="18">
-      <a-slider v-model:value="count" :min="1" :max="500" />
+  <a-row v-if="showCopy" class="w-full mt-2">
+    <a-col :span="4">
+      <slot name="left"></slot>
+    </a-col>
+    <a-col :span="14">
+      <a-slider style="display: inline-block" v-model:value="count" :min="1" :max="500" />
     </a-col>
     <a-col class="text-center" :span="6">
-      <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="getButtonType()">复制{{ count }}条</a-button>
+      <a-button v-show="count === 1" @click="confirmCopy" :loading="btnLoading" :type="getButtonType()">复制{{ count }}条 </a-button>
       <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-        <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="getButtonType()">复制{{ count }}条</a-button>
+        <a-button v-show="count > 1" :loading="btnLoading" placeholder="开始日期" :type="getButtonType()">复制{{ count }}条 </a-button>
       </a-popconfirm>
     </a-col>
   </a-row>
@@ -85,6 +101,8 @@
   import { usePermission } from '/@/hooks/web/usePermission';
   import { message } from 'ant-design-vue';
   import { isPc } from '/@/views/a/utils/browser.js';
+  import { router } from '/@/router';
+
   const { hasPermission } = usePermission();
 
   defineProps({

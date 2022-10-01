@@ -51,33 +51,31 @@ export const formSchema: FormSchema[] = [
   // TODO 主键隐藏字段，目前写死为ID
   { label: '', field: 'id', component: 'Input', show: false },
   {
-    label: '记忆符',
-    field: 'code',
-    component: 'Input',
-    helpMessage: '为了方便识别记忆，无实际用途',
-  },
-  {
-    label: '激活链接',
+    label: '激活链',
     field: 'link',
     component: 'Input',
+    componentProps: {
+      placeholder: 'https://itunes.apple.com...',
+    },
   },
   {
     label: '长链接',
     field: 'longLink',
     component: 'Input',
-  },
-  {
-    label: '备注',
-    field: 'remark',
-    component: 'Input',
+    componentProps: {
+      placeholder: 'https://email.myunidays.uk...',
+    },
   },
   {
     label: '第三方短链',
     field: 'thirdLink',
     component: 'Input',
+    componentProps: {
+      placeholder: '小程序短链',
+    },
   },
   {
-    label: '第三方短链是否有效',
+    label: '短链是否有效',
     field: 'thirdLinkValid',
     component: 'Switch',
     defaultValue: 0,
@@ -95,5 +93,19 @@ export const formSchema: FormSchema[] = [
       checkedValue: 0,
       unCheckedValue: -1,
     },
+  },
+  {
+    label: '记忆符',
+    field: 'code',
+    component: 'Input',
+    componentProps: {
+      placeholder: '非必填，可自动生成',
+    },
+    helpMessage: '为了方便识别记忆，无实际用途',
+  },
+  {
+    label: '备注',
+    field: 'remark',
+    component: 'Input',
   },
 ];

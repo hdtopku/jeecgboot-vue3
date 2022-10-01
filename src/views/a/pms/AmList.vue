@@ -17,6 +17,15 @@
           @click="router.push('/pms/am/help')"
           type="link"
           danger
+          >激活链</a-button
+        >
+      </template>
+      <template #left>
+        <a-button
+          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
+          @click="router.push('/pms/am/help')"
+          type="link"
+          danger
           >帮助</a-button
         >
       </template>
