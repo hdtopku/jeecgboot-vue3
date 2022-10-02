@@ -10,7 +10,6 @@
     </div>
     <Search
       @change-advanced="changeAdvanced"
-      showTop
       showTabs
       @query-list="(params) => queryList(params, true)"
       ref="SearchRef"
