@@ -1,13 +1,5 @@
 <template>
   <a-card size="small">
-    <div>
-      <a-select ref="select" v-model:value="value1" style="width: 120px" @focus="getLinks" @change="handleChange">
-        <a-select-option value="jack">Jack</a-select-option>
-        <a-select-option value="lucy">Lucy</a-select-option>
-        <a-select-option value="disabled" disabled>Disabled</a-select-option>
-        <a-select-option value="Yiminghe">yiminghe</a-select-option>
-      </a-select>
-    </div>
     <Search
       @change-advanced="changeAdvanced"
       showTabs
