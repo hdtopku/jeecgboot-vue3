@@ -44,7 +44,7 @@
     if (params?.checked) {
       params.type = 6;
     }
-    AmDataListRef.value.initQuery(params);
+    AmDataListRef.value.startQuery(params);
   };
   const tabs = [
     {

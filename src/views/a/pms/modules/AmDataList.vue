@@ -1,7 +1,6 @@
 <template>
-  <div class="w-full">
-    <div class="flex justify-between">
-      <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
+  <CommonList ref="CommonListRef">
+    <template #header>
       <span>
         <a-typography-text v-show="activeKey === '1'" mark>已打开验证页面，但还没点击开始验证</a-typography-text>
         <a-typography-text v-show="activeKey === '0'" mark>所有状态：已打开+已开始+已关闭+退款等</a-typography-text>
@@ -15,88 +14,78 @@
           </span>
         </a-typography-text>
       </span>
-    </div>
-    <a-list :loading="loading" item-layout="horizontal" :data-source="dataList?.records">
-      <template #renderItem="{ item, index }">
-        <a-list-item>
-          <a-list-item-meta>
-            <template #avatar>
-              <div
-                >#{{ index + 1 }}
-                <span v-if="item.verifyCount > 0">|{{ item.verifyCount }}</span>
-                <!--                <span v-if="item.visitCount > 1">|{{ item.visitCount }}</span>-->
-              </div>
-              <a-typography-paragraph :class="item?.valid === -1 ? 'line-through' : ''" :copyable="{ text: copyLink(item.code) }">
-                <span class="" :class="item?.valid === -1 ? 'text-gray-500' : 'text-purple-900 font-medium'"> {{ item.code }}</span>
-              </a-typography-paragraph>
-              <a-dropdown v-if="item?.valid !== -1 && item?.status > -1 && item?.status < 4">
-                <a class="ant-dropdown-link">
-                  操作
-                  <DownOutlined />
-                </a>
-                <template #overlay>
-                  <a-menu>
-                    <a-menu-item>
-                      <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证 </a-button>
-                      <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)">销毁验证 </a-button>
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-              <div class="text-yellow-600 text-center rounded-sm border-dashed border-2 border-red-600" v-if="item?.type === 6">至尊版</div>
-            </template>
-            <template #title>
-              <div>
-                {{ item?.country?.indexOf('中国') > -1 || item?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : item.country }} {{ item.province
-                }}{{ item.city }}{{ item.county }} |
-                {{ item.browser }}
-              </div>
-              <div> {{ item.operator }} | {{ item.model }} | {{ item.system }}</div>
-            </template>
-            <template #description>
-              <div>
-                <a-tag>打开时间</a-tag>
-                {{ item?.visitTime?.substring(5) }}
-              </div>
-              <div>
-                <a-tag>验证时间</a-tag>
-                <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
-                <a-tag v-else color="error" plain plainFill> 未开始</a-tag>
-              </div>
-              <div>
-                <a-tag>最后访问</a-tag>
-                <span v-if="item?.updateTime?.length > 0">{{ item?.updateTime?.substring(5) }}</span>
-              </div>
-              <div v-if="item?.refundTime?.length > 0">
-                <a-tag color="error">买家退款</a-tag>
-                <span>{{ item?.refundTime?.substring(5) }}</span>
-              </div>
-            </template>
-          </a-list-item-meta>
-          <div>
-            <a-tag :color="getColor(item.status)">
-              <text :class="item?.valid === -1 ? 'line-through' : ''">{{ item.statusName }}</text>
-            </a-tag>
-            <div class="font-light text-sm text-gray-500" v-if="!(item?.valid !== -1 && item?.status > -1 && item?.status < 4)"> 页面空白 </div>
-          </div>
-        </a-list-item>
-      </template>
-      <template #loadMore>
-        <div v-if="dataList?.total > 0" :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }">
-          <span v-if="finished">加载完成({{ dataList?.records?.length }}/{{ dataList?.total }})</span>
-          <span v-else>
-            <a-spin v-if="loadingMore" />
-            <a-button v-else @click="queryList(true)">加载更多({{ dataList?.records?.length }}/{{ dataList?.total }})</a-button>
-          </span>
+    </template>
+    <template #shelter="{ item }">
+      <span v-if="item.verifyCount > 0">|{{ item.verifyCount }}</span> <span v-if="hasPermission('link:switch') && item?.type === 6">[尊]</span>
+    </template>
+    <template #left="{ item }">
+      <div>
+        <div>
+          <a-typography-text :copyable="{ text: copyLink(item) }">
+            <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
+          </a-typography-text>
         </div>
-      </template>
-    </a-list>
-  </div>
+        <div v-if="hasPermission('link:switch') && item?.link?.length > 3">
+          <a-typography-text :copyable="{ text: item?.link }">
+            {{ item?.link?.substring(item?.link?.length - 4) }}
+          </a-typography-text>
+        </div>
+      </div>
+    </template>
+    <template #operate="{ item }">
+      <a-menu>
+        <a-menu-item>
+          <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证 </a-button>
+          <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)"> 销毁验证 </a-button>
+        </a-menu-item>
+      </a-menu>
+    </template>
+    <template #top="{ item }">
+      <div>
+        {{ item?.country?.indexOf('中国') > -1 || item?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : item.country }} {{ item.province
+        }}{{ item.city }}{{ item.county }} |
+        {{ item.browser }}
+      </div>
+      <div> {{ item.operator }} | {{ item.model }} | {{ item.system }}</div>
+      <div>
+        <a-tag>打开时间</a-tag>
+        {{ item?.visitTime?.substring(5) }}
+      </div>
+      <div>
+        <a-tag>验证时间</a-tag>
+        <span v-if="item?.verifyTime?.length > 0">{{ item?.verifyTime?.substring(5) }}</span>
+        <a-tag v-else color="error" plain plainFill> 未开始</a-tag>
+      </div>
+      <div>
+        <a-tag>最后访问</a-tag>
+        <span v-if="item?.updateTime?.length > 0">{{ item?.updateTime?.substring(5) }}</span>
+      </div>
+      <div v-if="item?.refundTime?.length > 0">
+        <a-tag color="error">买家退款</a-tag>
+        <span>{{ item?.refundTime?.substring(5) }}</span>
+      </div>
+    </template>
+    <template #right="{ item }">
+      <div>
+        <div>
+          <a-tag :color="getColor(item.status)">
+            <text :class="item?.valid === -1 ? 'line-through' : ''">{{ item.statusName }}</text>
+          </a-tag>
+        </div>
+        <div class="font-light text-sm text-gray-500" v-if="!(item?.valid !== -1 && item?.status > -1 && item?.status < 4)"> 页面空白 </div>
+      </div>
+    </template>
+  </CommonList>
 </template>
 <script lang="ts" setup>
-  import { DownOutlined } from '@ant-design/icons-vue';
-  import { computed, ref, watch } from 'vue';
+  import CommonList from '/@/views/a/common/CommonList.vue';
+  import { ref, watch } from 'vue';
   import { getList, updateCodeStatus } from '/@/views/a/pms/Am.api';
+  import { usePermission } from '/@/hooks/web/usePermission';
+
+  const { hasPermission } = usePermission();
+
+  const CommonListRef = ref();
 
   const loading = ref(false);
   const loadingMore = ref(false);
@@ -128,26 +117,18 @@
         loadingMore.value = false;
       });
   };
-  const finished = computed(() => {
-    return dataList?.value?.total === 0 || (dataList?.value?.records?.length >= dataList?.value?.total ?? false);
-  });
   const updateVerifyStatus = (code, valid) => {
     updateCodeStatus({ code, valid }).then(() => {
       params.value.pageNo = 1;
       queryList();
     });
   };
-  const initQuery = (queryParams) => {
-    params.value = queryParams;
-    queryList();
-  };
   const activeKey = ref('0');
-  const changeActiveKey = (key) => {
-    activeKey.value = key;
-  };
-  defineExpose({ initQuery, changeActiveKey });
-  const copyLink = (code) => {
-    return 'https://c.taojingling.cn/c/' + code;
+  const copyLink = (item) => {
+    if (item?.type === 6) {
+      return 'https://c.taojingling.cn/d/' + item?.code;
+    }
+    return 'https://c.taojingling.cn/c/' + item?.code;
   };
   const refuneCount = ref(0);
   watch(dataList, () => {
@@ -176,4 +157,17 @@
         return 'error';
     }
   };
+  const advanced = ref(false);
+  defineExpose({
+    startQuery: (params = {}) => {
+      activeKey.value = params?.status;
+      CommonListRef.value.execQuery(getList, params);
+    },
+    changeAdvanced: () => {
+      advanced.value = !advanced.value;
+    },
+    changeActiveKey: (key) => {
+      activeKey.value = key;
+    },
+  });
 </script>

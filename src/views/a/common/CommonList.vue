@@ -35,7 +35,10 @@
             <slot name="bottom" :item="item" :index="index"></slot>
           </template>
           <template v-if="showLeft" #avatar>
-            <div class="border-solid rounded">#{{ index + 1 }} </div>
+            <div>
+              <span class="border-solid rounded">#{{ index + 1 }} </span>
+              <slot name="shelter" :item="item" :index="index"></slot>
+            </div>
             <a-dropdown>
               <a class="ant-dropdown-link">
                 操作
