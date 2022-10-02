@@ -79,6 +79,11 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
+    label: '备注',
+    field: 'remark',
+    component: 'Input',
+  },
+  {
     label: '第三方短链',
     field: 'thirdLink',
     component: 'Input',
@@ -99,15 +104,7 @@ export const formSchema: FormSchema[] = [
   {
     label: '记忆符',
     field: 'code',
-    component: 'Input',
-    componentProps: {
-      placeholder: '非必填，可自动生成',
-    },
-    helpMessage: '为了方便识别记忆，无实际用途',
-  },
-  {
-    label: '备注',
-    field: 'remark',
+    helpMessage: '为方便记忆识别，无其他用途',
     component: 'Input',
   },
 ];

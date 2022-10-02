@@ -19,6 +19,18 @@
           <a-menu-item v-if="item?.status === -1 || item?.status === 1">
             <a-button @click="changeStatus(item, 0)" type="link" size="small">使用</a-button>
           </a-menu-item>
+          <a-menu-item v-if="item?.type !== 1 && item?.type !== 6">
+            <a-button @click="changeType(item, 6)" type="link" size="small">设为至尊</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item?.type !== 1 && item?.type !== 6">
+            <a-button @click="changeType(item, 1)" type="link" size="small">设为普通</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item?.type === 6">
+            <a-button @click="changeType(item, 0)" type="link" size="small">取消至尊</a-button>
+          </a-menu-item>
+          <a-menu-item v-if="item?.type === 1">
+            <a-button @click="changeType(item, 0)" type="link" size="small">取消普通</a-button>
+          </a-menu-item>
         </a-menu>
       </div>
     </template>
@@ -52,7 +64,12 @@
         </div>
         <div><a-tag>更新时间</a-tag>{{ item?.updateTime }}</div>
         <div><a-tag>创建者是</a-tag>{{ item?.createBy }}</div>
+        <div><a-tag>最近更改</a-tag>{{ item?.updateBy }}</div>
       </div>
+    </template>
+    <template #right="{ item }">
+      <div><a-tag v-if="item?.type === 6" color="red">至尊版</a-tag></div>
+      <div><a-tag v-if="item?.type === 1">普通版</a-tag></div>
     </template>
   </CommonList>
 </template>
@@ -87,6 +104,12 @@
   };
   const changeStatus = (record, status) => {
     record.status = status;
+    saveOrUpdate(record, true).then(() => {
+      emit('queryList');
+    });
+  };
+  const changeType = (record, type) => {
+    record.type = type;
     saveOrUpdate(record, true).then(() => {
       emit('queryList');
     });
