@@ -68,7 +68,7 @@ export const saveOrUpdate = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 
-export const getCodes = (params, handleSuccess, handleError) => {
+export const getCodes = (params, handleSuccess, handleError = () => {}) => {
   return defHttp
     .get({ url: Api.getCodes, params }, { joinParamsToUrl: true })
     .then((res) => {

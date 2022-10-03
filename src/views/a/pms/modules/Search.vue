@@ -230,17 +230,17 @@
       endDate.value = startDate.value;
     }
     keyword.value = extractUrl(keyword?.value?.trim());
-    let idx = keyword.value?.indexOf('j/'); // jet
+    let idx = keyword.value?.indexOf('/j/'); // jet
     if (idx < 0) {
       // am普通版
-      idx = keyword.value?.indexOf('c/');
+      idx = keyword.value?.indexOf('/c/');
     }
     if (idx < 0) {
       // am定制版
-      idx = keyword.value?.indexOf('d/');
+      idx = keyword.value?.indexOf('/d/');
     }
     if (idx >= 0) {
-      keyword.value = keyword.value?.substring(idx + 2);
+      keyword.value = keyword.value?.substring(idx + 3);
     }
     emit('queryList', {
       pageNo: 1,
@@ -266,13 +266,18 @@
   const { proxy } = getCurrentInstance();
   const queryFinish = (data = '') => {
     if (count.value === 1) {
-      let idx = data?.indexOf('j/');
-      if (idx < 0) {
-        idx = data?.indexOf('c/');
+      if (count.value === 1) {
+        let idx = data?.indexOf('/j/');
+        if (idx < 0) {
+          idx = data?.indexOf('/c/');
+        }
+        if (idx < 0) {
+          idx = data?.indexOf('/d/');
+        }
+        proxy.tool.copy(data, data?.substring(idx + 3) + '已复制');
+      } else {
+        proxy.tool.copy(data, count.value + '条已复制');
       }
-      proxy.tool.copy(data, data?.substring(idx + 2) + '已复制');
-    } else {
-      proxy.tool.copy(data, count.value + '条已复制');
     }
     btnLoading.value = false;
   };

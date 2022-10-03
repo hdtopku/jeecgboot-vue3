@@ -33,9 +33,10 @@
       </a-menu>
     </template>
     <template #left="{ item }">
-      <div v-if="item?.bindCount > 0">
+      <div class="mb-1" v-if="item?.bindCount > 0">
         <a-tag color="success">{{ item?.bindCount }}次</a-tag>
       </div>
+      <a-button size="small" type="primary" @click="copyCode(item)">短链</a-button>
     </template>
     <template #bottom="{ item }">
       <div>
@@ -103,7 +104,12 @@
 <script lang="ts" setup>
   import { getList, saveOrUpdate } from '../AmLink.api';
   import CommonList from '/@/views/a/common/CommonList.vue';
-  import { ref } from 'vue';
+  import { getCurrentInstance, ref } from 'vue';
+  import { getCodes } from '/@/views/a/pms/Am.api';
+  import { getAuthCache } from '/@/utils/auth';
+  import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
+  const loginInfo = getAuthCache(LOGIN_INFO_KEY);
+  let { username, realname } = loginInfo?.userInfo;
 
   const CommonListRef = ref();
   const emit = defineEmits(['handleEdit', 'queryList']);
@@ -141,7 +147,13 @@
       emit('queryList');
     });
   };
-
+  const { proxy } = getCurrentInstance();
+  const copyCode = (record) => {
+    getCodes({ count: 1, type: record?.type, username }, (data) => {
+      let idx = data?.indexOf('/d/');
+      proxy.tool.copy(data, data?.substring(idx + 3) + '已复制');
+    });
+  };
   const activeKey = ref('0');
   const startQuery = (params = {}) => {
     activeKey.value = params?.status;
