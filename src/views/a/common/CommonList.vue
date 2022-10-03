@@ -22,14 +22,18 @@
 <template>
   <div class="flex justify-between">
     <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
-    <slot name="header"></slot>
+    <span>
+      <slot name="header"></slot>
+    </span>
   </div>
   <a-list :loading="loading" :data-source="dataList?.records">
     <template #renderItem="{ item, index }">
       <a-list-item>
         <a-list-item-meta>
           <template #title>
-            <slot name="top" :item="item" :index="index"></slot>
+            <span>
+              <slot name="top" :item="item" :index="index"></slot>
+            </span>
           </template>
           <template #description>
             <slot name="bottom" :item="item" :index="index"></slot>
@@ -37,7 +41,9 @@
           <template v-if="showLeft" #avatar>
             <div>
               <span class="border-solid rounded">#{{ index + 1 }} </span>
-              <slot name="shelter" :item="item" :index="index"></slot>
+              <span>
+                <slot name="shelter" :item="item" :index="index"></slot>
+              </span>
             </div>
             <a-dropdown>
               <a class="ant-dropdown-link">
@@ -45,13 +51,19 @@
                 <DownOutlined />
               </a>
               <template #overlay>
-                <slot name="operate" :item="item" :index="index"></slot>
+                <span>
+                  <slot name="operate" :item="item" :index="index"></slot>
+                </span>
               </template>
             </a-dropdown>
-            <slot name="left" :item="item" :index="index"></slot>
+            <span>
+              <slot style="position: relative" name="left" :item="item" :index="index"></slot>
+            </span>
           </template>
         </a-list-item-meta>
-        <slot name="right" :item="item" :index="index"></slot>
+        <span>
+          <slot name="right" :item="item" :index="index"></slot>
+        </span>
       </a-list-item>
     </template>
     <template #loadMore>
@@ -87,6 +99,7 @@
   // });
   import { DownOutlined } from '@ant-design/icons-vue';
   import { computed, ref } from 'vue';
+
   const props = defineProps({
     showLeft: {
       type: Boolean,
