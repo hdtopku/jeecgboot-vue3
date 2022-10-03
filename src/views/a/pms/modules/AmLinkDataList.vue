@@ -54,50 +54,31 @@
     </template>
     <template #bottom="{ item }">
       <div>
-        <a-tag>激活链接</a-tag>
-        <span v-if="item?.link?.length > 0">
-          <a-typography-text :delete="item?.status === -1" :copyable="{ text: item.link }" />{{ getLink(item.link) }}
-        </span>
+        <a-tag>激活链</a-tag>
+        <a-typography-text v-if="item?.link?.length > 0" :delete="item?.status === -1" :copyable="{ text: item.link }"
+          >{{ getLongLink(item.link) }}
+        </a-typography-text>
         <a-tag v-else color="error">未生成</a-tag>
       </div>
-      <div v-if="advanced && item?.thirdLink.length > 0">
-        <a-tag>第三方链</a-tag>
-        <span v-if="item?.thirdLink?.length > 0">
-          <a-typography-text :delete="item?.thirdLinkValid === -1" :copyable="{ text: item.thirdLink }" />{{ getLongLink(item.thirdLink) }}
-        </span>
-        <a-tag v-else color="error">未绑定</a-tag>
-      </div>
       <div>
-        <a-tag>创建时间</a-tag>
-        {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-200" style="font-size: 1px">{{ getDateTime(item) }}</span>
+        <a-tag>创建于</a-tag>
+        {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 1px">{{ getDateTime(item) }}</span>
       </div>
       <div class="text-red-600" v-if="item?.remark?.length > 0">
-        <a-tag color="red">备注事项</a-tag>
+        <a-tag color="red">备注</a-tag>
         {{ item.remark }}
       </div>
       <div v-if="advanced || (item?.status === 1 && item?.type === 0)">
-        <a-tag>长链地址</a-tag>
-        <span v-if="item?.longLink?.length > 0"> <a-typography-text :copyable="{ text: item.longLink }" />{{ getLongLink(item.longLink) }} </span>
+        <a-tag>长链接</a-tag>
+        <a-typography-text v-if="item?.longLink?.length > 0" :copyable="{ text: item.longLink }">
+          {{ getLongLink(item.longLink) }}
+        </a-typography-text>
         <a-tag v-else color="error">未填写</a-tag>
-        <div>
-          <a-tag>邮箱地址</a-tag>
-          <span v-if="item?.email?.length > 0"> <a-typography-text :copyable="{ text: item.email }" />{{ getLongLink(item.email) }} </span>
-          <a-tag v-else color="error">未填写</a-tag>
-        </div>
       </div>
       <div v-if="advanced">
-        <div>
-          <a-tag>更新时间</a-tag>
-          {{ item?.updateTime }}
-        </div>
-        <div>
-          <a-tag>创建者是</a-tag>
-          {{ item?.createBy }}
-        </div>
-        <div>
-          <a-tag>最近更改</a-tag>
-          {{ item?.updateBy }}
-        </div>
+        <span style="font-size: 1px" class="text-gray-300">
+          {{ item?.createBy }}、{{ item?.updateBy }}:{{ item?.updateTime?.substring(5, 19) }}
+        </span>
       </div>
     </template>
   </CommonList>
@@ -134,20 +115,19 @@
     }
     return '';
   };
-  const getLink = (link) => {
-    if (link?.length > 0) {
-      let index = link.indexOf('&ud_t=');
-      if (index >= 0) {
-        return link.substring(index + 4);
-      }
-    }
-    return link;
-  };
   const getLongLink = (link) => {
     if (link?.length > 0) {
       let index = link.indexOf('clicked/');
       if (index >= 0) {
         return link.substring(index, index + 13);
+      }
+      index = link.indexOf('&ud_t=');
+      if (index >= 0) {
+        return link.substring(index + 4);
+      }
+      index = link.indexOf('@stu.hnucm.edu.cn');
+      if (index >= 0) {
+        return link.substring(0, index + 1);
       }
     }
     return link;
@@ -166,9 +146,8 @@
   };
   const { proxy } = getCurrentInstance();
   const copyCode = (record) => {
-    getCodes({ count: 1, type: record?.type, username }, (data) => {
-      let idx = data?.indexOf('/d/');
-      proxy.tool.copy(data, data?.substring(idx + 3) + '已复制');
+    getCodes({ count: 1, type: 6, linkId: record?.id, link: record?.link, username }, (data) => {
+      proxy.tool.copy(data, data + '已复制');
     });
   };
   const activeKey = ref('0');

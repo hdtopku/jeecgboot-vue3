@@ -267,14 +267,7 @@
   const queryFinish = (data = '') => {
     if (count.value === 1) {
       if (count.value === 1) {
-        let idx = data?.indexOf('/j/');
-        if (idx < 0) {
-          idx = data?.indexOf('/c/');
-        }
-        if (idx < 0) {
-          idx = data?.indexOf('/d/');
-        }
-        proxy.tool.copy(data, data?.substring(idx + 3) + '已复制');
+        proxy.tool.copy(data, data + '已复制');
       } else {
         proxy.tool.copy(data, count.value + '条已复制');
       }

@@ -57,54 +57,31 @@ export const formSchema: FormSchema[] = [
   {
     label: '激活链',
     field: 'link',
-    component: 'Input',
+    component: 'InputTextArea',
     componentProps: {
       placeholder: 'https://itunes.apple.com...',
     },
   },
   {
+    label: '备注',
+    field: 'remark',
+    component: 'InputTextArea',
+    componentProps: {
+      placeholder: '邮箱、短链等',
+    },
+  },
+  {
     label: '长链接',
     field: 'longLink',
-    component: 'Input',
+    component: 'InputTextArea',
     componentProps: {
       placeholder: 'https://email.myunidays.uk...',
     },
   },
-  {
-    label: '邮箱',
-    field: 'email',
-    component: 'Input',
-    componentProps: {
-      placeholder: '请输入邮箱',
-    },
-  },
-  {
-    label: '备注',
-    field: 'remark',
-    component: 'Input',
-  },
-  {
-    label: '第三方短链',
-    field: 'thirdLink',
-    component: 'Input',
-    componentProps: {
-      placeholder: '小程序短链',
-    },
-  },
-  {
-    label: '短链是否有效',
-    field: 'thirdLinkValid',
-    component: 'Switch',
-    defaultValue: 0,
-    componentProps: {
-      checkedValue: 0,
-      unCheckedValue: -1,
-    },
-  },
-  {
-    label: '记忆符',
-    field: 'code',
-    helpMessage: '为方便记忆识别，无其他用途',
-    component: 'Input',
-  },
+  // {
+  //   label: '记忆符',
+  //   field: 'code',
+  //   helpMessage: '为方便记忆识别，无其他用途',
+  //   component: 'Input',
+  // },
 ];
