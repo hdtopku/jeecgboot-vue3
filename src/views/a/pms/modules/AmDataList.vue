@@ -26,14 +26,18 @@
           </a-typography-text>
         </div>
         <div v-if="hasPermission('link:switch') && item?.link?.length > 3">
-          <a-typography-text :copyable="{ text: item?.link }">
-            {{ item?.link?.substring(item?.link?.length - 4) }}
-          </a-typography-text>
+          <a-typography-link :copyable="{ text: item?.link }"> {{ item?.link?.substring(item?.link?.length - 4) }} </a-typography-link>
+        </div>
+        <div v-if="hasPermission('link:switch') && item?.remark?.length > 0">
+          <a-typography-text :copyable="{ text: item?.remark }" mark> 注:{{ item?.remark }} </a-typography-text>
         </div>
       </div>
     </template>
     <template #operate="{ item }">
       <a-menu>
+        <a-menu-item v-if="item">
+          <a-button @click="handleEdit(item)" v-if="hasPermission('link:switch')" type="link" size="small">编辑 </a-button>
+        </a-menu-item>
         <a-menu-item>
           <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证 </a-button>
           <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)"> 销毁验证 </a-button>
@@ -139,6 +143,7 @@
           ++refuneCount.value;
         }
       }
+      item.showOperate = item?.valid !== -1 && item?.status > -1 && item?.status < 4;
     });
   });
   const getColor = (status) => {
@@ -156,6 +161,11 @@
       case -2:
         return 'error';
     }
+  };
+  const emit = defineEmits(['handleEdit']);
+  const handleEdit = (item) => {
+    console.log(item);
+    emit('handleEdit', item);
   };
   const advanced = ref(false);
   defineExpose({

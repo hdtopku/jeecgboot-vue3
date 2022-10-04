@@ -22,16 +22,20 @@
         >
       </template>
     </Search>
-    <AmDataList ref="AmDataListRef" class="w-full" />
+    <AmDataList @handle-edit="handleEdit" ref="AmDataListRef" class="w-full" />
+    <!-- 表单区域 -->
+    <AmModal @register="registerModal" @success="queryList" />
   </a-card>
 </template>
 <script lang="ts" setup>
   import { ref } from 'vue';
   import AmDataList from '/@/views/a/pms/modules/AmDataList.vue';
   import { getCodes } from '/@/views/a/pms/Am.api';
+  import AmModal from './modules/AmModal.vue';
   import Search from '/@/views/a/pms/modules/Search.vue';
   import { router } from '/@/router';
-
+  import { useModal } from '/@/components/Modal';
+  const [registerModal, { openModal }] = useModal();
   const AmDataListRef = ref();
   const SearchRef = ref();
   const queryParams = ref();
@@ -46,6 +50,16 @@
     }
     AmDataListRef.value.startQuery(params);
   };
+  /**
+   * 编辑事件
+   */
+  function handleEdit(record: Recordable) {
+    openModal(true, {
+      record,
+      isUpdate: true,
+      showFooter: true,
+    });
+  }
   const tabs = [
     {
       tabKey: '-1',
