@@ -53,46 +53,48 @@
       </div>
     </template>
     <template #bottom="{ item }">
-      <div>
-        <a-tag>激活链</a-tag>
-        <a-typography-text v-if="item?.link?.length > 0" :delete="item?.status === -1" :copyable="{ text: item.link }"
-          >{{ getLongLink(item.link) }}
-        </a-typography-text>
-        <a-tag v-else color="error">未生成</a-tag>
-      </div>
-      <div>
-        <a-tag>创建于</a-tag>
-        {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 3px">{{ getDateTime(item) }}</span>
-      </div>
-      <div class="text-red-600" v-if="item?.remark?.length > 0">
-        <a-tag color="red">备注</a-tag>
-        {{ item.remark }}
-      </div>
-      <div v-if="(advanced && item?.email?.length > 0) || (item?.status === 1 && item?.type === 0)">
-        <a-tag>预存</a-tag>
-        <a-typography-text v-if="item?.email?.length > 0" :copyable="{ text: item.email }">
-          {{ getLongLink(item.email) }}
-        </a-typography-text>
-        <a-tag v-else color="error">未填写</a-tag>
-      </div>
-      <div v-if="(advanced && item?.longLink?.length > 0) || (item?.status === 1 && item?.type === 0)">
-        <a-tag>长链接</a-tag>
-        <a-typography-text v-if="item?.longLink?.length > 0" :copyable="{ text: item.longLink }">
-          {{ getLongLink(item.longLink) }}
-        </a-typography-text>
-        <a-tag v-else color="error">未填写</a-tag>
-      </div>
-      <div v-if="advanced && item?.thirdLink?.length > 0">
-        <a-tag>预存</a-tag>
-        <a-typography-text v-if="item?.thirdLink?.length > 0" :copyable="{ text: item.thirdLink }">
-          {{ getLongLink(item.thirdLink) }}
-        </a-typography-text>
-        <a-tag v-else color="error">未填写</a-tag>
-      </div>
-      <div v-if="advanced">
-        <span style="font-size: 1px" class="text-gray-300">
-          {{ item?.createBy }}、{{ item?.updateBy }}:{{ item?.updateTime?.substring(5, 19) }}
-        </span>
+      <div :class="item?.type === 6 || item?.type === 1 ? 'bg-pink-100 p-2' : ''">
+        <div>
+          <a-tag>激活链</a-tag>
+          <a-typography-text v-if="item?.link?.length > 0" :delete="item?.status === -1" :copyable="{ text: item.link }"
+            >{{ getLongLink(item.link) }}
+          </a-typography-text>
+          <a-tag v-else color="error">未生成</a-tag>
+        </div>
+        <div>
+          <a-tag>创建于</a-tag>
+          {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 3px">{{ getDateTime(item) }}</span>
+        </div>
+        <div class="text-red-600" v-if="item?.remark?.length > 0">
+          <a-tag color="red">备注</a-tag>
+          {{ item.remark }}
+        </div>
+        <div v-if="(advanced && item?.email?.length > 0) || (item?.status === 1 && item?.type === 0)">
+          <a-tag>预存</a-tag>
+          <a-typography-text v-if="item?.email?.length > 0" :copyable="{ text: item.email }">
+            {{ getLongLink(item.email) }}
+          </a-typography-text>
+          <a-tag v-else color="error">未填写</a-tag>
+        </div>
+        <div v-if="(advanced && item?.longLink?.length > 0) || (item?.status === 1 && item?.type === 0)">
+          <a-tag>长链接</a-tag>
+          <a-typography-text v-if="item?.longLink?.length > 0" :copyable="{ text: item.longLink }">
+            {{ getLongLink(item.longLink) }}
+          </a-typography-text>
+          <a-tag v-else color="error">未填写</a-tag>
+        </div>
+        <div v-if="advanced && item?.thirdLink?.length > 0">
+          <a-tag>预存</a-tag>
+          <a-typography-text v-if="item?.thirdLink?.length > 0" :copyable="{ text: item.thirdLink }">
+            {{ getLongLink(item.thirdLink) }}
+          </a-typography-text>
+          <a-tag v-else color="error">未填写</a-tag>
+        </div>
+        <div v-if="advanced">
+          <span style="font-size: 1px" class="text-gray-300">
+            {{ item?.createBy }}、{{ item?.updateBy }}:{{ item?.updateTime?.substring(5, 19) }}
+          </span>
+        </div>
       </div>
     </template>
   </CommonList>
