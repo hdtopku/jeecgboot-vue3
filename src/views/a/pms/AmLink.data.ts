@@ -59,15 +59,15 @@ export const formSchema: FormSchema[] = [
     field: 'link',
     component: 'InputTextArea',
     componentProps: {
-      placeholder: 'https://itunes.apple.com...',
+      placeholder: '短链、或https://itunes.apple.com...',
     },
   },
   {
-    label: '备注',
-    field: 'remark',
+    label: '预存',
+    field: 'email',
     component: 'InputTextArea',
     componentProps: {
-      placeholder: '邮箱、短链等',
+      placeholder: '可复制，如邮箱、短链、激活链等',
     },
   },
   {
@@ -76,6 +76,22 @@ export const formSchema: FormSchema[] = [
     component: 'InputTextArea',
     componentProps: {
       placeholder: 'https://email.myunidays.uk...',
+    },
+  },
+  {
+    label: '备注',
+    field: 'remark',
+    component: 'InputTextArea',
+    componentProps: {
+      placeholder: '重要的信息',
+    },
+  },
+  {
+    label: '预存',
+    field: 'thirdLink',
+    component: 'InputTextArea',
+    componentProps: {
+      placeholder: '可复制，如邮箱、短链、激活链等',
     },
   },
   // {

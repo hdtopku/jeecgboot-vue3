@@ -62,16 +62,30 @@
       </div>
       <div>
         <a-tag>创建于</a-tag>
-        {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 1px">{{ getDateTime(item) }}</span>
+        {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 3px">{{ getDateTime(item) }}</span>
       </div>
       <div class="text-red-600" v-if="item?.remark?.length > 0">
         <a-tag color="red">备注</a-tag>
         {{ item.remark }}
       </div>
-      <div v-if="advanced || (item?.status === 1 && item?.type === 0)">
+      <div v-if="(advanced && item?.email?.length > 0) || (item?.status === 1 && item?.type === 0)">
+        <a-tag>预存</a-tag>
+        <a-typography-text v-if="item?.email?.length > 0" :copyable="{ text: item.email }">
+          {{ getLongLink(item.email) }}
+        </a-typography-text>
+        <a-tag v-else color="error">未填写</a-tag>
+      </div>
+      <div v-if="(advanced && item?.longLink?.length > 0) || (item?.status === 1 && item?.type === 0)">
         <a-tag>长链接</a-tag>
         <a-typography-text v-if="item?.longLink?.length > 0" :copyable="{ text: item.longLink }">
           {{ getLongLink(item.longLink) }}
+        </a-typography-text>
+        <a-tag v-else color="error">未填写</a-tag>
+      </div>
+      <div v-if="advanced && item?.thirdLink?.length > 0">
+        <a-tag>预存</a-tag>
+        <a-typography-text v-if="item?.thirdLink?.length > 0" :copyable="{ text: item.thirdLink }">
+          {{ getLongLink(item.thirdLink) }}
         </a-typography-text>
         <a-tag v-else color="error">未填写</a-tag>
       </div>
@@ -125,10 +139,10 @@
       if (index >= 0) {
         return link.substring(index + 4);
       }
-      index = link.indexOf('@stu.hnucm.edu.cn');
-      if (index >= 0) {
-        return link.substring(0, index + 1);
-      }
+      // index = link.indexOf('@stu.hnucm.edu.cn');
+      // if (index >= 0) {
+      //   return link.substring(0, index + 1);
+      // }
     }
     return link;
   };
