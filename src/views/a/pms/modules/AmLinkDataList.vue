@@ -18,7 +18,7 @@
         <a-menu-item v-if="item?.status === 0 || item?.status === 1">
           <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>删除</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.status === 0">
+        <a-menu-item v-if="item?.status === 0 || item?.status === -1">
           <a-button @click="changeStatus(item, 1)" type="link" size="small">暂存</a-button>
         </a-menu-item>
         <a-menu-item v-if="item?.status === -1 || item?.status === 1">
@@ -91,7 +91,10 @@
           <a-tag v-else color="error">未填写</a-tag>
         </div>
         <div v-if="advanced">
-          <span class="text-indigo-700"> {{ item?.createBy }}、{{ item?.updateBy }}：{{ item?.updateTime?.substring(5, 19) }} </span>
+          <span class="text-indigo-700">
+            [创建]{{ item?.createBy }}
+            <div v-if="item?.updateBy?.length > 0">[更新]{{ item?.updateBy }}：{{ item?.updateTime?.substring(5, 19) }}</div>
+          </span>
         </div>
       </div>
     </template>
