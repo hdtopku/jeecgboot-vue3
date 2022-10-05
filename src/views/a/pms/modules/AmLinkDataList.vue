@@ -62,9 +62,9 @@
           <a-tag v-else color="error">未生成</a-tag>
         </div>
         <div>
-          <a-tag>创建于</a-tag>
-          {{ item?.createTime?.substring(5, 16) }} <span class="text-gray-300" style="font-size: 3px">{{ getDateTime(item) }}</span>
-        </div>
+          [创建]{{ item?.createTime?.substring(5, 16) }}
+          <span v-if="getDateTime(item)?.length > 0" class="text-indigo-700">[激活]{{ getDateTime(item) }} </span></div
+        >
         <div class="text-red-600" v-if="item?.remark?.length > 0">
           <a-tag color="red">备注</a-tag>
           {{ item.remark }}
@@ -126,7 +126,7 @@
       if (idx > 0) {
         let milliseconds = Number.parseInt(link?.substring(idx + 6)) * 1000;
         let d = dayjs(milliseconds);
-        return d.format('MM-DD hh:mm');
+        return d.format('MM-DD HH:mm');
       }
     }
     return '';
