@@ -266,11 +266,9 @@
   const { proxy } = getCurrentInstance();
   const queryFinish = (data = '') => {
     if (count.value === 1) {
-      if (count.value === 1) {
-        proxy.tool.copy(data, data + '已复制');
-      } else {
-        proxy.tool.copy(data, count.value + '条已复制');
-      }
+      proxy.tool.copy(data, data + '已复制');
+    } else {
+      proxy.tool.copy(data, count.value + '条已复制');
     }
     btnLoading.value = false;
   };
