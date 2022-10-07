@@ -3,18 +3,19 @@
     <Search
       @query-list="(params) => queryList(params, true)"
       ref="SearchRef"
-      showCopy
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabs="tabs"
     >
       <template #suffix>
-        <a-button
-          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
-          @click="router.push('/pms/am/help')"
-          type="link"
-          danger
-          >帮助</a-button
+        <a-button @click="handleAdd" type="primary">新增</a-button>
+      </template>
+      <template #suffixAdvanced>
+        <a-button @click="jumpToJet" type="link">Jet官网</a-button>
+      </template>
+      <template #left>
+        <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="jumpToJet" type="link" danger
+          >Jet官网</a-button
         >
       </template>
     </Search>

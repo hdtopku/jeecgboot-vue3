@@ -9,7 +9,7 @@
       :tabs="tabs"
     >
       <template #suffix>
-        <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+        <a-button type="primary" @click="handleAdd">新增</a-button>
       </template>
     </Search>
     <AmLinkDataList ref="AmLinkDataListRef" @handle-edit="handleEdit" @query-list="queryList" />

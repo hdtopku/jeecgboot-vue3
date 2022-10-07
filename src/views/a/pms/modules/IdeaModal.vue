@@ -37,6 +37,7 @@
       //表单赋值
       await setFieldsValue({
         invalidTime: dayjs().add(364, 'days'),
+        realInvalidTime: dayjs().add(364, 'days'),
       });
     }
   });

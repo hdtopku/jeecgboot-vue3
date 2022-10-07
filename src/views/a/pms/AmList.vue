@@ -7,11 +7,11 @@
       showCopy
       showTabs
       showSwitch
+      showPeople
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabs="tabs"
     >
-      <template #suffix> </template>
       <template #left>
         <a-button
           class="animate__animated animate__heartBeat animate__slower animate__repeat-3"

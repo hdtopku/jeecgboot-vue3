@@ -28,7 +28,7 @@
           <a-space v-if="advanced">
             <a-select
               size=""
-              v-if="hasPermission('am:selectUser')"
+              v-if="hasPermission('am:selectUser') && showPeople"
               :loading="userLoading"
               allowClear
               ref="select"
@@ -49,6 +49,7 @@
         </template>
         <template #suffix>
           <slot v-if="advanced" name="suffix"></slot>
+          <slot name="suffixAdvanced"></slot>
 
           <span v-if="showSwitch && hasPermission('link:switch')">
             <a-button
@@ -122,6 +123,10 @@
       default: false,
     },
     showSwitch: {
+      type: Boolean,
+      default: false,
+    },
+    showPeople: {
       type: Boolean,
       default: false,
     },
