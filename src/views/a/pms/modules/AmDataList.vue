@@ -39,8 +39,8 @@
           <a-button @click="handleEdit(item)" v-if="hasPermission('link:switch')" type="link" size="small">编辑 </a-button>
         </a-menu-item>
         <a-menu-item>
-          <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item.code, 0)">恢复验证 </a-button>
-          <a-button type="link" size="small" danger @click="updateVerifyStatus(item.code, -1)"> 销毁验证 </a-button>
+          <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item, 0)">恢复验证 </a-button>
+          <a-button type="link" size="small" danger @click="updateVerifyStatus(item, -1)"> 销毁验证 </a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -84,48 +84,18 @@
 <script lang="ts" setup>
   import CommonList from '/@/views/a/common/CommonList.vue';
   import { ref, watch } from 'vue';
-  import { getList, updateCodeStatus } from '/@/views/a/pms/Am.api';
+  import { getList } from '/@/views/a/pms/Am.api';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { saveOrUpdate } from '/@/views/a/pms/Am.api';
 
   const { hasPermission } = usePermission();
 
   const CommonListRef = ref();
 
-  const loading = ref(false);
-  const loadingMore = ref(false);
-  const params = ref({
-    pageNo: 1,
-    pageSize: 30,
-  });
   const dataList = ref();
-  const queryList = (loadMore = false) => {
-    if (loadMore) {
-      loadingMore.value = true;
-    } else {
-      loading.value = true;
-    }
-    getList(params.value)
-      .then((res) => {
-        params.value.pageNo = res.current + 1;
-        if (res.current > 1 && loadMore) {
-          dataList.value.records.push(...res.records);
-          return;
-        }
-        dataList.value = res;
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        loading.value = false;
-        loadingMore.value = false;
-      });
-  };
-  const updateVerifyStatus = (code, valid) => {
-    updateCodeStatus({ code, valid }).then(() => {
-      params.value.pageNo = 1;
-      queryList();
-    });
+  const updateVerifyStatus = (item, valid) => {
+    item.valid = valid;
+    saveOrUpdate(item, true).then(() => {});
   };
   const activeKey = ref('0');
   const copyLink = (item) => {
@@ -164,7 +134,6 @@
   };
   const emit = defineEmits(['handleEdit']);
   const handleEdit = (item) => {
-    console.log(item);
     emit('handleEdit', item);
   };
   const advanced = ref(false);

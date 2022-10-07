@@ -151,9 +151,7 @@
   };
   const changeStatus = (record, status) => {
     record.status = status;
-    saveOrUpdate(record, true).then(() => {
-      emit('queryList');
-    });
+    saveOrUpdate(record, true).then(() => {});
   };
   const changeType = (record, type) => {
     record.type = type;
