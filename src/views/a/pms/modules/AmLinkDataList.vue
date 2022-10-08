@@ -12,6 +12,9 @@
     </template>
     <template #operate="{ item }">
       <a-menu>
+        <a-menu-item v-if="item?.status !== 0">
+          <a-button type="warning" ghost size="small" @click="update(item)">置顶</a-button>
+        </a-menu-item>
         <a-menu-item>
           <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
         </a-menu-item>
@@ -151,13 +154,16 @@
   };
   const changeStatus = (record, status) => {
     record.status = status;
-    saveOrUpdate(record, true).then(() => {});
+    update(record);
   };
-  const changeType = (record, type) => {
-    record.type = type;
+  const update = (record) => {
     saveOrUpdate(record, true).then(() => {
       emit('queryList');
     });
+  };
+  const changeType = (record, type) => {
+    record.type = type;
+    update(record);
   };
   const { proxy } = getCurrentInstance();
   const copyCode = (record) => {
