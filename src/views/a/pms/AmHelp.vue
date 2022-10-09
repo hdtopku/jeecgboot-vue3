@@ -134,7 +134,7 @@
           <a-typography-text :copyable="{ text: 'https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu' }"> 5、淘宝保证金 </a-typography-text>、
           <a-typography-text :copyable="{ text: 'https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe' }"> 旧版保证金 </a-typography-text>
         </div>
-        <div><a-typography-text :copyable="{ text: getBadRateText() }"> 6、复制改评链接 </a-typography-text></div>
+        <div><a-typography-text :copyable="{ text: getBadRateText() }"> 6、复制删评链接 </a-typography-text></div>
         <a-typography-paragraph>
           <blockquote>
             凡是申请退款，<a-typography-text mark>一律无理由同意退款</a-typography-text>，无需与买家理论，有些买家就是想白嫖，不给退，就千方百计给差评。
@@ -190,7 +190,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   const getBadRateText = () => {
-    return `亲，非常抱歉给您带来了不好的体验，任何问题都可以联系我们，这里是改评链接，麻烦亲删下哦~，这边给亲退了，亲看可以吗？ 手机端点击: https://market.m.taobao.com/app/rate-fe/rate-buyer-weex-h5/rate-edit/index.html?feedId=1179983402505&orderId=1585629482163463787电脑端点击: https://rate.taobao.com/RateDetailBuyer.htm?parentTradeId=1585629482163463787`;
+    return `亲，非常抱歉给您带来了不好的体验，任何问题都可以联系我们，这里是改评链接，麻烦亲删下哦~，这边给亲退了，亲看可以吗？ https://rate.taobao.com/user-myrate-UvFHyvFgLMCN4vQTT--buyerOrSeller%7C3--receivedOrPosted%7C1.htm?spm=a1z0b.3.5920813.2.AIjSOm#rateList`;
   };
   const activeKey = ref('3');
   const collapseActiveKey = ref();
