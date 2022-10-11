@@ -12,20 +12,20 @@
     </template>
     <template #operate="{ item }">
       <a-menu>
-        <a-menu-item v-if="item?.status !== 0">
-          <a-button type="warning" ghost size="small" @click="update(item)">置顶</a-button>
+        <a-menu-item v-if="item?.status !== 0" @click="update(item)">
+          <a-button type="warning" ghost size="small">置顶</a-button>
         </a-menu-item>
-        <a-menu-item>
-          <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
+        <a-menu-item @click="handleEdit(item)">
+          <a-button type="link" size="small">编辑</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.status === 0 || item?.status === 1">
-          <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>删除</a-button>
+        <a-menu-item v-if="item?.status === 0 || item?.status === 1" @click="changeStatus(item, -1)">
+          <a-button type="link" size="small" danger>删除</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.status === 0 || item?.status === -1">
-          <a-button @click="changeStatus(item, 1)" type="link" size="small">备用</a-button>
+        <a-menu-item @click="changeStatus(item, 1)" v-if="item?.status === 0 || item?.status === -1">
+          <a-button type="link" size="small">备用</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.status === -1 || item?.status === 1">
-          <a-button @click="changeStatus(item, 0)" type="link" size="small">使用</a-button>
+        <a-menu-item v-if="item?.status === -1 || item?.status === 1" @click="changeStatus(item, 0)">
+          <a-button type="link" size="small">使用</a-button>
         </a-menu-item>
         <a-menu-item v-if="item?.type !== 1 && item?.type !== 6">
           <a-button @click="changeType(item, 6)" type="link" size="small">设为至尊</a-button>

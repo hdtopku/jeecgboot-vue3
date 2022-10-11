@@ -33,8 +33,8 @@
     </template>
     <template #operate="{ item }">
       <a-menu>
-        <a-menu-item v-if="item">
-          <a-button @click="handleEdit(item)" v-if="hasPermission('link:switch')" type="link" size="small">编辑 </a-button>
+        <a-menu-item @click="handleEdit(item)" v-if="item">
+          <a-button v-if="hasPermission('link:switch')" type="link" size="small">编辑 </a-button>
         </a-menu-item>
         <a-menu-item>
           <a-button v-if="false" type="link" size="small" danger @click="updateVerifyStatus(item, 0)">恢复验证 </a-button>
