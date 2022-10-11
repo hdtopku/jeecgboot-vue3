@@ -10,15 +10,10 @@
         @change-advanced="changeAdvanced"
         @confirm-copy="confirmCopy"
         placeholder="粘贴或模糊搜索激活码、用户标识"
-        :tabs="tabs"
+        :tabPane="tabPane"
       >
-        <template #suffix>
-          <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="clickHelp" type="link" danger
-            >帮助</a-button
-          >
-        </template>
-        <template #prefix>
-          <a-button type="link" @click="router.push('/pms/id/list')">IDEAs</a-button>
+        <template #left>
+          <a-button type="link" @click="router.push('/pms/id/list')">账号</a-button>
         </template>
       </Search>
     </div>
@@ -68,24 +63,27 @@
     }
     IdeaMemberDataListRef.value.startQuery(cachedParams.value);
   };
-  const tabs = [
-    {
-      tabKey: '-1',
-      tabName: '失效',
-    },
-    {
-      tabKey: '1',
-      tabName: '打开',
-    },
-    {
-      tabKey: '0',
-      tabName: '刷新',
-    },
-    {
-      tabKey: '2',
-      tabName: '已用',
-    },
-  ];
+  const tabPane = {
+    tabs: [
+      {
+        tabKey: '-1',
+        tabName: '失效',
+      },
+      {
+        tabKey: '1',
+        tabName: '打开',
+      },
+      {
+        tabKey: '0',
+        tabName: '刷新',
+      },
+      {
+        tabKey: '2',
+        tabName: '已用',
+      },
+    ],
+    activeKey: '0',
+  };
   const changeAdvanced = () => {
     advanced.value = !advanced.value;
     IdeaMemberDataListRef.value.changeAdvanced();

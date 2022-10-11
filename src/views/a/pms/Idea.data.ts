@@ -1,5 +1,4 @@
 import { BasicColumn } from '/@/components/Table';
-import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
@@ -64,7 +63,8 @@ export const formSchema: FormSchema[] = [
     field: 'invalidTime',
     component: 'DatePicker',
     componentProps: {
-      valueFormat: 'YYYY-MM-DD hh:mm:ss',
+      showTime: false,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
     },
   },
   {
@@ -73,7 +73,8 @@ export const formSchema: FormSchema[] = [
     field: 'realInvalidTime',
     component: 'DatePicker',
     componentProps: {
-      valueFormat: 'YYYY-MM-DD hh:mm:ss',
+      showTime: false,
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
     },
   },
   {

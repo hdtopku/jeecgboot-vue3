@@ -1,5 +1,5 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="80%" defaultFullscreen>
+  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="96%">
     <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
@@ -36,8 +36,8 @@
     } else {
       //表单赋值
       await setFieldsValue({
-        invalidTime: dayjs().add(364, 'days'),
-        realInvalidTime: dayjs().add(364, 'days'),
+        invalidTime: dayjs().add(364, 'days').format('YYYY-MM-DD HH:mm:ss'),
+        realInvalidTime: dayjs().add(364, 'days').format('YYYY-MM-DD HH:mm:ss'),
       });
     }
   });

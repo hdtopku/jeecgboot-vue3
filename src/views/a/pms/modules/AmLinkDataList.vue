@@ -22,7 +22,7 @@
           <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>删除</a-button>
         </a-menu-item>
         <a-menu-item v-if="item?.status === 0 || item?.status === -1">
-          <a-button @click="changeStatus(item, 1)" type="link" size="small">暂存</a-button>
+          <a-button @click="changeStatus(item, 1)" type="link" size="small">备用</a-button>
         </a-menu-item>
         <a-menu-item v-if="item?.status === -1 || item?.status === 1">
           <a-button @click="changeStatus(item, 0)" type="link" size="small">使用</a-button>

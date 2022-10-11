@@ -2,11 +2,10 @@
   <a-card size="small">
     <Search
       @change-advanced="changeAdvanced"
-      showTabs
       @query-list="(params) => queryList(params, true)"
       ref="SearchRef"
       placeholder="模糊搜索"
-      :tabs="tabs"
+      :tabPane="tabPane"
     >
       <template #suffix>
         <a-button type="primary" @click="handleAdd">新增</a-button>
@@ -25,34 +24,28 @@
   import { onMounted, ref } from 'vue';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();
-  import { getList } from './AmLink.api';
-  const currAdvancedLink = () => {};
-  const currentLink = () => {};
 
-  const getLinks = () => {
-    getList().then((res) => {
-      console.log(res);
-    });
+  const tabPane = {
+    tabs: [
+      {
+        tabKey: '-1',
+        tabName: '回收站',
+      },
+      {
+        tabKey: '1',
+        tabName: '待使用',
+      },
+      {
+        tabKey: '0',
+        tabName: '使用中',
+      },
+      {
+        tabKey: '100',
+        tabName: '所有',
+      },
+    ],
+    activeKey: '0',
   };
-
-  const tabs = [
-    {
-      tabKey: '-1',
-      tabName: '回收站',
-    },
-    {
-      tabKey: '1',
-      tabName: '待使用',
-    },
-    {
-      tabKey: '0',
-      tabName: '使用中',
-    },
-    {
-      tabKey: '100',
-      tabName: '所有',
-    },
-  ];
 
   /**
    * 新增事件

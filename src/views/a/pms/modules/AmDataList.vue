@@ -20,17 +20,15 @@
     </template>
     <template #left="{ item }">
       <div>
-        <div>
-          <a-typography-text :copyable="{ text: copyLink(item) }">
-            <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
-          </a-typography-text>
-        </div>
-        <div v-if="hasPermission('link:switch') && item?.link?.length > 3">
-          <a-typography-link :copyable="{ text: item?.link }"> {{ item?.link?.substring(item?.link?.length - 4) }} </a-typography-link>
-        </div>
-        <div v-if="hasPermission('link:switch') && item?.remark?.length > 0">
-          <a-typography-text :copyable="{ text: item?.remark }" mark> 注:{{ item?.remark }} </a-typography-text>
-        </div>
+        <a-typography-text :copyable="{ text: copyLink(item) }">
+          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
+        </a-typography-text>
+      </div>
+      <div v-if="hasPermission('link:switch') && item?.link?.length > 3">
+        <a-typography-link :copyable="{ text: item?.link }"> {{ item?.link?.substring(item?.link?.length - 4) }} </a-typography-link>
+      </div>
+      <div v-if="hasPermission('link:switch') && item?.remark?.length > 0">
+        <a-typography-text :copyable="{ text: item?.remark }" mark> 注:{{ item?.remark }} </a-typography-text>
       </div>
     </template>
     <template #operate="{ item }">
@@ -67,6 +65,10 @@
       <div v-if="item?.refundTime?.length > 0">
         <a-tag color="error">买家退款</a-tag>
         <span>{{ item?.refundTime?.substring(5) }}</span>
+      </div>
+      <div v-if="hasPermission('link:switch') && item?.createBy?.length > 0">
+        <a-tag>创建人</a-tag>
+        <span> {{ item?.createBy }} </span>
       </div>
     </template>
     <template #right="{ item }">

@@ -83,9 +83,9 @@
   </a-row>
 
   <!--  showTabs-->
-  <div v-if="showTabs" class="flex flex-wrap justify-evenly">
-    <a-tabs :animated="false" v-model:activeKey="status" @tab-click="tabClick">
-      <a-tab-pane v-for="item in tabs" :key="item.tabKey" :tab="item.tabName" />
+  <div v-if="props.tabPane?.tabs?.length > 0" class="flex flex-wrap justify-evenly">
+    <a-tabs :animated="false" v-model:activeKey="activeKey" @tab-click="tabClick">
+      <a-tab-pane v-for="item in props.tabPane?.tabs" :key="item.tabKey" :tab="item.tabName" />
     </a-tabs>
   </div>
 </template>
@@ -105,7 +105,7 @@
 
   const { hasPermission } = usePermission();
 
-  defineProps({
+  const props = defineProps({
     placeholder: {
       type: String,
       default: '粘贴搜索',
@@ -118,10 +118,6 @@
       type: Boolean,
       default: false,
     },
-    showTabs: {
-      type: Boolean,
-      default: false,
-    },
     showSwitch: {
       type: Boolean,
       default: false,
@@ -130,9 +126,11 @@
       type: Boolean,
       default: false,
     },
-    tabs: {
-      type: Array,
-      default: () => [],
+    tabPane: {
+      type: Object,
+      default: () => {
+        return { tabs: [], activeKey: '0' };
+      },
     },
   });
 
@@ -222,10 +220,10 @@
     }
     queryList();
   };
-  const status = ref('0');
+  const activeKey = ref(props?.tabPane?.activeKey);
 
   const tabClick = (tabKey) => {
-    status.value = tabKey;
+    activeKey.value = tabKey;
     queryList();
   };
   // defineEmits
@@ -255,7 +253,7 @@
       keyword: keyword.value,
       username,
       checked: checked.value,
-      status: status.value,
+      status: activeKey.value,
     });
   };
   const changeAdvanced = () => {

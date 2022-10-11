@@ -5,12 +5,11 @@
       ref="SearchRef"
       showTop
       showCopy
-      showTabs
       showSwitch
       showPeople
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
-      :tabs="tabs"
+      :tabPane="tabPane"
     >
       <template #left>
         <a-button
@@ -60,24 +59,27 @@
       showFooter: true,
     });
   }
-  const tabs = [
-    {
-      tabKey: '-1',
-      tabName: '退款',
-    },
-    {
-      tabKey: '1',
-      tabName: '打开',
-    },
-    {
-      tabKey: '0',
-      tabName: '刷新',
-    },
-    {
-      tabKey: '2',
-      tabName: '成交',
-    },
-  ];
+  const tabPane = {
+    tabs: [
+      {
+        tabKey: '-1',
+        tabName: '退款',
+      },
+      {
+        tabKey: '1',
+        tabName: '打开',
+      },
+      {
+        tabKey: '0',
+        tabName: '刷新',
+      },
+      {
+        tabKey: '2',
+        tabName: '成交',
+      },
+    ],
+    activeKey: '0',
+  };
   const confirmCopy = (params) => {
     if (params?.checked) {
       params.type = 6;

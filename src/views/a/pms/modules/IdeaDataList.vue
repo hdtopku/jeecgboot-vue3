@@ -18,13 +18,13 @@
             <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
           </a-menu-item>
           <a-menu-item v-if="item.status === 0 || item.status === 1">
-            <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>失效</a-button>
+            <a-button @click="changeStatus(item, -1)" type="link" size="small" danger>删除</a-button>
           </a-menu-item>
           <a-menu-item v-if="item.status === -1 || item.status === 1">
             <a-button @click="changeStatus(item, 0)" type="link" size="small">备用</a-button>
           </a-menu-item>
           <a-menu-item v-if="item.status === -1 || item.status === 0">
-            <a-button @click="changeStatus(item, 1)" type="link" size="small">在用</a-button>
+            <a-button @click="changeStatus(item, 1)" type="link" size="small">使用</a-button>
           </a-menu-item>
         </a-menu>
       </div>
@@ -39,6 +39,7 @@
       <div class="text-red-600" v-if="item?.remark?.length > 0"><a-tag color="red">备注</a-tag>{{ item.remark }}</div>
       <div><a-tag>售后截至</a-tag>{{ item?.invalidTime }}</div>
       <div><a-tag>账号失效</a-tag>{{ item?.realInvalidTime }}</div>
+      <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
     </template>
     <template #right="{ item }">
       <div> </div>
@@ -52,7 +53,7 @@
   import CommonList from '../../common/CommonList.vue';
   const CommonListRef = ref();
   const queryParams = ref(); // initQuery使用
-  const initQuery = (params = { pageNo: 1, pageSize: 30, status: activeKey.value }) => {
+  const startQuery = (params = { pageNo: 1, pageSize: 30, status: activeKey.value }) => {
     queryParams.value = params;
     CommonListRef.value.execQuery(getList, params);
   };
@@ -69,13 +70,13 @@
   const changeStatus = (record, status) => {
     record.status = status;
     saveOrUpdate(record, true).then(() => {
-      initQuery(queryParams.value);
+      startQuery(queryParams.value);
     });
   };
   const changeActiveKey = (key) => {
     activeKey.value = key.value;
     queryParams.value.status = key.value;
-    initQuery(queryParams.value);
+    startQuery(queryParams.value);
   };
-  defineExpose({ initQuery, changeActiveKey });
+  defineExpose({ startQuery, changeActiveKey });
 </script>
