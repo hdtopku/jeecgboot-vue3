@@ -52,7 +52,7 @@
         <div
           ><a href="javascript:;" @click="showSysIpInfo(item, true)">{{ item?.ideaUsages.length }}个账号</a></div
         >
-        总{{ item?.totalVisitCount }}次提取</div
+        总{{ item?.count }}次提取</div
       >
     </template>
     <template #operate="{ item, index }">
