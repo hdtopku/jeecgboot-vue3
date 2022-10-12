@@ -9,6 +9,7 @@ import { getTenantId, getToken } from '/@/utils/auth';
 import { URL_HASH_TAB } from '/@/utils';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { packageViews } from '/@/utils/monorepo/dynamicRouter';
+import {useI18n} from "/@/hooks/web/useI18n";
 
 export type LayoutMapKey = 'LAYOUT';
 const IFRAME = () => import('/@/views/sys/iframe/FrameBlank.vue');
@@ -36,12 +37,12 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
     //菜单支持国际化翻译
     if (item?.meta?.title) {
       const { t } = useI18n();
-      if (item.meta.title.includes("t('") && t) {
+      if(item.meta.title.includes('t(\'') && t){
         item.meta.title = eval(item.meta.title);
         //console.log('译后: ',item.meta.title)
       }
     }
-
+   
     // update-begin--author:sunjianlei---date:20210918---for:适配旧版路由选项 --------
     // @ts-ignore 适配隐藏路由
     if (item?.hidden) {
