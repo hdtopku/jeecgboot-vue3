@@ -10,6 +10,7 @@
       <div class="mt-1">
         <a-typography-text :copyable="{ text: copyAccount(item.account, item.password) }">账密</a-typography-text>
       </div>
+      <div class="text-red-500" v-if="item?.status === 0"> [待使用] </div>
     </template>
     <template #operate="{ item, index }">
       <div>
