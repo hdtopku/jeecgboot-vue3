@@ -6,6 +6,11 @@
       <a-typography-text v-show="activeKey === '1'" mark>使用中（按有效期倒排）</a-typography-text>
       <a-typography-text v-show="activeKey === '5'" mark>按修改时间倒排</a-typography-text>
     </template>
+    <template #shelter="{ item }">
+      <span v-if="item?.bindCount > 0">
+        |<span size="small" class="text-red-500">{{ item?.bindCount }}次</span>
+      </span>
+    </template>
     <template #left="{ item, index }">
       <div class="mt-1">
         <a-typography-text :copyable="{ text: copyAccount(item.account, item.password) }">账密</a-typography-text>
@@ -25,7 +30,7 @@
             <a-button type="link" size="small">备用</a-button>
           </a-menu-item>
           <a-menu-item @click="changeStatus(item, 1)" v-if="item.status === -1 || item.status === 0">
-            <a-button type="link">使用</a-button>
+            <a-button type="link" size="small">使用</a-button>
           </a-menu-item>
         </a-menu>
       </div>
