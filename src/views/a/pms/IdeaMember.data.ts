@@ -75,16 +75,14 @@ export const formSchema: FormSchema[] = [
       const options = ref<Array<Options>>([]);
       getList({ pageSize: 1000, status: 1 }).then((res) => {
         res?.records?.forEach((item: any) => {
-          options.value.push({ label: item.invalidTime + '👉 ' + item.account, value: item.id });
+          options.value.push({ label: item?.invalidTime?.substring(0, 10) + '👉' + item.account, value: item.id });
         });
       });
       return {
         options: options.value,
         showSearch: true,
         placeholder: '请选择账号',
-        onChange: (e: any) => {
-          console.log(e);
-        },
+        onChange: (e: any) => {},
         optionLabelProp: 'label',
       };
     },

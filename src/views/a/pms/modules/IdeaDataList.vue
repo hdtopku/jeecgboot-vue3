@@ -1,10 +1,10 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text v-show="activeKey === '0'" mark>备用（按有效期倒排）</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1'" mark>已失效（按有效期倒排）</a-typography-text>
-      <a-typography-text v-show="activeKey === '1'" mark>使用中（按有效期倒排）</a-typography-text>
-      <a-typography-text v-show="activeKey === '5'" mark>按修改时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '0'" mark>按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '-1'" mark>按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '1'" mark>按真实有效期倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '5'" mark>按更新时间倒排</a-typography-text>
     </template>
     <template #shelter="{ item }">
       <span v-if="item?.bindCount > 0">
@@ -46,6 +46,7 @@
       <div><a-tag>售后截至</a-tag>{{ item?.invalidTime }}</div>
       <div><a-tag>账号失效</a-tag>{{ item?.realInvalidTime }}</div>
       <div><a-tag>创建时间</a-tag>{{ item?.createTime }}</div>
+      <div><a-tag>更新时间</a-tag>{{ item?.updateTime }}</div>
     </template>
     <template #right="{ item }">
       <div> </div>
