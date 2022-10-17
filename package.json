@@ -1,16 +1,17 @@
 {
   "name": "jeecgboot-vue3",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "author": {
     "name": "jeecg",
     "email": "jeecgos@163.com",
     "url": "https://github.com/jeecgboot/jeecgboot-vue3"
   },
   "scripts": {
-    "bootstrap": "yarn install",
+    "bootstrap": "yarn install --registry https://registry.npm.taobao.org || npm install --ignore-scripts --registry https://registry.npm.taobao.org",
     "serve": "npm run dev",
     "dev": "vite",
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
+    "clean:lib": "rimraf node_modules",
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 vite build && esno ./build/script/postBuild.ts",
     "build:test": "cross-env NODE_OPTIONS=--max-old-space-size=8192 vite build --mode test && esno ./build/script/postBuild.ts",
     "build:no-cache": "yarn clean:cache && npm run build",
@@ -19,7 +20,6 @@
     "preview": "npm run build && vite preview",
     "preview:dist": "vite preview",
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "clean:lib": "rimraf node_modules",
     "lint:eslint": "eslint --cache --max-warnings 0  \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
     "lint:prettier": "prettier --write  \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
@@ -34,10 +34,10 @@
     "gen:icon": "esno ./build/generate/icon/index.ts"
   },
   "dependencies": {
+    "@jeecg/online": "3.4.3-beta",
+    "@iconify/iconify": "^2.2.1",
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons-vue": "^6.1.0",
-    "@iconify/iconify": "^2.2.1",
-    "@jeecg/online": "1.0.1",
     "@logicflow/core": "^1.1.13",
     "@logicflow/extension": "^1.1.13",
     "@vue/runtime-core": "^3.2.33",
@@ -87,8 +87,8 @@
     "vue-router": "^4.0.14",
     "vue-types": "^4.1.1",
     "vuedraggable": "^4.1.0",
-    "vxe-table": "4.1.0",
-    "vxe-table-plugin-antd": "^3.0.5",
+    "vxe-table": "^4.2.8",
+    "vxe-table-plugin-antd": "^3.0.6",
     "xe-utils": "^3.3.1",
     "xss": "^1.0.13"
   },
