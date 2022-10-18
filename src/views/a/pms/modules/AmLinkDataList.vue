@@ -170,7 +170,7 @@
     });
   };
   const { proxy } = getCurrentInstance();
-  const copyCode = (record) => {
+  const copyCode = (record: {}) => {
     getCodes({ count: 1, type: 6, linkId: record?.id, link: record?.link, username }, (data) => {
       proxy.tool.copy(data, data + '已复制');
     });
@@ -186,6 +186,7 @@
     changeAdvanced: () => {
       advanced.value = !advanced.value;
     },
+    copyCode,
   });
 </script>
 <style scoped></style>
