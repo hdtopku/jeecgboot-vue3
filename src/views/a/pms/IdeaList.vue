@@ -1,12 +1,6 @@
 <template>
   <a-card size="small">
-    <Search
-      @query-list="(params) => queryList(params, true)"
-      ref="SearchRef"
-      @confirm-copy="confirmCopy"
-      placeholder="粘贴或模糊搜索激活码、用户标识"
-      :tabPane="tabPane"
-    >
+    <Search @query-list="(params) => queryList(params, true)" ref="SearchRef" placeholder="粘贴或模糊搜索激活码、用户标识" :tabPane="tabPane">
       <template #suffix>
         <a-button @click="handleAdd" type="primary">新增</a-button>
       </template>

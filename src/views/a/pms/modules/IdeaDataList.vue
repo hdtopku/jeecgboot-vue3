@@ -1,10 +1,8 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text v-show="activeKey === '0'" mark>按更新时间倒排</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1'" mark>按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '0' || activeKey === '-1' || activeKey === '5'" mark>按更新时间倒排</a-typography-text>
       <a-typography-text v-show="activeKey === '1'" mark>按真实有效期倒排</a-typography-text>
-      <a-typography-text v-show="activeKey === '5'" mark>按更新时间倒排</a-typography-text>
     </template>
     <template #shelter="{ item }">
       <span v-if="item?.bindCount > 0">
@@ -62,6 +60,7 @@
   const queryParams = ref(); // initQuery使用
   const startQuery = (params = { pageNo: 1, pageSize: 30, status: activeKey.value }) => {
     queryParams.value = params;
+    activeKey.value = params?.status;
     CommonListRef.value.execQuery(getList, params);
   };
   const activeKey = ref('0');
@@ -80,10 +79,5 @@
       startQuery(queryParams.value);
     });
   };
-  const changeActiveKey = (key) => {
-    activeKey.value = key.value;
-    queryParams.value.status = key.value;
-    startQuery(queryParams.value);
-  };
-  defineExpose({ startQuery, changeActiveKey });
+  defineExpose({ startQuery });
 </script>

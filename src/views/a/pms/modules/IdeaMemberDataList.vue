@@ -1,21 +1,24 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text v-show="activeKey === '0'" mark>有效的用户</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1'" mark>失效的用户</a-typography-text>
-      <a-typography-text v-show="activeKey === '2'" mark>有效+失效的用户</a-typography-text>
+      <a-typography-text v-show="activeKey === '0'" mark>按激活时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '-1' || activeKey === '1' || activeKey === '2'" mark>按更新时间倒排</a-typography-text>
     </template>
     <template #top="{ item }">
       <div> {{ getLocation(item) }}</div>
       <div> {{ getDevice(item) }}</div>
       <div>
-        <a-tag>
+        <a-tag color="processing">
           <a-typography-text>标识</a-typography-text>
         </a-tag>
         <span v-if="item?.identity.length > 0">
-          <a-typography-text :copyable="advanced"> {{ item.identity }}</a-typography-text>
+          <a-typography-text copyable> {{ item.identity }}</a-typography-text>
         </span>
         <a-tag v-else color="error">未绑定</a-tag>
+      </div>
+      <div v-if="item?.remark?.trim()?.length > 0">
+        <a-tag color="error"> 备注 </a-tag>
+        <span class="text-red-500">{{ item?.remark }}</span>
       </div>
     </template>
     <template #bottom="{ item }">
@@ -34,20 +37,27 @@
         {{ item?.invalidTime }}
       </div>
       <div>
-        <a-tag>
-          <a-typography-text>账密</a-typography-text>
-        </a-tag>
         <span v-if="item?.status === 2 && item?.ideaStatus != null"
           ><a-typography-text
             :delete="item?.ideaStatus === -1"
             :copyable="advanced ? { text: copyAccount(item.ideaAccount, item.ideaPassword) } : false"
           >
-            <a-typography-text :copyable="advanced">{{ item.ideaAccount }}</a-typography-text>
-            <div
-              ><a-typography-text :copyable="advanced">{{ item.ideaPassword }}</a-typography-text></div
+            <div>
+              <a-tag>
+                <a-typography-text>账密</a-typography-text>
+              </a-tag>
+              <a-typography-text :copyable="advanced">{{ item.ideaAccount }}</a-typography-text></div
             >
-            {{ item?.ideaInvalidTime }}
+            <a-typography-text :copyable="advanced">{{ item.ideaPassword }}</a-typography-text>
           </a-typography-text>
+          <div v-show="advanced">
+            <div> 售后至：{{ item?.ideaInvalidTime?.substring(0, 10) }} </div>
+            <div> 失效：{{ item?.ideaRealInvalidTime?.substring(0, 10) }} </div>
+            <div>
+              <a-tag>更新</a-tag>
+              {{ item?.updateTime }}</div
+            ></div
+          >
         </span>
         <a-tag v-else color="error">未关联</a-tag>
       </div>
@@ -70,12 +80,17 @@
     </template>
     <template #operate="{ item, index }">
       <a-menu>
-        <a-menu-item>
-          <a-button type="link" size="small" @click="handleEdit(item)">编辑</a-button>
+        <a-menu-item @click="setTop(item.id)">
+          <a-button type="warning" ghost size="small">置顶</a-button>
         </a-menu-item>
-        <a-menu-item>
-          <a-button v-if="item.valid === 0" @click="changeValid(item, -1)" type="link" size="small" danger>失效 </a-button>
-          <a-button v-if="item.valid === -1" @click="changeValid(item, 0)" type="link" size="small"> 恢复 </a-button>
+        <a-menu-item @click="handleEdit(item)">
+          <a-button type="link" size="small">编辑</a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.valid === 0" @click="changeValid(item, -1)">
+          <a-button type="link" size="small" danger>失效 </a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.valid === -1" @click="changeValid(item, 0)">
+          <a-button type="link" size="small"> 恢复 </a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -158,6 +173,11 @@
   const handleEdit = (record) => {
     emit('handleEdit', record);
   };
+  const setTop = (id) => {
+    saveOrUpdate({ id }, true).then(() => {
+      emit('queryList');
+    });
+  };
   const CommonListRef = ref();
   const getLocation = (item) => {
     if (item?.sysIps?.length > 0) {
@@ -182,10 +202,8 @@
   };
   defineExpose({
     startQuery: (params = {}) => {
+      activeKey.value = params?.status;
       CommonListRef.value.execQuery(getList, params);
-    },
-    changeActiveKey: (key) => {
-      activeKey.value = key.value;
     },
     changeAdvanced: () => {
       advanced.value = !advanced.value;

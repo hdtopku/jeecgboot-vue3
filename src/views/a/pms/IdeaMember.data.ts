@@ -68,6 +68,11 @@ export const formSchema: FormSchema[] = [
     ],
   },
   {
+    label: '备注',
+    field: 'remark',
+    component: 'InputTextArea',
+  },
+  {
     label: '选择账号',
     field: 'ideaId',
     component: 'Select',

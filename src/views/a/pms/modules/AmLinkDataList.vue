@@ -12,7 +12,7 @@
     </template>
     <template #operate="{ item }">
       <a-menu>
-        <a-menu-item v-if="item?.status !== 0" @click="update(item)">
+        <a-menu-item v-if="item?.status !== 0" @click="setTop(item.id)">
           <a-button type="warning" ghost size="small">置顶</a-button>
         </a-menu-item>
         <a-menu-item @click="handleEdit(item)">
@@ -33,11 +33,11 @@
         <a-menu-item v-if="item?.type !== 1 && item?.type !== 6">
           <a-button @click="changeType(item, 1)" type="link" size="small">设为普通</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.type === 6">
-          <a-button @click="changeType(item, 0)" type="link" size="small">取消至尊</a-button>
+        <a-menu-item @click="changeType(item, 0)" v-if="item?.type === 6">
+          <a-button type="link" size="small">取消至尊</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.type === 1">
-          <a-button @click="changeType(item, 0)" type="link" size="small">取消普通</a-button>
+        <a-menu-item @click="changeType(item, 0)" v-if="item?.type === 1">
+          <a-button type="link" size="small">取消普通</a-button>
         </a-menu-item>
       </a-menu>
     </template>
@@ -154,16 +154,20 @@
   };
   const changeStatus = (record, status) => {
     record.status = status;
-    update(record);
-  };
-  const update = (record) => {
     saveOrUpdate(record, true).then(() => {
+      emit('queryList');
+    });
+  };
+  const setTop = (id) => {
+    saveOrUpdate({ id }, true).then(() => {
       emit('queryList');
     });
   };
   const changeType = (record, type) => {
     record.type = type;
-    update(record);
+    saveOrUpdate(record, true).then(() => {
+      emit('queryList');
+    });
   };
   const { proxy } = getCurrentInstance();
   const copyCode = (record) => {
