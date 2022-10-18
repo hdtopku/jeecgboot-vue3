@@ -12,8 +12,11 @@
         placeholder="粘贴或模糊搜索激活码、用户标识"
         :tabPane="tabPane"
       >
-        <template #left>
+        <template #suffixAdvanced>
           <a-button type="link" @click="router.push('/pms/id/list')">账号</a-button>
+        </template>
+        <template #left>
+          <a-typography-text :copyable="{ text: 'https://www.yuque.com/docs/share/cef44c5f-cb62-4e96-ae03-95e47422a375' }">教程</a-typography-text>
         </template>
       </Search>
     </div>
@@ -22,7 +25,7 @@
   <IdeaMemberModal @register="registerModal" @success="queryList" />
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="IdeaMemberList">
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
   import Search from '/@/views/a/pms/modules/Search.vue';

@@ -17,7 +17,7 @@
   </a-card>
 </template>
 
-<script lang="ts" name="pms-amLink" setup>
+<script lang="ts" name="AmLinkList" setup>
   import Search from '/@/views/a/pms/modules/Search.vue';
   import AmLinkDataList from './modules/AmLinkDataList.vue';
   import AmLinkModal from './modules/AmLinkModal.vue';

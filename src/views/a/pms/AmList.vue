@@ -26,7 +26,7 @@
     <AmModal @register="registerModal" @success="queryList" />
   </a-card>
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="AmList">
   import { ref } from 'vue';
   import AmDataList from '/@/views/a/pms/modules/AmDataList.vue';
   import { getCodes } from '/@/views/a/pms/Am.api';

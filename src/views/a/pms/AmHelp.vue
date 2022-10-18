@@ -106,7 +106,9 @@
           </a-collapse-panel>
           <a-collapse-panel key="6" header="成功催评！">
             <a-typography-paragraph>
-              <blockquote> 买家主动好评增加5信誉分，过期自动评增加1信誉分，提高信誉分可提高搜索权重。但是不能直接出现“好评”等字眼，以下方法可避免 </blockquote>
+              <blockquote>
+                买家主动好评增加5信誉分，过期自动评增加1信誉分，提高信誉分可提高搜索权重。但是不能直接出现“好评”等字眼，以下方法可避免
+              </blockquote>
               <a-typography-paragraph copyable> 亲，满意的话，还给小店好的评哦😘 </a-typography-paragraph>
               <a-typography-paragraph copyable> 亲，如果满意，还给小店满意的评哦😘 </a-typography-paragraph>
             </a-typography-paragraph>
@@ -121,39 +123,64 @@
       <a-tab-pane key="3" tab="服务">
         <a-divider><a-typography-title :level="2">关于退款</a-typography-title></a-divider>
         <div>
-          <a-typography-text :copyable="{ text: 'https://ecrm.taobao.com/p/customer/ecrm_member_list.htm?spm=a1za3.8455205' }"> 1、禁止客户下单、禁止顾客购买、禁拍 </a-typography-text>
+          <a-typography-text :copyable="{ text: 'https://ecrm.taobao.com/p/customer/ecrm_member_list.htm?spm=a1za3.8455205' }">
+            1、禁止客户下单、禁止顾客购买、禁拍
+          </a-typography-text>
         </div>
         <div
-          ><a-typography-text :copyable="{ text: 'https://qn.taobao.com/home.htm/comment-manage/list/rateWait4PC?current=1&pageSize=20&rate=1&explain=notExplain' }">
+          ><a-typography-text
+            :copyable="{ text: 'https://qn.taobao.com/home.htm/comment-manage/list/rateWait4PC?current=1&pageSize=20&rate=1&explain=notExplain' }"
+          >
             2、评价列表
           </a-typography-text></div
         >
-        <div><a-typography-text :copyable="{ text: 'https://tousu.taobao.com/?spm=a2oq0.12575281.category.d769.12591debXpN1hS#/case/34952305' }"> 3、差评投诉 </a-typography-text></div>
-        <div><a-typography-text :copyable="{ text: 'https://myseller.taobao.com/home.htm/trade-platform/tp/sold' }"> 4、订单列表 </a-typography-text></div>
+        <div
+          ><a-typography-text :copyable="{ text: 'https://tousu.taobao.com/?spm=a2oq0.12575281.category.d769.12591debXpN1hS#/case/34952305' }">
+            3、差评投诉
+          </a-typography-text></div
+        >
+        <div
+          ><a-typography-text :copyable="{ text: 'https://myseller.taobao.com/home.htm/trade-platform/tp/sold' }">
+            4、订单列表
+          </a-typography-text></div
+        >
         <div>
-          <a-typography-text :copyable="{ text: 'https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu' }"> 5、淘宝保证金 </a-typography-text>、
-          <a-typography-text :copyable="{ text: 'https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe' }"> 旧版保证金 </a-typography-text>
+          <a-typography-text
+            :copyable="{ text: 'https://jibu.taobao.com/?spm=a2o22p.14480247.category.d1621.44f2NucnNucnkE#/home?bizCode=taobao.jibu' }"
+          >
+            5、淘宝保证金 </a-typography-text
+          >、
+          <a-typography-text :copyable="{ text: 'https://prod-baoxian.taobao.com/credit/apply.htm?spm=a215o.6957721.1724194905.d4915521.aOnIDe' }">
+            旧版保证金
+          </a-typography-text>
         </div>
         <div><a-typography-text :copyable="{ text: getBadRateText() }"> 6、复制删评链接 </a-typography-text></div>
         <a-typography-paragraph>
           <blockquote>
-            凡是申请退款，<a-typography-text mark>一律无理由同意退款</a-typography-text>，无需与买家理论，有些买家就是想白嫖，不给退，就千方百计给差评。
+            凡是申请退款，<a-typography-text mark>一律无理由同意退款</a-typography-text
+            >，无需与买家理论，有些买家就是想白嫖，不给退，就千方百计给差评。
             <div> 1、一个差评可能会导致后面下单顾客的犹豫，还会使店铺评分从4.9高，降低到4.9低。</div>
             <div> 2、淘宝不去评判买家对错，差评多了，会导致店铺被淘宝风控，好不容易起来的商品，可能被淘宝无情下架。</div>
-            <div> 3、收到差评，还要花0.5-1小时到电脑端写解释（并且解释只能文字不能带图），极其影响情绪，得不偿失。蝇头小利，斤斤计较将难以做大做强。心态放宽，格局拉满，用更多的精力服务优质顾客。</div>
+            <div>
+              3、收到差评，还要花0.5-1小时到电脑端写解释（并且解释只能文字不能带图），极其影响情绪，得不偿失。蝇头小利，斤斤计较将难以做大做强。心态放宽，格局拉满，用更多的精力服务优质顾客。</div
+            >
             <div> 从长远来看，1单差评带来的损失，远大于这一单的价格。消费者走了，差评永远留在了店里，多一事不如少一事，能退都退。以下是负面例子</div>
           </blockquote></a-typography-paragraph
         >
         <a-typography-paragraph mark>
           如果有想给差评的买家，就跟买家道歉，尽可能引导买家退款：
           <div>
-            <a-typography-text copyable>十分抱歉，没有给亲带来良好的体验，作为补偿，亲申请退款这边给亲退了，亲看可以吗？希望亲不要因此影响一天美丽的心情呢</a-typography-text>
+            <a-typography-text copyable
+              >十分抱歉，没有给亲带来良好的体验，作为补偿，亲申请退款这边给亲退了，亲看可以吗？希望亲不要因此影响一天美丽的心情呢</a-typography-text
+            >
           </div>
         </a-typography-paragraph>
         <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/678b7d961532ca7c22fe11f68cf99af22d3c8748.jpg" />
         <a-typography-paragraph mark> 商家拒绝退款，消费者千方百计给差评 </a-typography-paragraph>
         <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/f5fad2a20599d475b8801a9a37c2c5e7d8ebcc25.jpg" />
-        <a-typography-paragraph mark> 消费者感觉商家说话态度冷漠（可能有时候会感觉身心俱疲，但能赚到钱再辛苦也是值得的，所以尽可能做好服务） </a-typography-paragraph>
+        <a-typography-paragraph mark>
+          消费者感觉商家说话态度冷漠（可能有时候会感觉身心俱疲，但能赚到钱再辛苦也是值得的，所以尽可能做好服务）
+        </a-typography-paragraph>
         <img class="max-h-180 rounded-lg mx-auto" src="https://article.biliimg.com/bfs/article/5189f45062cd777c517d7244b37f24f7f5542300.jpg" />
         <a-divider><a-typography-title :level="5" mark>以下是正面例子</a-typography-title></a-divider>
         <a-typography-paragraph mark> 即使价格高，但更能赢得消费者信赖，因为消费者更希望得到尊重 </a-typography-paragraph>
@@ -187,7 +214,7 @@
   </a-card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="AmHelp">
   import { ref } from 'vue';
   const getBadRateText = () => {
     return `亲，非常抱歉给您带来了不好的体验，任何问题都可以联系我们，这里是改评链接，麻烦亲删下哦~，这边给亲退了，亲看可以吗？ https://rate.taobao.com/user-myrate-UvFHyvFgLMCN4vQTT--buyerOrSeller%7C3--receivedOrPosted%7C1.htm?spm=a1z0b.3.5920813.2.AIjSOm#rateList`;
