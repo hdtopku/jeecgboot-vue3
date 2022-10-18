@@ -7,14 +7,11 @@
       placeholder="模糊搜索"
       :tabPane="tabPane"
     >
-      <template #suffix>
-        <a-button type="primary" @click="handleAdd">新增</a-button>
-      </template>
       <template #suffixAdvanced>
         <a-button type="warning" @click="copyCode">复制1条</a-button>
       </template>
     </Search>
-    <AmLinkDataList ref="AmLinkDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
+    <AmLinkDataList @handle-add="handleAdd" ref="AmLinkDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
     <!-- 表单区域 -->
     <AmLinkModal @register="registerModal" @success="queryList" />
   </a-card>

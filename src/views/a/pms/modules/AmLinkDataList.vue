@@ -1,12 +1,12 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text
-        class="mr-8"
-        :copyable="{ text: 'https://www.myunidays.hk/CN/zh-CN/partners/applemusic/micro-access/online' }"
-        v-show="activeKey === '1'"
-        >复制online地址
-      </a-typography-text>
+      <span v-if="activeKey === '1'">
+        <a-button class="mr-6" size="small" type="primary" @click="handleAdd">新增</a-button>
+        <a-typography-text class="mr-6" :copyable="{ text: 'https://www.myunidays.hk/CN/zh-CN/partners/applemusic/micro-access/online' }"
+          >online地址
+        </a-typography-text>
+      </span>
       <a-typography-text v-show="activeKey === '0'" mark>按创建时间倒排</a-typography-text>
       <a-typography-text v-show="activeKey === '100' || activeKey === '-1' || activeKey === '1'" mark>按修改时间倒排 </a-typography-text>
     </template>
@@ -117,9 +117,12 @@
   let { username, realname } = loginInfo?.userInfo;
 
   const CommonListRef = ref();
-  const emit = defineEmits(['handleEdit', 'queryList']);
+  const emit = defineEmits(['handleEdit', 'handleAdd', 'queryList']);
   const handleEdit = (record) => {
     emit('handleEdit', record);
+  };
+  const handleAdd = (record) => {
+    emit('handleAdd', record);
   };
   const getDateTime = (item) => {
     return parseDateTime(item?.link) + parseDateTime(item?.thirdLink) + parseDateTime(item?.shortLink);
