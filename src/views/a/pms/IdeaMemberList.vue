@@ -13,10 +13,14 @@
         :tabPane="tabPane"
       >
         <template #suffixAdvanced>
-          <a-button type="link" @click="router.push('/pms/id/list')">账号</a-button>
+          <a-button type="link" @click="router.push('/pms/id/list')">账号列表</a-button>
         </template>
         <template #left>
-          <a-typography-text :copyable="{ text: 'https://www.yuque.com/docs/share/cef44c5f-cb62-4e96-ae03-95e47422a375' }">教程</a-typography-text>
+          <div class="pt-1">
+            <a-typography-text :copyable="{ text: 'https://www.yuque.com/docs/share/cef44c5f-cb62-4e96-ae03-95e47422a375' }"
+              >教程</a-typography-text
+            ></div
+          >
         </template>
       </Search>
     </div>
@@ -68,6 +72,10 @@
   };
   const tabPane = {
     tabs: [
+      {
+        tabKey: '-100',
+        tabName: '重点',
+      },
       {
         tabKey: '-1',
         tabName: '失效',
