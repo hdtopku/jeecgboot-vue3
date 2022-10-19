@@ -2,7 +2,7 @@
   <CommonList ref="CommonListRef">
     <template #header>
       <a-typography-text v-show="activeKey === '0'" mark>按激活时间倒排</a-typography-text>
-      <a-typography-text v-show="activeKey === '-1' || activeKey === '1' || activeKey === '2'" mark>按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey !== '0'" mark>按更新时间倒排</a-typography-text>
     </template>
     <template #top="{ item }">
       <div> {{ getLocation(item) }}</div>
@@ -19,6 +19,9 @@
       <div v-if="item?.remark?.trim()?.length > 0">
         <a-tag color="error"> 备注 </a-tag>
         <span class="text-red-500">{{ item?.remark }}</span>
+      </div>
+      <div v-if="item?.valid === 1">
+        <a-tag color="warning"> 重点观察中 </a-tag>
       </div>
     </template>
     <template #bottom="{ item }">
@@ -86,11 +89,17 @@
         <a-menu-item @click="handleEdit(item)">
           <a-button type="link" size="small">编辑</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item.valid === 0" @click="changeValid(item, -1)">
+        <a-menu-item v-if="item.valid === 0 || item.valid === 1" @click="changeValid(item, -1)">
           <a-button type="link" size="small" danger>失效 </a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid === -1" @click="changeValid(item, 0)">
           <a-button type="link" size="small"> 恢复 </a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.valid !== 1" @click="changeValid(item, 1)">
+          <a-button type="warning" size="small"> 重点观察 </a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.valid === 1" @click="changeValid(item, 0)">
+          <a-button type="warning" size="small" ghost> 取消重点 </a-button>
         </a-menu-item>
       </a-menu>
     </template>
