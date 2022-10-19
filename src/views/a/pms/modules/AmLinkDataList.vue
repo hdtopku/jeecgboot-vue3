@@ -2,7 +2,7 @@
   <CommonList ref="CommonListRef">
     <template #header>
       <span v-if="activeKey === '1'">
-        <a-button class="mr-6" size="small" type="primary" @click="handleAdd">新增</a-button>
+        <a-button class="mr-6" size="small" type="primary" preIcon="ant-design:plus-outlined" @click="handleAdd">新增</a-button>
         <a-typography-text class="mr-6" :copyable="{ text: 'https://www.myunidays.hk/CN/zh-CN/partners/applemusic/micro-access/online' }"
           >online地址
         </a-typography-text>
@@ -173,8 +173,8 @@
     });
   };
   const { proxy } = getCurrentInstance();
-  const copyCode = (record: {}) => {
-    getCodes({ count: 1, type: 6, linkId: record?.id, link: record?.link, username }, (data) => {
+  const copyCode = (record = {}) => {
+    return getCodes({ count: 1, type: 6, linkId: record?.id, link: record?.link, username }, (data) => {
       proxy.tool.copy(data, data + '已复制');
     });
   };

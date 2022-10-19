@@ -8,7 +8,7 @@
       :tabPane="tabPane"
     >
       <template #suffixAdvanced>
-        <a-button type="warning" @click="copyCode">复制1条</a-button>
+        <a-button type="warning" @click="copyCode" :loading="copyBtnLoading">复制1条</a-button>
       </template>
     </Search>
     <AmLinkDataList @handle-add="handleAdd" ref="AmLinkDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
@@ -24,7 +24,7 @@
   import { onMounted, ref } from 'vue';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();
-
+  const copyBtnLoading = ref(false);
   const tabPane = {
     tabs: [
       {
@@ -71,7 +71,10 @@
     AmLinkDataListRef.value.changeAdvanced();
   };
   const copyCode = () => {
-    AmLinkDataListRef.value.copyCode();
+    copyBtnLoading.value = true;
+    AmLinkDataListRef.value.copyCode().finally(() => {
+      copyBtnLoading.value = false;
+    });
   };
   const cachedParams = ref();
   const queryList = (newParams = {}, useNewParams = false) => {
