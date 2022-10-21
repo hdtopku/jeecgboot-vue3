@@ -47,12 +47,10 @@
       </span>
     </template>
     <template #left="{ item }">
-      <div>
-        <a-tag v-if="item?.type === 6" color="red">至尊版</a-tag>
-        <a-tag v-if="item?.type === 1">普通版</a-tag>
-        <div v-if="item?.link?.length > 0" style="margin-left: -10px">
-          <a-button size="small" type="link" @click="copyCode(item)">复制短链</a-button>
-        </div>
+      <a-tag v-if="item?.type === 6" color="red">至尊版</a-tag>
+      <a-tag v-if="item?.type === 1">普通版</a-tag>
+      <div v-if="item?.link?.length > 0" style="margin-left: -10px">
+        <a-button size="small" type="link" @click="copyCode(item)">复制短链</a-button>
       </div>
     </template>
     <template #bottom="{ item }">

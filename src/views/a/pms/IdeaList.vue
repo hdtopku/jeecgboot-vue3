@@ -13,10 +13,10 @@
         >
       </template>
     </Search>
-    <IdeaDataList ref="IdeaDataListRef" @handle-edit="handleEdit" />
+    <IdeaDataList ref="DataListRef" @handle-edit="handleEdit" />
   </a-card>
   <!-- 表单区域 -->
-  <IdeaModal @register="registerModal" @success="handleSuccess" />
+  <IdeaModal @register="registerModal" @success="queryList" />
 </template>
 
 <script lang="ts" setup name="IdeaList">
@@ -69,17 +69,14 @@
       showFooter: true,
     });
   }
-  const handleSuccess = () => {
-    queryList();
-  };
-  const IdeaDataListRef = ref();
+  const DataListRef = ref();
 
   const cachedParams = ref();
   const queryList = (newParams = {}, useNewParams = false) => {
     if (useNewParams) {
       cachedParams.value = newParams;
     }
-    IdeaDataListRef.value.startQuery(cachedParams.value);
+    DataListRef.value.startQuery(cachedParams.value);
   };
   onMounted(() => {
     queryList();
