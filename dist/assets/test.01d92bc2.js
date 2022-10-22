@@ -1,0 +1,1 @@
+import t from"./Search.b449724d.js";import{l as e,v as o,V as r}from"./index.b3d2a891.js";import"./urlUtil.b8806189.js";import"./api.1d3c1927.js";const i=e({__name:"test",setup(a){return(m,n)=>(o(),r(t))}});export{i as default};
