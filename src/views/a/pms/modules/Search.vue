@@ -262,7 +262,7 @@
   };
   const confirmCopy = () => {
     btnLoading.value = true;
-    emit('confirmCopy', { count: count.value, username: username.value, checked: checked.value });
+    emit('confirmCopy', { count: count.value, username, checked: checked.value });
   };
 
   // defineExpose
