@@ -1,1 +1,0 @@
-import{_ as s}from"./Exception.vue_vue_type_style_index_0_lang.9f82bbfb.js";import{l as e,F as a,dV as o,v as r,V as n,L as _}from"./index.6c1aeca2.js";const i=e({__name:"NetworkErrorException",setup(c){const t=a(o.NET_WORK_ERROR);return(u,p)=>(r(),n(_(s),{status:t.value},null,8,["status"]))}});export{i as default};
