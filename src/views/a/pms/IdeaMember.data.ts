@@ -47,7 +47,6 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     rules: [
       {
-        required: true,
         message: '请输入用户名',
       },
     ],
@@ -62,7 +61,6 @@ export const formSchema: FormSchema[] = [
     },
     rules: [
       {
-        required: true,
         message: '请选择有效截至日期',
       },
     ],
