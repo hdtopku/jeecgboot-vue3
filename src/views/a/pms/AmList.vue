@@ -31,7 +31,7 @@
   import AmDataList from '/@/views/a/pms/modules/AmDataList.vue';
   import { getCodes } from '/@/views/a/pms/Am.api';
   import AmModal from './modules/AmModal.vue';
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
   import { router } from '/@/router';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();

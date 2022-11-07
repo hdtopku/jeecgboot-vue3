@@ -32,7 +32,7 @@
 <script lang="ts" setup name="IdeaMemberList">
   import IdeaMemberDataList from './modules/IdeaMemberDataList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
   import { ref } from 'vue';
   import { router } from '/@/router';
   import { useModal } from '/@/components/Modal';

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
   import WenkuDataList from './modules/WenkuDataList.vue';
   import WenkuModal from './modules/WenkuModal.vue';
   import { ref } from 'vue';

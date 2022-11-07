@@ -2,5 +2,5 @@
   <Search />
 </template>
 <script lang="ts" setup>
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
 </script>

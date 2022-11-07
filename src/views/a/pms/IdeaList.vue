@@ -21,7 +21,7 @@
 
 <script lang="ts" setup name="IdeaList">
   import IdeaDataList from './modules/IdeaDataList.vue';
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
   import { onMounted, ref } from 'vue';

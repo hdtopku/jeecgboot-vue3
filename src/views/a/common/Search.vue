@@ -245,6 +245,7 @@
     if (idx >= 0) {
       keyword.value = keyword.value?.substring(idx + 3);
     }
+    localStorage.setItem('searchSwitch', JSON.stringify(checked.value));
     emit('queryList', {
       pageNo: 1,
       pageSize: 30,
@@ -277,6 +278,7 @@
   };
   defineExpose({ queryFinish });
   onMounted(() => {
+    checked.value = JSON.parse(localStorage.getItem('searchSwitch') ?? 'false');
     queryList();
   });
 </script>

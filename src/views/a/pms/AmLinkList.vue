@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" name="AmLinkList" setup>
-  import Search from '/@/views/a/pms/modules/Search.vue';
+  import Search from '/@/views/a/common/Search.vue';
   import AmLinkDataList from './modules/AmLinkDataList.vue';
   import AmLinkModal from './modules/AmLinkModal.vue';
   import { onMounted, ref } from 'vue';
