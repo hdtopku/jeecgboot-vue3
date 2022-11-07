@@ -31,7 +31,7 @@ export async function registerThirdComp(app: App) {
   app.provide('$globalEmojiIndex', myEmojiIndex)
   //---------------------------------------------------------------------
   // 注册全局dayjs
-  dayjs.locale('zh');
+  dayjs.locale('zh-cn');
   dayjs.extend(relativeTime);
   dayjs.extend(customParseFormat);
   app.config.globalProperties.$dayjs = dayjs
