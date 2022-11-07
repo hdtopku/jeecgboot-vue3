@@ -49,8 +49,8 @@
   });
 
   const copyAccount = (account, password) => {
-    return `账号【${account}】
-密码【${password}】`;
+    return `账【${account}】
+密【${password}】`;
   };
 </script>
 
