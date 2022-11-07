@@ -1,0 +1,1 @@
+import{q as o,l as t,aA as n,t as s,v as a,x as c,y as r,C as u,aV as p}from"./index.bd2180ec.js";const _=t({name:"Menu12Demo",components:{Input:n}}),d={class:"p-5"},l=u(" \u591A\u5C42\u7EA7\u7F13\u5B58-\u9875\u97621-2 "),m=p("br",null,null,-1);function i(f,x,h,v,B,C){const e=s("Input");return a(),c("div",d,[l,m,r(e)])}var $=o(_,[["render",i]]);export{$ as default};
