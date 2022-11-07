@@ -14,10 +14,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, nextTick, defineExpose } from 'vue';
+  import { ref, nextTick } from 'vue';
   import OneNativeForm from './OneNativeForm.vue';
   import { BasicModal } from '/@/components/Modal';
-  
+
   const title = ref<string>('');
   const width = ref<number>(800);
   const visible = ref<boolean>(false);

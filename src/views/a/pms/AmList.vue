@@ -96,7 +96,7 @@
   };
 </script>
 <style scoped lang="less">
-  ::v-deep(.ant-select) {
+  :deep(.ant-select) {
     width: 90px !important;
     .ant-select-selector {
       width: 90px !important;

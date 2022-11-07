@@ -193,7 +193,7 @@
     if (!isSelf.value) {
       return 'error';
     }
-    if (checked.value) {
+    if (checked.value && props.showSwitch) {
       return 'warning';
     }
     return 'primary';

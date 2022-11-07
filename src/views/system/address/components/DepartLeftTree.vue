@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { inject, nextTick, ref, unref, defineExpose } from 'vue';
+  import { inject, nextTick, ref } from 'vue';
   import { queryDepartTreeSync } from '../address.api';
   import { searchByKeywords } from '/@/views/system/departUser/depart.user.api';
   import { Popconfirm } from 'ant-design-vue';

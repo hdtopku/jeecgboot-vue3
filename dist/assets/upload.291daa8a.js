@@ -1,1 +1,0 @@
-import{m as e,a1 as t}from"./index.bf68c475.js";const{uploadUrl:a=""}=e();function r(o,u){return t.uploadFile({url:a,onUploadProgress:u},o)}function n(o,u){return t.uploadFile({url:`${a}/sys/common/upload`,onUploadProgress:u},o,{isReturnResponse:!0})}export{n as a,r as u};
