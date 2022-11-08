@@ -164,7 +164,7 @@ const transform: AxiosTransform = {
 
       // ========================================================================================
       // update-begin--author:sunjianlei---date:20220624--for: 添加低代码应用ID
-      let routeParams = router.currentRoute.value.params;
+      const routeParams = router.currentRoute.value.params;
       if (routeParams.appId) {
         config.headers[ConfigEnum.X_LOW_APP_ID] = routeParams.appId;
         // lowApp自定义筛选条件
@@ -175,7 +175,6 @@ const transform: AxiosTransform = {
       }
       // update-end--author:sunjianlei---date:20220624--for: 添加低代码应用ID
       // ========================================================================================
-
     }
     return config;
   },
@@ -235,7 +234,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // authentication schemes，e.g: Bearer
         // authenticationScheme: 'Bearer',
         authenticationScheme: '',
-        timeout: 10 * 1000,
+        timeout: 5 * 1000,
         // 基础接口地址
         // baseURL: globSetting.apiUrl,
         headers: { 'Content-Type': ContentTypeEnum.JSON },
