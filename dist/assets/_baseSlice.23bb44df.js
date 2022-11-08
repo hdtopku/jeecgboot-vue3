@@ -1,1 +1,1 @@
-function b(h,i,e){var f=-1,l=h.length;i<0&&(i=-i>l?0:l+i),e=e>l?l:e,e<0&&(e+=l),l=i>e?0:e-i>>>0,i>>>=0;for(var u=Array(l);++f<l;)u[f]=h[f+i];return u}export{b};
+function r(r,a,n){var t=-1,e=r.length;a<0&&(a=-a>e?0:e+a),(n=n>e?e:n)<0&&(n+=e),e=a>n?0:n-a>>>0,a>>>=0;for(var o=Array(e);++t<e;)o[t]=r[t+a];return o}export{r as b};

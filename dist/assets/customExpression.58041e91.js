@@ -1,1 +1,1 @@
-function u(e){return e||(e="\u671D\u9633\u533A"),`\u5317\u4EAC\u5E02 ${e}`}function t(e){return e||(e="\u5F20\u4E09"),`\u60A8\u597D\uFF0C\u6211\u53EB\uFF1A ${e}`}var o=Object.freeze(Object.defineProperty({__proto__:null,demoFieldDefVal_getAddress:u,sayHi:t},Symbol.toStringTag,{value:"Module"}));export{o as C};
+var e=Object.freeze(Object.defineProperty({__proto__:null,demoFieldDefVal_getAddress:function(e){return e||(e="朝阳区"),`北京市 ${e}`},sayHi:function(e){return e||(e="张三"),`您好，我叫： ${e}`}},Symbol.toStringTag,{value:"Module"}));export{e as C};
