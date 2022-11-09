@@ -1,0 +1,1 @@
+import{a1 as s}from"./index.b3c93d64.js";const a=a=>s.get({url:"/pms/idea/getList",params:a}),t=(a,t)=>{const e=t?"/pms/idea/edit":"/pms/idea/add";return s.post({url:e,params:a})};export{a as g,t as s};

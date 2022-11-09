@@ -1,1 +1,0 @@
-import{a1 as s,u as a}from"./index.435ab247.js";const e=a=>s.get({url:"/pms/wenku/getList",params:a}),r=(e,r,t)=>s.get({url:"/pms/wenku/getCodes",params:e},{joinParamsToUrl:!0}).then((s=>{r(s.join("\r\n"))})).catch((s=>{const{createMessage:e}=a();e.error(s),t()})),t=(a,e)=>{const r=e?"/pms/wenku/edit":"/pms/wenku/add";return s.post({url:r,params:a})};export{e as a,r as g,t as s};

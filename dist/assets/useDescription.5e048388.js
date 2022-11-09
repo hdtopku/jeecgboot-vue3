@@ -1,0 +1,1 @@
+import{a6 as s,F as e,L as n,bV as o}from"./index.b3c93d64.js";function r(r){if(!s())throw new Error("useDescription() can only be used inside setup() or functional components!");const t=e(null),u=e(!1);return[function(s){n(u)&&o()||(t.value=s,r&&s.setDescProps(r),u.value=!0)},{setDescProps:s=>{var e;null==(e=n(t))||e.setDescProps(s)}}]}export{r as u};
