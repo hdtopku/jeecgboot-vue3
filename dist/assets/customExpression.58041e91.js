@@ -1,1 +1,0 @@
-var e=Object.freeze(Object.defineProperty({__proto__:null,demoFieldDefVal_getAddress:function(e){return e||(e="朝阳区"),`北京市 ${e}`},sayHi:function(e){return e||(e="张三"),`您好，我叫： ${e}`}},Symbol.toStringTag,{value:"Module"}));export{e as C};

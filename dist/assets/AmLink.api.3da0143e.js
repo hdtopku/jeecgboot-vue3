@@ -1,1 +1,0 @@
-import{a1 as s}from"./index.26a57b91.js";const a=a=>s.get({url:"/pms/amLink/getList",params:a}),m=(a,m)=>{const t=m?"/pms/amLink/edit":"/pms/amLink/add";return s.post({url:t,params:a})};export{a as g,m as s};

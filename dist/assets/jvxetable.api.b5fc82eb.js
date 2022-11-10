@@ -1,1 +1,0 @@
-import{a1 as e}from"./index.26a57b91.js";const r="/test/jeecgOrderMain/queryOrderCustomerListByMainId",t="/test/jeecgOrderMain/queryOrderTicketListByMainId",a=(r,t)=>{let a=t?"/test/jeecgOrderMain/edit":"/test/jeecgOrderMain/add";return e.post({url:a,params:r})};export{t as a,r as o,a as s};

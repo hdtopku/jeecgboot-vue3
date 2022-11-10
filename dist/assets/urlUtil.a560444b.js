@@ -1,1 +1,1 @@
-const n=n=>{if(null==n)return"";const t=n.match(/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g);return null!=t?t[0]:n};export{n as extractUrl};
+const c=r=>{if(r==null)return"";const n=/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,t=r.match(n);return t!=null?t[0]:r};export{c as extractUrl};
