@@ -1,0 +1,1 @@
+import{m as o,a1 as r}from"./index.b2c24a42.js";const{uploadUrl:s=""}=o();function a(o,a){return r.uploadFile({url:s,onUploadProgress:a},o)}function n(o,a){return r.uploadFile({url:`${s}/sys/common/upload`,onUploadProgress:a},o,{isReturnResponse:!0})}export{n as a,a as u};

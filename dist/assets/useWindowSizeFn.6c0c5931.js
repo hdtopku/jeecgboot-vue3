@@ -1,0 +1,1 @@
+import{aj as e,ak as n,al as t}from"./index.b2c24a42.js";function i(i,r=150,s){let a=()=>{i()};const o=t(a,r);a=o;const d=()=>{s&&s.immediate&&a(),window.addEventListener("resize",a)},m=()=>{window.removeEventListener("resize",a)};return e((()=>{d()})),n((()=>{m()})),[d,m]}export{i as useWindowSizeFn};
