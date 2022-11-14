@@ -94,7 +94,7 @@
   import { DownOutlined, UpOutlined } from '@ant-design/icons-vue';
   import { getCurrentInstance, onMounted, ref } from 'vue';
   import dayjs, { Dayjs } from 'dayjs';
-  import { extractUrl } from '/@/utils/urlUtil';
+  import { extractUrl } from '/@/views/a/utils/urlUtil';
   import { getAuthCache } from '/@/utils/auth';
   import { LOGIN_INFO_KEY } from '/@/enums/cacheEnum';
   import { getUserList } from '/@/api/common/api';
