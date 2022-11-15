@@ -1,0 +1,1 @@
+import"./LoginFormTitle.vue_vue_type_script_setup_true_lang.fee8d1d2.js";import{_ as t}from"./LoginFormTitle.vue_vue_type_script_setup_true_lang.fee8d1d2.js";import"./index.5e4eb13d.js";export{t as default};
