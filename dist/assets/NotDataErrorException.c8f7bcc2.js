@@ -1,1 +1,0 @@
-import{_ as s}from"./Exception.vue_vue_type_style_index_0_lang.f110007e.js";import{j as a,C as e,er as o,s as r,Q as n,K as _}from"./index.5e4eb13d.js";const i=a({__name:"NotDataErrorException",setup(c){const t=e(o.PAGE_NOT_DATA);return(u,p)=>(r(),n(_(s),{status:t.value},null,8,["status"]))}});export{i as default};
