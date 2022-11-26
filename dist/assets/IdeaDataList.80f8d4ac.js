@@ -1,0 +1,1 @@
+import"./IdeaDataList.vue_vue_type_script_setup_true_lang.c0ebc90e.js";import{_ as f}from"./IdeaDataList.vue_vue_type_script_setup_true_lang.c0ebc90e.js";import"./index.9f534f34.js";import"./Idea.api.2b020ec2.js";import"./CommonList.vue_vue_type_script_setup_true_lang.1d034a59.js";export{f as default};

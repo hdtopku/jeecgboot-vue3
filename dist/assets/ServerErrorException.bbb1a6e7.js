@@ -1,0 +1,1 @@
+import{_ as s}from"./Exception.vue_vue_type_style_index_0_lang.9facd4b0.js";import{j as t,C as r,er as a,s as n,Q as o,K as c}from"./index.9f534f34.js";const i=t({__name:"ServerErrorException",setup(u){const e=r(a.ERROR);return(_,p)=>(n(),o(c(s),{status:e.value},null,8,["status"]))}});export{i as default};
