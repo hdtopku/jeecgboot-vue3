@@ -102,9 +102,9 @@
   const activeKey = ref('0');
   const copyLink = (item) => {
     if (item?.type === 6) {
-      return 'https://c.taojingling.cn/d/' + item?.code;
+      return 'c.taojingling.cn/d/' + item?.code;
     }
-    return 'https://c.taojingling.cn/c/' + item?.code;
+    return 'c.taojingling.cn/c/' + item?.code;
   };
   const refuneCount = ref(0);
   watch(dataList, () => {

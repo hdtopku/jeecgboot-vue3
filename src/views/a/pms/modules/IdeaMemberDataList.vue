@@ -151,7 +151,7 @@
   };
   const emit = defineEmits(['queryList', 'handleEdit']);
   const copyLink = (code) => {
-    return 'https://c.taojingling.cn/j/' + code;
+    return 'c.taojingling.cn/j/' + code;
   };
   const getColor = (item) => {
     if (item.valid === -1) {
