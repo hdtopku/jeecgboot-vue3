@@ -1,7 +1,7 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
-      <a-typography-text v-show="activeKey === '0'" mark>按激活时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
       <a-typography-text v-show="activeKey !== '0'" mark>按更新时间倒排</a-typography-text>
     </template>
     <template #top="{ item }">
