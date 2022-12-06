@@ -1,8 +1,10 @@
 <template>
   <CommonList ref="CommonListRef">
     <template #header>
+      <a-typography-text v-show="activeKey === '-100'" mark>关黑屋，激活码会失效</a-typography-text>
+      <a-typography-text v-show="activeKey === '-90'" mark>重点观察，激活码不会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
-      <a-typography-text v-show="activeKey !== '0'" mark>按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '90'" mark> 按更新时间倒排</a-typography-text>
     </template>
     <template #top="{ item }">
       <div> {{ getLocation(item) }}</div>
