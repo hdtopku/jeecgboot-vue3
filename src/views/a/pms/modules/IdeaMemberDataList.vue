@@ -6,8 +6,8 @@
       <a-typography-text v-show="activeKey === '-10'" mark>激活码会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
       <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '-10' && activeKey !== '90'" mark>
-        按更新时间倒排</a-typography-text
-      >
+        按更新时间倒排
+      </a-typography-text>
     </template>
     <template #top="{ item }">
       <div> {{ getLocation(item) }}</div>
@@ -22,11 +22,11 @@
         <a-tag v-else color="error">未绑定</a-tag>
       </div>
       <div v-if="item?.remark?.trim()?.length > 0">
-        <a-tag color="error"> 备注 </a-tag>
+        <a-tag color="error"> 备注</a-tag>
         <span class="text-red-500">{{ item?.remark }}</span>
       </div>
       <div v-if="item?.valid === 1">
-        <a-tag color="warning"> 重点观察中 </a-tag>
+        <a-tag color="warning"> 重点观察中</a-tag>
       </div>
     </template>
     <template #bottom="{ item }">
@@ -69,6 +69,10 @@
         </span>
         <a-tag v-else color="error">未关联</a-tag>
       </div>
+      <div>
+        <span v-if="item?.createBy?.length > 0"> 创建：{{ item?.createBy }} </span>
+        <span v-if="item?.updateBy?.length > 0">，更新：{{ item?.updateBy }}</span>
+      </div>
     </template>
     <template #left="{ item, index }">
       <div>
@@ -95,19 +99,19 @@
           <a-button type="link" size="small">编辑</a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid !== -1" @click="changeValid(item, -1)">
-          <a-button type="link" size="small" danger>失效 </a-button>
+          <a-button type="link" size="small" danger>失效</a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid !== -2" @click="changeValid(item, -2)">
-          <a-button type="link" size="small" danger>拉黑 </a-button>
+          <a-button type="link" size="small" danger>拉黑</a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid === -1 || item.valid === -2" @click="changeValid(item, 0)">
-          <a-button type="link" size="small"> 恢复 </a-button>
+          <a-button type="link" size="small"> 恢复</a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid !== 1" @click="changeValid(item, 1)">
-          <a-button type="warning" size="small"> 重点观察 </a-button>
+          <a-button type="warning" size="small"> 重点观察</a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid === 1" @click="changeValid(item, 0)">
-          <a-button type="warning" size="small" ghost> 取消重点 </a-button>
+          <a-button type="warning" size="small" ghost> 取消重点</a-button>
         </a-menu-item>
       </a-menu>
     </template>
