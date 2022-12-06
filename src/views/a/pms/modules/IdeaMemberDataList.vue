@@ -89,10 +89,13 @@
         <a-menu-item @click="handleEdit(item)">
           <a-button type="link" size="small">编辑</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item.valid === 0 || item.valid === 1" @click="changeValid(item, -1)">
+        <a-menu-item v-if="item.valid !== -1" @click="changeValid(item, -1)">
+          <a-button type="link" size="small" danger>失效 </a-button>
+        </a-menu-item>
+        <a-menu-item v-if="item.valid !== -2" @click="changeValid(item, -2)">
           <a-button type="link" size="small" danger>拉黑 </a-button>
         </a-menu-item>
-        <a-menu-item v-if="item.valid === -1" @click="changeValid(item, 0)">
+        <a-menu-item v-if="item.valid === -1 || item.valid === -2" @click="changeValid(item, 0)">
           <a-button type="link" size="small"> 恢复 </a-button>
         </a-menu-item>
         <a-menu-item v-if="item.valid !== 1" @click="changeValid(item, 1)">

@@ -81,12 +81,12 @@
         tabName: '重点',
       },
       {
-        tabKey: '90',
-        tabName: '次数',
+        tabKey: '-10',
+        tabName: '失效',
       },
       {
-        tabKey: '100',
-        tabName: '所有',
+        tabKey: '90',
+        tabName: '次数',
       },
       {
         tabKey: '0',
@@ -95,6 +95,10 @@
       {
         tabKey: '2',
         tabName: '已用',
+      },
+      {
+        tabKey: '100',
+        tabName: '所有',
       },
     ],
     activeKey: '0',
