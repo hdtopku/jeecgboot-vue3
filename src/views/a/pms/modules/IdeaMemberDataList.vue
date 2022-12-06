@@ -3,8 +3,11 @@
     <template #header>
       <a-typography-text v-show="activeKey === '-100'" mark>关黑屋，激活码会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '-90'" mark>重点观察，激活码不会失效</a-typography-text>
+      <a-typography-text v-show="activeKey === '-10'" mark>激活码会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
-      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '90'" mark> 按更新时间倒排</a-typography-text>
+      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '-10' && activeKey !== '90'" mark>
+        按更新时间倒排</a-typography-text
+      >
     </template>
     <template #top="{ item }">
       <div> {{ getLocation(item) }}</div>
@@ -27,7 +30,7 @@
       </div>
     </template>
     <template #bottom="{ item }">
-      <div>
+      <div v-if="item.status === 1">
         <a-tag>打开</a-tag>
         <span v-if="item?.openTime?.length > 0">{{ item?.openTime }}</span>
         <a-tag v-else color="error">未打开</a-tag>
