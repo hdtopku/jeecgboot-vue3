@@ -30,7 +30,7 @@
       </div>
     </template>
     <template #bottom="{ item }">
-      <div v-if="item.status === 1">
+      <div v-if="item.status === 0 || item.status === 1">
         <a-tag>打开</a-tag>
         <span v-if="item?.openTime?.length > 0">{{ item?.openTime }}</span>
         <a-tag v-else color="error">未打开</a-tag>
@@ -73,7 +73,7 @@
     <template #left="{ item, index }">
       <div>
         <a-typography-text :copyable="{ text: copyLink(item?.code) }">
-          <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
+          <span class="" :class="item?.valid < 0 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
       </div>
       <div style="color: #dc2626">
@@ -113,7 +113,7 @@
     </template>
     <template #right="{ item }">
       <a-tag :color="getColor(item)">
-        <text :class="item?.valid === -1 ? 'line-through' : ''">{{ item.statusName }}</text>
+        <text :class="item?.valid < 0 ? 'line-through' : ''">{{ item.statusName }}</text>
       </a-tag>
     </template>
   </CommonList>
@@ -164,6 +164,9 @@
   const getColor = (item) => {
     if (item.valid === -1) {
       return 'error';
+    }
+    if (item.valid === -2) {
+      return 'default';
     }
     switch (Number.parseInt(item.status)) {
       case 1:
