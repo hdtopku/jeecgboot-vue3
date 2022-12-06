@@ -74,19 +74,23 @@
     tabs: [
       {
         tabKey: '-100',
+        tabName: '黑屋',
+      },
+      {
+        tabKey: '-90',
         tabName: '重点',
       },
       {
-        tabKey: '-1',
-        tabName: '失效',
+        tabKey: '90',
+        tabName: '次数',
       },
       {
-        tabKey: '1',
-        tabName: '打开',
+        tabKey: '100',
+        tabName: '所有',
       },
       {
         tabKey: '0',
-        tabName: '刷新',
+        tabName: '今天',
       },
       {
         tabKey: '2',
