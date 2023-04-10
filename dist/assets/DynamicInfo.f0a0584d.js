@@ -1,1 +1,0 @@
-import"./DynamicInfo.vue_vue_type_script_setup_true_lang.a2b17aab.js";import{_ as i}from"./DynamicInfo.vue_vue_type_script_setup_true_lang.a2b17aab.js";import"./index.25572ab7.js";import"./data.1da4446c.js";export{i as default};
