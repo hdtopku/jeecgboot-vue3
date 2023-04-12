@@ -1,1 +1,0 @@
-import"./DynamicNotice.vue_vue_type_script_setup_true_name_dynamic-notice_lang.85ff5641.js";import{_ as t}from"./DynamicNotice.vue_vue_type_script_setup_true_name_dynamic-notice_lang.85ff5641.js";import"./index.b9a81c40.js";export{t as default};
