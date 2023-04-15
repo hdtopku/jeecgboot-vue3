@@ -1,1 +1,0 @@
-import"./IdeaSysIpInfo.vue_vue_type_script_setup_true_lang.fb4b4f87.js";import{_ as t}from"./IdeaSysIpInfo.vue_vue_type_script_setup_true_lang.fb4b4f87.js";import"./index.377d34d8.js";export{t as default};
