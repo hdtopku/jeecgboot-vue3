@@ -3,14 +3,10 @@
     <Search @query-list="(params) => queryList(params, true)" ref="SearchRef" placeholder="粘贴或模糊搜索激活码、用户标识" :tabPane="tabPane">
       <template #suffix>
         <a-button @click="handleAdd" type="primary">新增</a-button>
-      </template>
-      <template #suffixAdvanced>
         <a-button @click="jumpToJet" type="link">Jet官网</a-button>
       </template>
-      <template #left>
-        <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="jumpToJet" type="link" danger
-          >Jet官网</a-button
-        >
+      <template #suffixInAdvanced>
+        <a-button class="animate__animated animate__heartBeat animate__repeat-1" @click="jumpToIdea" type="link" danger>订单列表</a-button>
       </template>
     </Search>
     <IdeaDataList ref="DataListRef" @handle-edit="handleEdit" />
@@ -25,6 +21,7 @@
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
   import { onMounted, ref } from 'vue';
+  import { router } from '/@/router';
 
   const tabPane = {
     tabs: [
@@ -83,6 +80,9 @@
   });
   const jumpToJet = () => {
     window.open('https://account.jetbrains.com');
+  };
+  const jumpToIdea = () => {
+    router.push('/pms/id');
   };
 </script>
 <style scoped></style>

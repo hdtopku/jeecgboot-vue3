@@ -49,6 +49,7 @@
         </template>
         <template #suffix>
           <slot v-if="advanced" name="suffix"></slot>
+          <slot v-else name="suffixInAdvanced"></slot>
           <slot name="suffixAdvanced"></slot>
 
           <span v-if="showSwitch && hasPermission('link:switch')">
