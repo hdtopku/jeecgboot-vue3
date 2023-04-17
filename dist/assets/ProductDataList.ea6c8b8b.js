@@ -1,1 +1,0 @@
-import"./ProductDataList.vue_vue_type_script_setup_true_lang.525d4c7a.js";import{_ as f}from"./ProductDataList.vue_vue_type_script_setup_true_lang.525d4c7a.js";import"./CommonList.vue_vue_type_script_setup_true_lang.40acb6fc.js";import"./index.c12ded7f.js";import"./Product.api.c9480541.js";export{f as default};
