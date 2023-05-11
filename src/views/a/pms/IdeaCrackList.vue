@@ -5,22 +5,13 @@
       ref="SearchRef"
       showTop
       showCopy
-      showSwitch
       showPeople
       @confirm-copy="confirmCopy"
       @change-advanced="changeAdvanced"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabPane="tabPane"
     >
-      <template #left>
-        <a-button
-          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
-          @click="router.push('/pms/am/help')"
-          type="link"
-          danger
-          >帮助</a-button
-        >
-      </template>
+      <template #left> </template>
     </Search>
     <IdeaCrackDataList @handle-edit="handleEdit" ref="IdeaCrackDataListRef" class="w-full" />
     <!-- 表单区域 -->
@@ -75,7 +66,6 @@
     activeKey: '0',
   };
   const confirmCopy = (params) => {
-    params = { count: 1, username: '' };
     getCodes(
       params,
       (data) => {

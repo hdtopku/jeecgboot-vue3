@@ -1,1 +1,0 @@
-import{_ as t}from"./Exception.vue_vue_type_style_index_0_lang.0c25912b.js";import{j as e,C as a,eu as n,s as o,Q as c,K as r}from"./index.c71909f1.js";const i=e({__name:"NotAccessException",setup(_){const s=a(n.PAGE_NOT_ACCESS);return(u,p)=>(o(),c(r(t),{status:s.value},null,8,["status"]))}});export{i as default};

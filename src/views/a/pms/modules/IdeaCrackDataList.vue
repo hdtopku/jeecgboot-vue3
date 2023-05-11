@@ -10,8 +10,10 @@
       </a-typography-text>
     </template>
     <template #top="{ item }">
-      <div> {{ getLocation(item) }}</div>
-      <div> {{ getDevice(item) }}</div>
+      <div v-if="item?.sysIps?.length > 0">
+        {{ getLocation(item?.sysIps[0]) }} <a-typography-text v-if="advanced" copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text>
+      </div>
+      <div v-if="item?.sysIps?.length > 0"> {{ getDevice(item?.sysIps[0]) }}</div>
       <div>
         <a-tag :color="getColor(item)">
           <template #icon>
@@ -27,10 +29,6 @@
       </div>
     </template>
     <template #bottom="{ item, index }" v-if="advanced">
-      <div v-if="item?.sysIps?.length > 0 && item?.sysIps[0]?.ip != null"
-        ><a-tag>ip</a-tag>
-        <a-typography-text copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text>
-      </div>
       <div
         ><a-tag>{{ item?.createBy }}创建</a-tag>{{ item?.createTime.substring(5) }}</div
       >
@@ -40,6 +38,21 @@
     >
     <template #left="{ item, index }">
       <div class="w-16">
+        <div>
+          <a-popover placement="right">
+            <template #content>
+              <div :key="idx" v-for="(sysIp, idx) in item?.sysIps">
+                <a-typography-text copyable>
+                  <div>
+                    {{ getLocation(sysIp) }} | <a-typography-text copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text></div
+                  >
+                  <span> {{ getDevice(sysIp) }}</span>
+                </a-typography-text>
+              </div>
+            </template>
+            <a href="javascript:;" @click="showSysIpInfo(item)">{{ item?.sysIps?.length }}个设备</a>
+          </a-popover>
+        </div>
         <a-typography-text :copyable="{ text: copyLink(item?.code) }">
           <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
@@ -64,9 +77,8 @@
     components: { MinusCircleOutlined, ClockCircleOutlined, SyncOutlined },
   });
   const advanced = ref(false);
-
   const copyLink = (code) => {
-    return 'c.taojingling.cn/jb/' + code;
+    return 'e.taojingling.cn/jb/' + code;
   };
   const getColor = (item) => {
     if (item.valid === -1) {
@@ -84,28 +96,20 @@
   };
   const activeKey = ref('0');
   const CommonListRef = ref();
-  const getLocation = (item) => {
-    if (item?.sysIps?.length > 0) {
-      let location = item?.sysIps[0];
-      if (location?.ip == null) {
-        return '位置信息采集中...';
-      }
-      return (
-        `${location.operator}-` +
-        (location?.country?.indexOf('中国') > -1 || location?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : location?.country) +
-        location.province +
-        location.city +
-        location.county
-      );
+  const getLocation = (location) => {
+    if (location?.ip == null) {
+      return '位置信息采集中...';
     }
-    return '';
+    return (
+      `${location.operator}-` +
+      (location?.country?.indexOf('中国') > -1 || location?.country?.toUpperCase()?.indexOf('CHINA') > -1 ? '' : location?.country) +
+      location.province +
+      location.city +
+      location.county
+    );
   };
-  const getDevice = (item) => {
-    if (item?.sysIps?.length > 0) {
-      let device = item?.sysIps[0];
-      return device.model + ' | ' + device.system + ' | ' + device.browser;
-    }
-    return '';
+  const getDevice = (device) => {
+    return device.model + ' | ' + device.system + ' | ' + device.browser;
   };
   const updateVerifyStatus = (item, valid) => {
     item.valid = valid;
