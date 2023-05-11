@@ -53,7 +53,7 @@ module.exports = defineConfig({
       },
     ],
     'space-before-function-paren': 'off',
-
+    'vue/multi-word-component-names': 'off',
     'vue/attributes-order': 'off',
     'vue/one-component-per-file': 'off',
     'vue/html-closing-bracket-newline': 'off',

@@ -246,6 +246,13 @@
     if (idx >= 0) {
       keyword.value = keyword.value?.substring(idx + 3);
     }
+    if (idx < 0) {
+      // idea破解版
+      idx = keyword.value?.indexOf('/jb/');
+      if (idx >= 0) {
+        keyword.value = keyword.value?.substring(idx + 4);
+      }
+    }
     localStorage.setItem('searchSwitch', JSON.stringify(checked.value));
     emit('queryList', {
       pageNo: 1,
