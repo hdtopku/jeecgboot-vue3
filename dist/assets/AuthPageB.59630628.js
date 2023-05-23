@@ -1,1 +1,0 @@
-import{j as e,q as t,s,t as _}from"./index.9ce08993.js";const o=e({});const a={class:"m-10 auth-page"};function c(n,p,u,r,d,i){return s(),_("div",a," Test \u89D2\u8272\u53EF\u89C1 ")}const l=t(o,[["render",c],["__scopeId","data-v-7c387798"]]);export{l as default};
