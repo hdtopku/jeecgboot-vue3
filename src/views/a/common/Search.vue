@@ -252,6 +252,11 @@
       if (idx >= 0) {
         keyword.value = keyword.value?.substring(idx + 4);
       }
+      // idea正版激活
+      idx = keyword.value?.indexOf('/jc/');
+      if (idx >= 0) {
+        keyword.value = keyword.value?.substring(idx + 4);
+      }
     }
     localStorage.setItem('searchSwitch', JSON.stringify(checked.value));
     emit('queryList', {
