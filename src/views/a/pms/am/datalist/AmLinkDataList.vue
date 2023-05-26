@@ -54,7 +54,7 @@
       </div>
     </template>
     <template #bottom="{ item }">
-      <div :class="item?.type === 6 || item?.type === 1 ? 'bg-pink-100 p-2' : ''">
+      <div :class="item?.type === 6 ? 'bg-pink-100 p-2' : item?.type === 1 ? 'bg-blue-100 p-2' : ''">
         <div>
           <a-tag>激活链</a-tag>
           <a-typography-text v-if="item?.link?.length > 0" :delete="item?.status === -1" :copyable="{ text: item.link }"

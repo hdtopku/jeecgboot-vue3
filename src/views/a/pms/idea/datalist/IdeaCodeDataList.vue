@@ -38,7 +38,7 @@
       ></template
     >
     <template #left="{ item, index }">
-      <div class="w-20">
+      <div class="w-24">
         <div>
           <a-popover placement="right">
             <template #content>
@@ -62,7 +62,7 @@
     <template #operate="{ item, index }">
       <a-menu>
         <a-menu-item>
-          <a-button type="link" size="small" danger @click="updateVerifyStatus(item, -1)"> 销毁验证 </a-button>
+          <a-button type="link" size="small" danger @click="updateVerifyStatus(item, -1)"> 销毁链接 </a-button>
         </a-menu-item>
       </a-menu></template
     >
