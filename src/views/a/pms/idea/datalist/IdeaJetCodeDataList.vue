@@ -15,10 +15,10 @@
         <a-menu-item @click="handleEdit(item)">
           <a-button type="link" size="small">编辑</a-button>
         </a-menu-item>
-        <a-menu-item v-if="item?.status === 0 || item?.status === 1" @click="changeStatus(item, -1)">
+        <a-menu-item v-if="(item?.status === 0 || item?.status === 1) && item.type === 0" @click="changeStatus(item, -1)">
           <a-button type="link" size="small" danger>删除</a-button>
         </a-menu-item>
-        <a-menu-item @click="changeStatus(item, 1)" v-if="item?.status === 0 || item?.status === -1">
+        <a-menu-item @click="changeStatus(item, 1)" v-if="(item?.status === 0 || item?.status === -1) && item.type === 0">
           <a-button type="link" size="small">备用</a-button>
         </a-menu-item>
         <a-menu-item v-if="item?.type !== 1 && item?.type !== 6">
