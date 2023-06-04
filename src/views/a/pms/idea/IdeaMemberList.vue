@@ -12,8 +12,8 @@
         placeholder="粘贴或模糊搜索激活码、用户标识"
         :tabPane="tabPane"
       >
-        <template #suffixAdvanced>
-          <a-button type="link" @click="router.push('/pms/id/list')">账号列表</a-button>
+        <template #suffix>
+          <a-button type="link" @click="showDrawer">账号列表</a-button>
         </template>
         <template #left>
           <div class="pt-1">
@@ -27,14 +27,17 @@
     <IdeaMemberDataList ref="IdeaMemberDataListRef" @handle-edit="handleEdit" @query-list="queryList" />
   </a-card>
   <IdeaMemberModal @register="registerModal" @success="queryList" />
+  <a-drawer size="large" v-model:visible="drawerVisible" title="全家桶账号管理" placement="top">
+    <IdeaList />
+  </a-drawer>
 </template>
 
 <script lang="ts" setup name="IdeaMemberList">
   import IdeaMemberDataList from './datalist/IdeaMemberDataList.vue';
+  import IdeaList from './IdeaList.vue';
   import IdeaMemberModal from './modules/IdeaMemberModal.vue';
   import Search from '/@/views/a/common/Search.vue';
   import { ref } from 'vue';
-  import { router } from '/@/router';
   import { useModal } from '/@/components/Modal';
   import { getCodes } from './api/IdeaMember.api';
   const IdeaMemberDataListRef = ref();
@@ -42,6 +45,10 @@
   const SearchRef = ref();
   const advanced = ref(false);
 
+  const drawerVisible = ref(false);
+  const showDrawer = () => {
+    drawerVisible.value = true;
+  };
   const confirmCopy = (params) => {
     getCodes(
       params,

@@ -6,37 +6,66 @@
       showTop
       showCopy
       showPeople
-      switch-name="ideaCodeList"
       @confirm-copy="confirmCopy"
       @change-advanced="changeAdvanced"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabPane="tabPane"
     >
-      <template #left> </template>
+      <template #suffixAdvanced>
+        <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="showDrawer" type="link" danger
+          >激活码</a-button
+        ></template
+      >
+      <template #suffix>
+        <a-switch @change="changeSwitch" v-model:checked="checked">
+          <template #checkedChildren>
+            <span class="font-bold">jc激活码版</span>
+          </template>
+          <template #unCheckedChildren>
+            <span class="text-red-600 font-bold">jb插件激活</span>
+          </template>
+        </a-switch>
+      </template>
     </Search>
     <IdeaCodeDataList @handle-edit="handleEdit" ref="IdeaCodeDataListRef" class="w-full" />
-    <!-- 表单区域 -->
-    <AmModal @register="registerModal" @success="queryList" />
   </a-card>
+
+  <a-drawer size="large" v-model:visible="drawerVisible" title="激活码管理" placement="top">
+    <IdeaJetCodeList />
+  </a-drawer>
 </template>
-<script lang="ts" setup name="AmList">
+<script lang="ts" setup name="IdeaCodeList">
   import { ref } from 'vue';
+  import IdeaJetCodeList from './IdeaJetCodeList.vue';
   import IdeaCodeDataList from '/@/views/a/pms/idea/datalist/IdeaCodeDataList.vue';
   import { getCodes } from '/@/views/a/pms/idea/api/IdeaCode.api';
-  import AmModal from '../am/modules/AmModal.vue';
   import Search from '/@/views/a/common/Search.vue';
-  import { useModal } from '/@/components/Modal';
-  const [registerModal, { openModal }] = useModal();
+  import { useMessage } from '/@/hooks/web/useMessage';
   const IdeaCodeDataListRef = ref();
   const SearchRef = ref();
   const queryParams = ref();
+  const drawerVisible = ref(false);
+  const showDrawer = () => {
+    drawerVisible.value = true;
+  };
+  const checked = ref(false);
+  checked.value = JSON.parse(localStorage.getItem('searchSwitch:IdeaCodeList') ?? 'false');
+  const { createMessage } = useMessage();
+  const changeSwitch = () => {
+    localStorage.setItem('searchSwitch:IdeaCodeList', JSON.stringify(checked.value));
+    if (checked.value) {
+      createMessage.success('已切换至：激活码版');
+    } else {
+      createMessage.success('已切换至：插件激活');
+    }
+  };
   const queryList = (params = {}, fromSearch = false) => {
     if (fromSearch) {
       queryParams.value = params;
     } else {
       params = queryParams.value;
     }
-    if (params?.checked) {
+    if (checked.value) {
       params.type = 6;
     }
     IdeaCodeDataListRef.value.startQuery(params);
@@ -57,19 +86,19 @@
         tabKey: '-1',
         tabName: '销毁',
       },
-      {
-        tabKey: '0',
-        tabName: '刷新',
-      },
+      // {
+      //   tabKey: '0',
+      //   tabName: '刷新',
+      // },
       {
         tabKey: '1',
-        tabName: '成交',
+        tabName: '刷新',
       },
     ],
-    activeKey: '0',
+    activeKey: '1',
   };
   const confirmCopy = (params) => {
-    if (params?.checked) {
+    if (checked.value) {
       params.type = 6;
     }
     getCodes(

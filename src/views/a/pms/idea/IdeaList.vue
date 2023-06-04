@@ -5,9 +5,6 @@
         <a-button @click="handleAdd" type="primary">新增</a-button>
         <a-button @click="jumpToJet" type="link">Jet官网</a-button>
       </template>
-      <template #suffixInAdvanced>
-        <a-button class="animate__animated animate__heartBeat animate__repeat-1" @click="jumpToIdea" type="link" danger>订单列表</a-button>
-      </template>
     </Search>
     <IdeaDataList ref="DataListRef" @handle-edit="handleEdit" />
   </a-card>
@@ -21,7 +18,6 @@
   import { useModal } from '/@/components/Modal';
   import IdeaModal from './modules/IdeaModal.vue';
   import { onMounted, ref } from 'vue';
-  import { router } from '/@/router';
 
   const tabPane = {
     tabs: [
@@ -80,9 +76,6 @@
   });
   const jumpToJet = () => {
     window.open('https://account.jetbrains.com');
-  };
-  const jumpToIdea = () => {
-    router.push('/pms/id');
   };
 </script>
 <style scoped></style>

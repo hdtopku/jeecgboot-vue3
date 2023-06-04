@@ -5,28 +5,30 @@
       <a-typography-text v-show="activeKey === '-90'" mark>重点观察，激活码不会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '-10'" mark>激活码会失效</a-typography-text>
       <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
-      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '-10' && activeKey !== '90'" mark>
-        按更新时间倒排
-      </a-typography-text>
+      <!--      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '-10' && activeKey !== '90'" mark>-->
+      <!--        按更新时间倒排-->
+      <!--      </a-typography-text>-->
     </template>
     <template #top="{ item }">
-      <a-tag v-if="item.type === 6" color="#87d068">正版激活码</a-tag>
+      <a-tag v-if="item.type === 6" color="#108ee9">激活码版</a-tag>
       <a-tag v-if="item.type === 1" color="#f50">插件激活</a-tag>
+      <a-tag :color="getColor(item)">
+        <template #icon>
+          <minus-circle-outlined v-if="item.valid === -1" />
+          <clock-circle-outlined v-if="item.valid === 0 && item.status === -1" />
+          <sync-outlined v-if="item.valid === 0 && item.status === 1" :spin="true" />
+        </template>
+        {{ item?.statusName }}
+      </a-tag>
       <div v-if="item?.sysIps?.length > 0">
-        {{ getLocation(item?.sysIps[0]) }} <a-typography-text v-if="advanced" copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text>
+        位置：{{ getLocation(item?.sysIps[0]) }} <a-typography-text v-if="advanced" copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text>
       </div>
-      <div v-if="item?.sysIps?.length > 0"> {{ getDevice(item?.sysIps[0]) }}</div>
+      <div v-if="item?.sysIps?.length > 0"> 系统：{{ getDevice(item?.sysIps[0]) }}</div>
       <div>
-        <a-tag :color="getColor(item)">
-          <template #icon>
-            <minus-circle-outlined v-if="item.valid === -1" />
-            <clock-circle-outlined v-if="item.valid === 0 && item.status === -1" />
-            <sync-outlined v-if="item.valid === 0 && item.status === 1" :spin="true" />
-          </template>
-          {{ item?.statusName }}
-        </a-tag>
-        <span :class="item.valid === -1 || item.status === -1 ? 'line-through text-red-300' : 'text-red-500'">
-          {{ item?.openTime?.substring(5) }}
+        <span>
+          打开：<span :class="item.valid === -1 || item.status === -1 ? 'line-through text-red-300' : 'text-red-500'">{{
+            item?.openTime?.substring(5)
+          }}</span>
         </span>
       </div>
     </template>

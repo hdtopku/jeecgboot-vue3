@@ -48,20 +48,9 @@
           </a-space>
         </template>
         <template #suffix>
-          <slot v-if="advanced" name="suffix"></slot>
-          <slot v-else name="suffixInAdvanced"></slot>
-          <slot name="suffixAdvanced"></slot>
-
-          <span v-if="switchName?.length > 0 && hasPermission('link:switch')">
-            <a-button
-              class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
-              @click="router.push('/pms/am/link')"
-              type="link"
-              danger
-              >激活链</a-button
-            >
-            <a-switch @click="queryList" v-model:checked="checked" />
-          </span>
+          <slot v-if="advanced" name="suffixAdvanced"></slot>
+          <slot v-else name="suffixNotAdvanced"></slot>
+          <slot name="suffix"></slot>
         </template>
       </a-input>
     </div>
