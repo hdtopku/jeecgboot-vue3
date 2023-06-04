@@ -6,6 +6,7 @@
       showTop
       showCopy
       showPeople
+      switch-name="ideaCodeList"
       @confirm-copy="confirmCopy"
       @change-advanced="changeAdvanced"
       placeholder="粘贴或模糊搜索激活码、用户标识"
@@ -34,6 +35,9 @@
       queryParams.value = params;
     } else {
       params = queryParams.value;
+    }
+    if (params?.checked) {
+      params.type = 6;
     }
     IdeaCodeDataListRef.value.startQuery(params);
   };
@@ -65,6 +69,9 @@
     activeKey: '0',
   };
   const confirmCopy = (params) => {
+    if (params?.checked) {
+      params.type = 6;
+    }
     getCodes(
       params,
       (data) => {

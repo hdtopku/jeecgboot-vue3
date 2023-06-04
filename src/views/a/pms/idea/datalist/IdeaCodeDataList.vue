@@ -10,7 +10,8 @@
       </a-typography-text>
     </template>
     <template #top="{ item }">
-      <a-tag color="success">正版激活码</a-tag>
+      <a-tag v-if="item.type === 6" color="#87d068">正版激活码</a-tag>
+      <a-tag v-if="item.type === 1" color="#f50">插件激活</a-tag>
       <div v-if="item?.sysIps?.length > 0">
         {{ getLocation(item?.sysIps[0]) }} <a-typography-text v-if="advanced" copyable>{{ item?.sysIps[0]?.ip }}</a-typography-text>
       </div>

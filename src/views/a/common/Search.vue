@@ -52,7 +52,7 @@
           <slot v-else name="suffixInAdvanced"></slot>
           <slot name="suffixAdvanced"></slot>
 
-          <span v-if="showSwitch && hasPermission('link:switch')">
+          <span v-if="switchName?.length > 0 && hasPermission('link:switch')">
             <a-button
               class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
               @click="router.push('/pms/am/link')"
@@ -119,10 +119,6 @@
       type: Boolean,
       default: false,
     },
-    showSwitch: {
-      type: Boolean,
-      default: false,
-    },
     showPeople: {
       type: Boolean,
       default: false,
@@ -132,6 +128,10 @@
       default: () => {
         return { tabs: [], activeKey: '0' };
       },
+    },
+    switchName: {
+      type: String,
+      default: '',
     },
   });
 
@@ -194,7 +194,7 @@
     if (!isSelf.value) {
       return 'error';
     }
-    if (checked.value && props.showSwitch) {
+    if (checked.value && props.switchName?.length > 0) {
       return 'warning';
     }
     return 'primary';
@@ -258,7 +258,7 @@
         keyword.value = keyword.value?.substring(idx + 4);
       }
     }
-    localStorage.setItem('searchSwitch', JSON.stringify(checked.value));
+    localStorage.setItem('searchSwitch:' + props.switchName, JSON.stringify(checked.value));
     emit('queryList', {
       pageNo: 1,
       pageSize: 30,
@@ -291,7 +291,7 @@
   };
   defineExpose({ queryFinish });
   onMounted(() => {
-    checked.value = JSON.parse(localStorage.getItem('searchSwitch') ?? 'false');
+    checked.value = JSON.parse(localStorage.getItem('searchSwitch:' + props.switchName) ?? 'false');
     queryList();
   });
 </script>

@@ -5,7 +5,7 @@
       ref="SearchRef"
       showTop
       showCopy
-      showSwitch
+      switch-name="AmList"
       showPeople
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
