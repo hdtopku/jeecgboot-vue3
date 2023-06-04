@@ -1,1 +1,0 @@
-import{_ as e}from"./Search.vue_vue_type_script_setup_true_lang.bffd9ce0.js";import{j as t,s as o,Q as r}from"./index.c5ce5f09.js";import"./api.58ac46a7.js";const p=t({__name:"test",setup(s){return(a,_)=>(o(),r(e))}});export{p as default};
