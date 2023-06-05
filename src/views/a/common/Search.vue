@@ -76,6 +76,12 @@
   <div v-if="props.tabPane?.tabs?.length > 0" class="flex flex-wrap justify-evenly">
     <a-tabs :animated="false" v-model:activeKey="activeKey" @tab-click="tabClick">
       <a-tab-pane v-for="item in props.tabPane?.tabs" :key="item.tabKey" :tab="item.tabName" />
+      <template #leftExtra>
+        <slot name="leftTabExtra"></slot>
+      </template>
+      <template #rightExtra>
+        <slot name="rightTabExtra"></slot>
+      </template>
     </a-tabs>
   </div>
 </template>

@@ -1,14 +1,5 @@
 <template>
   <CommonList ref="CommonListRef">
-    <template #header>
-      <a-typography-text v-show="activeKey === '-100'" mark>关黑屋，激活码会失效</a-typography-text>
-      <a-typography-text v-show="activeKey === '-90'" mark>重点观察，激活码不会失效</a-typography-text>
-      <a-typography-text v-show="activeKey === '-10'" mark>激活码会失效</a-typography-text>
-      <a-typography-text v-show="activeKey === '90'" mark>按提取次数倒排</a-typography-text>
-      <!--      <a-typography-text v-show="activeKey !== '-100' && activeKey !== '-90' && activeKey !== '-10' && activeKey !== '90'" mark>-->
-      <!--        按更新时间倒排-->
-      <!--      </a-typography-text>-->
-    </template>
     <template #top="{ item }">
       <a-tag v-if="item.type === 6" color="#108ee9">激活码版</a-tag>
       <a-tag v-if="item.type === 1" color="#f50">插件激活</a-tag>
@@ -69,13 +60,15 @@
         </a-menu-item>
       </a-menu></template
     >
+    <template #header>
+    </template>
   </CommonList>
 </template>
 
 <script lang="ts" setup>
   import { defineComponent, ref } from 'vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
-  import { getList, saveOrUpdate } from '/@/views/a/pms/idea/api/IdeaCode.api';
+  import { getCodes, getList, saveOrUpdate } from '/@/views/a/pms/idea/api/IdeaCode.api';
   import { MinusCircleOutlined, ClockCircleOutlined, SyncOutlined } from '@ant-design/icons-vue';
   defineComponent({
     components: { MinusCircleOutlined, ClockCircleOutlined, SyncOutlined },

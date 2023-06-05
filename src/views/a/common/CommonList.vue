@@ -20,11 +20,21 @@
 <!--</template>-->
 <!--</CommonList>-->
 <template>
-  <div class="flex justify-between">
-    <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
-    <span>
-      <slot name="header"></slot>
-    </span>
+  <div>
+    <a-row class="">
+      <a-col :span="4">
+        <a-typography-title :level="5">共{{ dataList?.total ?? 0 }}条</a-typography-title>
+      </a-col>
+      <a-col :span="14">
+        <a-slider style="display: inline-block" v-model:value="count" :min="1" :max="500" />
+      </a-col>
+      <a-col class="text-center" :span="6">
+        <a-button :loading="btnLoading" type="primary" v-show="count === 1" @click="confirmCopy">复制{{ count }}条 </a-button>
+        <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
+          <a-button type="primary" :loading="btnLoading" v-show="count > 1">复制{{ count }}条 </a-button>
+        </a-popconfirm>
+      </a-col>
+    </a-row>
   </div>
   <a-list :loading="loading" :data-source="dataList?.records">
     <template #renderItem="{ item, index }">
@@ -98,8 +108,18 @@
   //   queryList();
   // });
   import { DownOutlined } from '@ant-design/icons-vue';
-  import { computed, ref } from 'vue';
+  import { computed, getCurrentInstance, ref } from 'vue';
+  import { getCodes } from '/@/views/a/pms/idea/api/IdeaCode.api';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
+  // defineEmits
+  const emit = defineEmits(['queryList', 'changeAdvanced', 'confirmCopy']);
+  const count = ref<number>(1);
+  const btnLoading = ref(false);
+  const confirmCopy = () => {
+    btnLoading.value = true;
+    emit('confirmCopy', { count: count.value });
+  };
   const props = defineProps({
     showLeft: {
       type: Boolean,

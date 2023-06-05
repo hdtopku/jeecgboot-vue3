@@ -6,6 +6,7 @@
       showTop
       showCopy
       showPeople
+      switchName="switch:AmList"
       @confirm-copy="confirmCopy"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabPane="tabPane"

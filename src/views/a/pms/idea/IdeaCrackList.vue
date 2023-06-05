@@ -24,7 +24,6 @@
   import { getCodes } from '/@/views/a/pms/idea/api/IdeaCrack.api';
   import AmModal from '../am/modules/AmModal.vue';
   import Search from '/@/views/a/common/Search.vue';
-  import { router } from '/@/router';
   import { useModal } from '/@/components/Modal';
   const [registerModal, { openModal }] = useModal();
   const IdeaCrackDataListRef = ref();

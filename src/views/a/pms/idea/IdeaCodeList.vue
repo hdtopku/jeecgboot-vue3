@@ -6,6 +6,7 @@
       showTop
       showCopy
       showPeople
+      switchName="switch:IdeaCodeList"
       @confirm-copy="confirmCopy"
       @change-advanced="changeAdvanced"
       placeholder="粘贴或模糊搜索激活码、用户标识"
@@ -41,6 +42,7 @@
   import { getCodes } from '/@/views/a/pms/idea/api/IdeaCode.api';
   import Search from '/@/views/a/common/Search.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useModal } from '/@/components/Modal';
   const IdeaCodeDataListRef = ref();
   const SearchRef = ref();
   const queryParams = ref();
@@ -73,6 +75,7 @@
   /**
    * 编辑事件
    */
+  const { openModal } = useModal();
   function handleEdit(record: Recordable) {
     openModal(true, {
       record,
@@ -112,7 +115,7 @@
     );
   };
   const changeAdvanced = () => {
-    IdeaCrackDataListRef.value.changeAdvanced();
+    IdeaCodeDataListRef.value.changeAdvanced();
   };
 </script>
 <style scoped lang="less">
