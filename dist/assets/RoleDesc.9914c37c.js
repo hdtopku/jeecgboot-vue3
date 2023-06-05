@@ -1,1 +1,0 @@
-import"./RoleDesc.vue_vue_type_script_setup_true_lang.1e149c1a.js";import{_ as s}from"./RoleDesc.vue_vue_type_script_setup_true_lang.1e149c1a.js";import"./index.4b60a7f0.js";import"./index.34e92307.js";import"./role.data.2bdc86d5.js";import"./role.api.e61a7e65.js";import"./index.4e167ab6.js";export{s as default};
