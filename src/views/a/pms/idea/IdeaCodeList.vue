@@ -4,28 +4,27 @@
       @query-list="(params) => queryList(params, true)"
       ref="SearchRef"
       showTop
-      showCopy
       showPeople
-      switchName="switch:IdeaCodeList"
-      @confirm-copy="confirmCopy"
       @change-advanced="changeAdvanced"
       placeholder="粘贴或模糊搜索激活码、用户标识"
       :tabPane="tabPane"
     >
-      <template #suffixAdvanced>
-        <a-button class="animate__animated animate__heartBeat animate__slower animate__repeat-3" @click="showDrawer" type="link" danger
-          >激活码</a-button
-        ></template
-      >
       <template #suffix>
-        <a-switch @change="changeSwitch" v-model:checked="checked">
-          <template #checkedChildren>
-            <span class="font-bold">jc激活码版</span>
-          </template>
-          <template #unCheckedChildren>
-            <span class="text-red-600 font-bold">jb插件激活</span>
-          </template>
-        </a-switch>
+        <a-button
+          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
+          @click="showDrawer"
+          type="link"
+          danger
+          v-if="codeType === 6 || codeType === 8"
+          >激活码管理</a-button
+        ><a-button
+          class="animate__animated animate__heartBeat animate__slower animate__repeat-3"
+          @click="showDrawerAccount"
+          type="link"
+          danger
+          v-if="codeType === 8"
+          >账号管理</a-button
+        >
       </template>
     </Search>
     <IdeaCodeDataList @handle-edit="handleEdit" ref="IdeaCodeDataListRef" class="w-full" />
@@ -34,33 +33,37 @@
   <a-drawer size="large" v-model:visible="drawerVisible" title="激活码管理" placement="top">
     <IdeaJetCodeList />
   </a-drawer>
+  <a-drawer size="large" v-model:visible="drawerAccountVisible" title="账号管理" placement="top">
+    <IdeaList />
+  </a-drawer>
 </template>
 <script lang="ts" setup name="IdeaCodeList">
-  import { ref } from 'vue';
+  import { getCurrentInstance, ref } from 'vue';
   import IdeaJetCodeList from './IdeaJetCodeList.vue';
+  import IdeaList from './IdeaList.vue';
   import IdeaCodeDataList from '/@/views/a/pms/idea/datalist/IdeaCodeDataList.vue';
-  import { getCodes } from '/@/views/a/pms/idea/api/IdeaCode.api';
   import Search from '/@/views/a/common/Search.vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useModal } from '/@/components/Modal';
+  const codeType = ref();
+  let instance = getCurrentInstance();
+  instance?.proxy?.bus.on('changeCodeType', (type) => {
+    codeType.value = type;
+  });
   const IdeaCodeDataListRef = ref();
   const SearchRef = ref();
   const queryParams = ref();
   const drawerVisible = ref(false);
+  const drawerAccountVisible = ref(false);
   const showDrawer = () => {
     drawerVisible.value = true;
+  };
+  const showDrawerAccount = () => {
+    drawerAccountVisible.value = true;
   };
   const checked = ref(false);
   checked.value = JSON.parse(localStorage.getItem('searchSwitch:IdeaCodeList') ?? 'false');
   const { createMessage } = useMessage();
-  const changeSwitch = () => {
-    localStorage.setItem('searchSwitch:IdeaCodeList', JSON.stringify(checked.value));
-    if (checked.value) {
-      createMessage.success('已切换至：激活码版');
-    } else {
-      createMessage.success('已切换至：插件激活');
-    }
-  };
   const queryList = (params = {}, fromSearch = false) => {
     if (fromSearch) {
       queryParams.value = params;
@@ -99,20 +102,6 @@
       },
     ],
     activeKey: '1',
-  };
-  const confirmCopy = (params) => {
-    if (checked.value) {
-      params.type = 6;
-    }
-    getCodes(
-      params,
-      (data) => {
-        SearchRef.value.queryFinish(data);
-      },
-      () => {
-        SearchRef.value.queryFinish();
-      }
-    );
   };
   const changeAdvanced = () => {
     IdeaCodeDataListRef.value.changeAdvanced();

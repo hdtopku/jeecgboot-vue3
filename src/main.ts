@@ -26,10 +26,18 @@ if (import.meta.env.DEV) {
   import('ant-design-vue/dist/antd.less');
 }
 import { Tool } from './views/a/utils/common';
+import mitt from 'mitt';
+const Mitt = mitt();
+declare module 'vue' {
+  export interface ComponentCustomProperties {
+    bus: typeof Mitt;
+  }
+}
 async function bootstrap() {
   // 创建应用实例
   const app = createApp(App);
   app.config.globalProperties.tool = Tool;
+  app.config.globalProperties.bus = Mitt;
 
   // 多语言配置,异步情况:语言文件可以从服务器端获得
   await setupI18n(app);

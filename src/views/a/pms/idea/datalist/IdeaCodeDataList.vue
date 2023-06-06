@@ -1,7 +1,14 @@
 <template>
-  <CommonList ref="CommonListRef">
+  <div class="text-center mb-2">
+    <a-radio-group v-model:value="codeType" button-style="solid">
+      <a-radio-button :value="6">jh激活码激活</a-radio-button>
+      <a-radio-button :value="1">cj插件激活</a-radio-button>
+      <a-radio-button :value="8">zh账号激活</a-radio-button>
+    </a-radio-group>
+  </div>
+  <CommonList ref="CommonListRef" @confirm-copy="confirmCopy" :button-color="buttonColor">
     <template #top="{ item }">
-      <a-tag v-if="item.type === 6" color="#108ee9">激活码版</a-tag>
+      <a-tag v-if="item.type === 6" color="warning">激活码激活</a-tag>
       <a-tag v-if="item.type === 1" color="#f50">插件激活</a-tag>
       <a-tag :color="getColor(item)">
         <template #icon>
@@ -60,18 +67,34 @@
         </a-menu-item>
       </a-menu></template
     >
-    <template #header>
-    </template>
+    <template #header> </template>
   </CommonList>
 </template>
 
 <script lang="ts" setup>
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, computed, getCurrentInstance } from 'vue';
   import CommonList from '/@/views/a/common/CommonList.vue';
   import { getCodes, getList, saveOrUpdate } from '/@/views/a/pms/idea/api/IdeaCode.api';
   import { MinusCircleOutlined, ClockCircleOutlined, SyncOutlined } from '@ant-design/icons-vue';
   defineComponent({
     components: { MinusCircleOutlined, ClockCircleOutlined, SyncOutlined },
+  });
+  const codeType = ref(1);
+  codeType.value = JSON.parse(localStorage.getItem('ideaButtonType') ?? '1');
+  let instance = getCurrentInstance();
+  const buttonColor = computed(() => {
+    localStorage.setItem('ideaButtonType', JSON.stringify(codeType.value));
+    instance?.proxy?.bus.emit('changeCodeType', codeType.value);
+    switch (codeType.value) {
+      case 1:
+        return 'error';
+      case 6:
+        return 'warning';
+      case 8:
+        return 'success';
+      default:
+        return 'primary';
+    }
   });
   const advanced = ref(false);
   const copyLink = (code) => {
@@ -112,6 +135,19 @@
     item.valid = valid;
     saveOrUpdate(item, true).then(() => {});
   };
+  const confirmCopy = (params) => {
+    params.type = codeType.value;
+    getCodes(
+      params,
+      (data) => {
+        CommonListRef.value.queryFinish(data);
+      },
+      () => {
+        CommonListRef.value.queryFinish();
+      }
+    );
+  };
+
   defineExpose({
     startQuery: (params = {}) => {
       activeKey.value = params?.status;

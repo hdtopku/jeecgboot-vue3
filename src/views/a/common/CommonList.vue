@@ -29,9 +29,9 @@
         <a-slider style="display: inline-block" v-model:value="count" :min="1" :max="500" />
       </a-col>
       <a-col class="text-center" :span="6">
-        <a-button :loading="btnLoading" type="primary" v-show="count === 1" @click="confirmCopy">复制{{ count }}条 </a-button>
+        <a-button :loading="btnLoading" :type="props.buttonColor" v-show="count === 1" @click="confirmCopy">复制{{ count }}条 </a-button>
         <a-popconfirm :title="`确定复制${count}条吗?`" ok-text="确定" cancel-text="取消" @confirm="confirmCopy">
-          <a-button type="primary" :loading="btnLoading" v-show="count > 1">复制{{ count }}条 </a-button>
+          <a-button :type="props.buttonColor" :loading="btnLoading" v-show="count > 1">复制{{ count }}条 </a-button>
         </a-popconfirm>
       </a-col>
     </a-row>
@@ -109,8 +109,6 @@
   // });
   import { DownOutlined } from '@ant-design/icons-vue';
   import { computed, getCurrentInstance, ref } from 'vue';
-  import { getCodes } from '/@/views/a/pms/idea/api/IdeaCode.api';
-  import { useMessage } from '/@/hooks/web/useMessage';
 
   // defineEmits
   const emit = defineEmits(['queryList', 'changeAdvanced', 'confirmCopy']);
@@ -124,6 +122,10 @@
     showLeft: {
       type: Boolean,
       default: true,
+    },
+    buttonColor: {
+      type: String,
+      default: 'primary',
     },
   });
   const loading = ref(false);
@@ -163,6 +165,18 @@
   const finished = computed(() => {
     return dataList?.value?.total === 0 || (dataList?.value?.records?.length >= dataList?.value?.total ?? false);
   });
-  defineExpose({ execQuery });
+  // defineExpose
+  const { proxy } = getCurrentInstance();
+  const queryFinish = (message = null) => {
+    if (message == null) {
+      proxy.tool.error('复制失败');
+    } else if (count.value === 1) {
+      proxy.tool.copy(message, message + '已复制');
+    } else {
+      proxy.tool.copy(message, count.value + '条已复制');
+    }
+    btnLoading.value = false;
+  };
+  defineExpose({ execQuery, queryFinish });
 </script>
 <style scoped></style>
