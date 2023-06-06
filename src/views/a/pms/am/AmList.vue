@@ -105,9 +105,7 @@
     activeKey: '0',
   };
   const confirmCopy = (params) => {
-    if (params?.checked) {
       params.type = 6;
-    }
     getCodes(
       params,
       (data) => {
