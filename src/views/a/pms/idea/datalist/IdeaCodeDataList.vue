@@ -55,7 +55,7 @@
             <a href="javascript:;" @click="showSysIpInfo(item)">{{ item?.sysIps?.length }}个设备</a>
           </a-popover>
         </div>
-        <a-typography-text :copyable="{ text: copyLink(item?.code) }">
+        <a-typography-text :copyable="{ text: copyLink(item) }">
           <span class="" :class="item?.valid === -1 ? 'text-gray-500 line-through' : 'text-purple-900 font-medium'"> {{ item?.code }}</span>
         </a-typography-text>
       </div>
@@ -97,8 +97,13 @@
     }
   });
   const advanced = ref(false);
-  const copyLink = (code) => {
-    return 'e.taojingling.cn/jb/' + code;
+  const copyLink = (item) => {
+    if (item.type === 6) {
+      return 'e.taojingling.cn/jjh/' + item.code;
+    } else if (item.type === 8) {
+      return 'e.taojingling.cn/jzh/' + item.code;
+    }
+    return 'e.taojingling.cn/jcj/' + item.code;
   };
   const getColor = (item) => {
     if (item.valid === -1) {
