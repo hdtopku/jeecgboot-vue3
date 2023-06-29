@@ -1,0 +1,1 @@
+import"./JVxeDemo2.vue_vue_type_script_setup_true_lang.843587ff.js";import{_ as i}from"./JVxeDemo2.vue_vue_type_script_setup_true_lang.843587ff.js";import"./index.c1d8dbc8.js";import"./api.221c4cde.js";export{i as default};

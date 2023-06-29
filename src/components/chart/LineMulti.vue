@@ -4,6 +4,7 @@
 <script lang="ts">
   import { defineComponent, PropType, ref, Ref, reactive, watchEffect } from 'vue';
   import { useECharts } from '/@/hooks/web/useECharts';
+  import { cloneDeep } from 'lodash-es';
 
   export default defineComponent({
     name: 'lineMulti',
@@ -19,7 +20,7 @@
       },
       type: {
         type: String as PropType<string>,
-        default: 'bar',
+        default: 'line',
       },
       width: {
         type: String as PropType<string>,
@@ -67,7 +68,7 @@
 
       function initCharts() {
         if (props.option) {
-          Object.assign(option, props.option);
+          Object.assign(option, cloneDeep(props.option));
         }
         //图例类型
         let typeArr = Array.from(new Set(props.chartData.map((item) => item.type)));

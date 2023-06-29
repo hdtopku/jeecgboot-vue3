@@ -1,1 +1,0 @@
-import{Z as t}from"./index.0be4b5b8.js";const o=e=>t.get({url:"/pms/ideaJetCode/list",params:e}),p=(e,s)=>{let d=s?"/pms/ideaJetCode/edit":"/pms/ideaJetCode/add";return t.post({url:d,params:e})};export{o as l,p as s};
