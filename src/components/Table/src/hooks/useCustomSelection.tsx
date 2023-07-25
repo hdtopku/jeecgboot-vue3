@@ -1,10 +1,10 @@
 import type { BasicColumn } from '/@/components/Table';
 import type { Ref, ComputedRef } from 'vue';
 import type { BasicTableProps, PaginationProps, TableRowSelection } from '/@/components/Table';
-import { computed, onUnmounted, ref, toRaw, unref, watchEffect } from 'vue';
+import { computed, nextTick, onUnmounted, ref, toRaw, unref, watch, watchEffect } from 'vue';
 import { omit } from 'lodash-es';
 import { throttle } from 'lodash-es';
-import { Checkbox } from 'ant-design-vue';
+import { Checkbox, Radio } from 'ant-design-vue';
 import { isFunction } from '/@/utils/is';
 import { findNodeAll } from '/@/utils/helper/treeHelper';
 import { ROW_KEY } from '/@/components/Table/src/const';
@@ -20,6 +20,7 @@ export const CUS_SEL_COLUMN_KEY = 'j-custom-selected-column';
  */
 export function useCustomSelection(
   propsRef: ComputedRef<BasicTableProps>,
+  emit: EmitType,
   wrapRef: Ref<null | HTMLDivElement>,
   getPaginationRef: ComputedRef<boolean | PaginationProps>,
   tableData: Ref<Recordable[]>,
@@ -60,6 +61,11 @@ export function useCustomSelection(
     };
   });
 
+  // 是否是单选
+  const isRadio = computed(() => {
+    return getRowSelectionRef.value?.type === 'radio';
+  });
+
   const getAutoCreateKey = computed(() => {
     return unref(propsRef).autoCreateKey && !unref(propsRef).rowKey;
   });
@@ -94,18 +100,47 @@ export function useCustomSelection(
   const selectHeaderProps = computed(() => {
     return {
       onSelectAll,
+      isRadio: isRadio.value,
       selectedLength: flattedData.value.filter((data) => selectedKeys.value.includes(getRecordKey(data))).length,
       pageSize: currentPageSize.value,
     };
   });
 
+  // 监听传入的selectedRowKeys
+  watch(
+    () => unref(propsRef)?.rowSelection?.selectedRowKeys,
+    (val: string[]) => {
+      if (Array.isArray(val)) {
+        setSelectedRowKeys(val);
+      }
+    },
+    { immediate: true }
+  );
+
+  // 当任意一个变化时，触发同步检测
+  watch([selectedKeys, selectedRows], () => {
+    nextTick(() => {
+      syncSelectedRows();
+    });
+  });
+
   // 监听滚动条事件
   const onScrollTopChange = throttle((e) => (scrollTop.value = e?.target?.scrollTop), 150);
 
+  let bodyResizeObserver: Nullable<ResizeObserver> = null;
   // 获取首行行高
   watchEffect(() => {
     if (bodyEl.value) {
-      bodyHeight.value = bodyEl.value.offsetHeight;
+      // 监听div高度变化
+      bodyResizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+          if (entry.target === bodyEl.value && entry.contentRect) {
+            const { height } = entry.contentRect;
+            bodyHeight.value = Math.ceil(height);
+          }
+        }
+      });
+      bodyResizeObserver.observe(bodyEl.value);
       const el = bodyEl.value?.querySelector('tbody.ant-table-tbody tr.ant-table-row') as HTMLDivElement;
       if (el) {
         rowHeight.value = el.offsetHeight;
@@ -124,6 +159,9 @@ export function useCustomSelection(
   onUnmounted(() => {
     if (bodyEl.value) {
       bodyEl.value?.removeEventListener('scroll', onScrollTopChange);
+    }
+    if (bodyResizeObserver != null) {
+      bodyResizeObserver.disconnect();
     }
   });
 
@@ -212,6 +250,11 @@ export function useCustomSelection(
 
   function updateSelected(record, checked) {
     const recordKey = getRecordKey(record);
+    if (isRadio.value) {
+      selectedKeys.value = [recordKey];
+      selectedRows.value = [record];
+      return;
+    }
     const index = selectedKeys.value.findIndex((key) => key === recordKey);
     if (checked) {
       if (index === -1) {
@@ -237,6 +280,10 @@ export function useCustomSelection(
         }, 0);
       }
     }
+    emit('selection-change', {
+      keys: getSelectRowKeys(),
+      rows: getSelectRows(),
+    });
   }
 
   // 用于判断是否是自定义选择列
@@ -265,10 +312,22 @@ export function useCustomSelection(
   }
 
   // 自定义渲染Body
-  function bodyCustomRender({ record, index }) {
+  function bodyCustomRender(params) {
+    const { index } = params;
     if (!recordIsShow(index)) {
       return '';
     }
+    if (isRadio.value) {
+      return renderRadioComponent(params);
+    } else {
+      return renderCheckboxComponent(params);
+    }
+  }
+
+  /**
+   * 渲染checkbox组件
+   */
+  function renderCheckboxComponent({ record }) {
     const recordKey = getRecordKey(record);
     // 获取用户自定义checkboxProps
     const checkboxProps = ((getCheckboxProps) => {
@@ -284,7 +343,20 @@ export function useCustomSelection(
     return (
       <Checkbox
         {...checkboxProps}
-        data-index={index}
+        key={'j-select__' + recordKey}
+        checked={selectedKeys.value.includes(recordKey)}
+        onUpdate:checked={(checked) => onSelect(record, checked)}
+      />
+    );
+  }
+
+  /**
+   * 渲染radio组件
+   */
+  function renderRadioComponent({ record }) {
+    const recordKey = getRecordKey(record);
+    return (
+      <Radio
         key={'j-select__' + recordKey}
         checked={selectedKeys.value.includes(recordKey)}
         onUpdate:checked={(checked) => onSelect(record, checked)}
@@ -317,6 +389,13 @@ export function useCustomSelection(
     onSelectAll(false);
   }
 
+  // 通过 selectedKeys 同步 selectedRows
+  function syncSelectedRows() {
+    if (selectedKeys.value.length !== selectedRows.value.length) {
+      setSelectedRowKeys(selectedKeys.value);
+    }
+  }
+
   // 设置选择的key
   function setSelectedRowKeys(rowKeys: string[]) {
     selectedKeys.value = rowKeys;
@@ -333,6 +412,7 @@ export function useCustomSelection(
       found && trueSelectedRows.push(found);
     });
     selectedRows.value = trueSelectedRows;
+    emitChange();
   }
 
   function getSelectRows<T = Recordable>() {
@@ -355,6 +435,20 @@ export function useCustomSelection(
     }
   }
 
+  // 【QQYUN-5837】动态计算 expandIconColumnIndex
+  const getExpandIconColumnIndex = computed(() => {
+    const { expandIconColumnIndex } = unref(propsRef);
+    // 未设置选择列，则保持不变
+    if (getRowSelectionRef.value == null) {
+      return expandIconColumnIndex;
+    }
+    // 设置了选择列，并且未传入 index 参数，则返回 1
+    if (expandIconColumnIndex == null) {
+      return 1;
+    }
+    return expandIconColumnIndex;
+  });
+
   return {
     getRowSelection,
     getRowSelectionRef,
@@ -366,6 +460,7 @@ export function useCustomSelection(
     isCustomSelection,
     handleCustomSelectColumn,
     clearSelectedRowKeys,
+    getExpandIconColumnIndex,
   };
 }
 
