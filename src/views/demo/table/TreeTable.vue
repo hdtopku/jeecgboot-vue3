@@ -11,7 +11,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { getBasicColumns, getTreeTableData } from './tableData';
+  // import { getBasicColumns, getTreeTableData } from './tableData';
 
   export default defineComponent({
     components: { BasicTable },
@@ -31,8 +31,8 @@
           },
         },
         titleHelpMessage: '树形组件不能和序列号列同时存在',
-        columns: getBasicColumns(),
-        dataSource: getTreeTableData(),
+        // columns: getBasicColumns(),
+        // dataSource: getTreeTableData(),
         rowKey: 'id',
       });
       return { register, expandAll, collapseAll };

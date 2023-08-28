@@ -7,7 +7,7 @@
     "url": "https://github.com/jeecgboot/jeecgboot-vue3"
   },
   "scripts": {
-    "install": "pnpm install",
+    "pinstall": "pnpm install",
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
     "dev": "vite",
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=8192 vite build && esno ./build/script/postBuild.ts",
