@@ -1,1 +1,0 @@
-import{d as e,aV as o,as as r}from"./vue-c7e3516e.js";import{_ as t}from"./jeecg-online-vendor-bf2efbcb.js";import"./antd-vue-vendor-1561c1ba.js";import"./tinymce-vendor-40778af9.js";import"./lodash-es-vendor-42c8d3d4.js";const a=e({name:"FrameBlank"});function n(s,m,p,c,i,_){return o(),r("div")}const B=t(a,[["render",n]]);export{B as default};
