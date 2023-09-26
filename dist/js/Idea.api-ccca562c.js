@@ -1,1 +1,0 @@
-import{b as s}from"./jeecg-online-vendor-d469fb0e.js";const p=t=>s.get({url:"/pms/idea/getList",params:t}),r=(t,e)=>{const a=e?"/pms/idea/edit":"/pms/idea/add";return s.post({url:a,params:t})};export{p as g,r as s};

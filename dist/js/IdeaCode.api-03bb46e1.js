@@ -1,2 +1,0 @@
-import{b as o,u as d}from"./jeecg-online-vendor-d469fb0e.js";const i=e=>o.get({url:"/pms/ideaCode/getList",params:e}),g=(e,s,t)=>o.get({url:"/pms/ideaCode/getCodes",params:e},{joinParamsToUrl:!0}).then(a=>{s(a.join(`\r
-`))}).catch(a=>{const{createMessage:r}=d();r.error(a),t()}),p=(e,s)=>{const t=s?"/pms/ideaCode/edit":"/pms/ideaCode/add";return o.post({url:t,params:e})};export{g as a,i as g,p as s};
