@@ -19,6 +19,7 @@ import { registerPackages } from '/@/utils/monorepo/registerPackages';
 
 // 在本地开发中引入的,以提高浏览器响应速度
 if (import.meta.env.DEV) {
+  // @ts-ignore
   import('ant-design-vue/dist/antd.less');
 }
 import { Tool } from './views/a/utils/common';
@@ -73,6 +74,8 @@ async function bootstrap() {
 
   // 挂载应用
   app.mount('#app', true);
+
+  console.log(" vue3 app 加载完成！")
 }
 
 bootstrap();

@@ -6,8 +6,9 @@ import { cloneDeep, omit } from 'lodash-es';
 import { warn } from '/@/utils/log';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { getTenantId, getToken } from "/@/utils/auth";
-import { URL_HASH_TAB } from '/@/utils';
+import { URL_HASH_TAB, _eval } from '/@/utils';
 import { useI18n } from '/@/hooks/web/useI18n';
+//引入online lib路由
 import { packageViews } from '/@/utils/monorepo/dynamicRouter';
 
 export type LayoutMapKey = 'LAYOUT';
@@ -36,12 +37,12 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
     //菜单支持国际化翻译
     if (item?.meta?.title) {
       const { t } = useI18n();
-      if (item.meta.title.includes("t('") && t) {
-        item.meta.title = eval(item.meta.title);
-        //console.log('译后: ',item.meta.title)
+      if(item.meta.title.includes('t(\'') && t){
+        // update-begin--author:liaozhiyang---date:20230906---for：【QQYUN-6390】eval替换成new Function，解决build警告
+        item.meta.title = new Function('t', `return ${item.meta.title}`)(t);
+        // update-end--author:liaozhiyang---date:20230906---for：【QQYUN-6390】eval替换成new Function，解决build警告
       }
     }
-
     // update-begin--author:sunjianlei---date:20210918---for:适配旧版路由选项 --------
     // @ts-ignore 适配隐藏路由
     if (item?.hidden) {
@@ -59,10 +60,7 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
     const tenantId = getTenantId();
     // URL支持{{ window.xxx }}占位符变量
     //update-begin---author:wangshuai ---date:20220711  for：[VUEN-1638]菜单tenantId需要动态生成------------
-    item.component = (item.component || '')
-      .replace(/{{([^}}]+)?}}/g, (s1, s2) => eval(s2))
-      .replace('${token}', token)
-      .replace('${tenantId}', tenantId);
+    item.component = (item.component || '').replace(/{{([^}}]+)?}}/g, (s1, s2) => _eval(s2)).replace('${token}', token).replace('${tenantId}', tenantId);
     //update-end---author:wangshuai ---date:20220711  for：[VUEN-1638]菜单tenantId需要动态生成------------
     // 适配 iframe
     if (/^\/?http(s)?/.test(item.component as string)) {

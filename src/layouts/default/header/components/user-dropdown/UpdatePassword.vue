@@ -8,7 +8,8 @@
   import { rules } from '/@/utils/helper/validator';
   import { defHttp } from '/@/utils/http/axios';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { BasicForm, useForm } from '/@/components/Form/index';
+  import BasicForm from '/@/components/Form/src/BasicForm.vue';
+  import { useForm } from '/@/components/Form/src/hooks/useForm';
   import { useMessage } from '/@/hooks/web/useMessage';
   // 声明Emits
   const emit = defineEmits(['register']);
