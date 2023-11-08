@@ -1,0 +1,1 @@
+import{ap as s}from"./jeecg-online-vendor-bc5d810e.js";const i="/test/jeecgOrderMain/queryOrderCustomerListByMainId",a="/test/jeecgOrderMain/queryOrderTicketListByMainId",n=(e,r)=>{let t=r?"/test/jeecgOrderMain/edit":"/test/jeecgOrderMain/add";return s.post({url:t,params:e})};export{a,i as o,n as s};

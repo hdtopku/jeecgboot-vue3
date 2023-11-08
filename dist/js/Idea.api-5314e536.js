@@ -1,0 +1,1 @@
+import{ap as t,q as d}from"./jeecg-online-vendor-bc5d810e.js";import{M as l}from"./antd-vue-vendor-371529c2.js";const i=e=>t.get({url:"/pms/idea/getList",params:e});const m=(e,s)=>{const a=s?"/pms/idea/edit":"/pms/idea/add";return t.post({url:a,params:e})};export{i as g,m as s};
