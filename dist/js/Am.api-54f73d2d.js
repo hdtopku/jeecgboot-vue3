@@ -1,0 +1,2 @@
+import{ap as m,C as o}from"./jeecg-online-vendor-cfb58502.js";import{M as p}from"./antd-vue-vendor-b75e8c06.js";const c=e=>m.get({url:"/pms/am/getList",params:e});const d=(e,t)=>{const s=t?"/pms/am/edit":"/pms/am/add";return m.post({url:s,params:e})},g=(e,t,s=()=>{})=>m.get({url:"/pms/am/getCodes",params:e},{joinParamsToUrl:!0}).then(a=>{t(a.join(`\r
+`))}).catch(a=>{const{createMessage:r}=o();r.error(a),s()});export{c as a,g,d as s};

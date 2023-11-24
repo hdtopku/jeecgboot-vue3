@@ -1,0 +1,1 @@
+import{ap as e}from"./jeecg-online-vendor-cfb58502.js";import{M as r}from"./antd-vue-vendor-b75e8c06.js";const l=t=>e.get({url:"/pms/amLink/getList",params:t});const o=(t,s)=>{const m=s?"/pms/amLink/edit":"/pms/amLink/add";return e.post({url:m,params:t})};export{l as g,o as s};
