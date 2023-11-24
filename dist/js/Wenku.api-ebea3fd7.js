@@ -1,0 +1,2 @@
+import{ap as r,q as l}from"./jeecg-online-vendor-d3e1865b.js";import{M as m}from"./antd-vue-vendor-c5335947.js";const p=e=>r.get({url:"/pms/wenku/getList",params:e}),c=(e,t,s)=>r.get({url:"/pms/wenku/getCodes",params:e},{joinParamsToUrl:!0}).then(n=>{t(n.join(`\r
+`))}).catch(n=>{const{createMessage:o}=l();o.error(n),s()});const d=(e,t)=>{const s=t?"/pms/wenku/edit":"/pms/wenku/add";return r.post({url:s,params:e})};export{p as a,c as g,d as s};

@@ -1,1 +1,0 @@
-import{ap as t}from"./jeecg-online-vendor-bc5d810e.js";import{M as r}from"./antd-vue-vendor-371529c2.js";const l=e=>t.get({url:"/pms/ideaJetCode/list",params:e});const m=(e,d)=>{let o=d?"/pms/ideaJetCode/edit":"/pms/ideaJetCode/add";return t.post({url:o,params:e})};export{l,m as s};

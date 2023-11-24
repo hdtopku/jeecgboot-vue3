@@ -1,0 +1,2 @@
+import{ap as a,q as d}from"./jeecg-online-vendor-d3e1865b.js";import{M as i}from"./antd-vue-vendor-c5335947.js";const n=e=>a.get({url:"/pms/ideaMember/getList",params:e}),p=(e,t,r)=>a.get({url:"/pms/ideaMember/getCodes",params:e},{joinParamsToUrl:!0}).then(s=>{t(s.join(`\r
+`))}).catch(s=>{const{createMessage:m}=d();m.error(s),r()});const c=(e,t)=>{const r=t?"/pms/ideaMember/edit":"/pms/ideaMember/add";return a.post({url:r,params:e})};export{n as a,p as g,c as s};
